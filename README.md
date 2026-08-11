@@ -1,39 +1,152 @@
-# fn-appstores
+# FN软仓客户端
 
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+[![版本](https://img.shields.io/badge/版本-v2.2.3-blue.svg)](https://gitee.com/hhxs2025/fn-appstores)
+[![飞牛OS](https://img.shields.io/badge/平台-飞牛OS-green.svg)]()
+[![开源协议](https://img.shields.io/badge/开源-MIT-orange.svg)]()
 
-#### 软件架构
-软件架构说明
+---
 
+## 📖 项目简介
 
-#### 安装教程
+FN软仓是飞牛OS上的第三方应用商店客户端，支持**多软件源聚合**。用户可自由添加自托管服务端，实现去中心化的应用分发与安装。
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+| 链接 | 说明 |
+| :--- | :--- |
+| **客户端项目地址** | [https://gitee.com/hhxs2025/fn-appstores](https://gitee.com/hhxs2025/fn-appstores) |
+| **服务端镜像拉取** | `docker pull ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.2.0` |
 
-#### 使用说明
+---
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 🖼️ 界面预览
 
-#### 参与贡献
+| 应用列表 | 应用详情 | 源管理 |
+| :---: | :---: | :---: |
+| ![应用列表](previews/1.PNG) | ![应用详情](previews/2.PNG) | ![源管理](previews/3.PNG) |
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+| 安装进度 | 深色模式 | 公告板 |
+| :---: | :---: | :---: |
+| ![安装进度](previews/4.PNG) | ![深色模式](previews/5.PNG) | — |
 
+---
 
-#### 特技
+## 💻 系统要求
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+- 飞牛OS（x86_64 / ARM）
+- 客户端端口：`5660`
+
+---
+
+## ✨ 核心功能
+
+| 功能模块 | 说明 |
+| :--- | :--- |
+| **多源应用聚合** | 从所有启用的源拉取应用列表，自动去重（保留较新版本），卡片显示来源 |
+| **软件源管理** | 添加/删除/启用/禁用软件源，源状态缓存 5 分钟，页面秒开 |
+| **一键安装/更新** | 支持安装向导，WebSocket 实时推送下载进度 |
+| **公告板** | 多源轮询拉取公告，支持 Markdown 渲染 |
+| **深色/浅色主题** | 一键切换，偏好保存至浏览器 |
+| **中继环境适配** | API 地址动态适配 `window.location.origin`，无需额外反代 |
+
+> **v2.2.3 仅内置一个官方源**（`http://rc.hhxs2026.top:5660`），更多源请通过「源管理」自行添加，或参考顶部「官方源查询」链接。
+
+---
+
+## 📖 使用指南
+
+### 浏览应用
+
+- 首页默认展示全部应用
+- 使用顶部分类标签快速筛选
+- 在搜索框输入关键词查找特定应用
+
+### 安装应用
+
+1. 点击应用卡片进入详情页
+2. 点击「安装」按钮
+3. 如应用有向导，填写配置项后确认
+4. 等待进度条完成，自动刷新列表
+
+### 更新应用
+
+- 已安装应用有新版本时，卡片显示「更新」按钮
+- 点击「更新」，自动下载新版并安装
+
+### 管理软件源
+
+1. 点击底部「源管理」Tab
+2. 查看所有已配置的源及其状态
+3. 点击「添加源」，填写名称和地址
+4. 点击「测试」验证连通性，确认后添加
+5. 可随时启用/禁用或删除自定义源（官方源不可删除）
+
+### 查看公告
+
+- 点击底部「关于」Tab
+- 公告板展示服务端下发的公告内容，支持 Markdown 格式
+
+---
+
+## 📜 版本历程
+
+```
+v2.1.1 ──► v2.2.0-beta ──► v2.2.0 ──► v2.2.1 ──► v2.2.2 ──► v2.2.3
+```
+
+| 版本 | 主要更新 |
+| :--- | :--- |
+| **v2.1.1** | 单一官方源，基础安装功能 |
+| **v2.2.0-beta** | 多源管理初版（添加/删除/启用/禁用） |
+| **v2.2.0** | 公告板 + 应用接入链接 |
+| **v2.2.1** | 飞牛官方中继适配（`window.location.origin`） |
+| **v2.2.2** | 源状态缓存 5 分钟 + 多源公告适配 |
+| **v2.2.3** | 精简为单官方源，地址迁移至 `rc.hhxs2026.top:5660` |
+
+---
+
+## ❓ 常见问题
+
+<details>
+<summary><b>打开软仓后一直显示“加载中”？</b></summary>
+
+1. 检查飞牛设备网络是否正常
+2. 尝试点击右上角「刷新」按钮
+3. 检查客户端日志：`/vol*/@appdata/fn-appstores-client/app.log`
+</details>
+
+<details>
+<summary><b>应用列表加载慢？</b></summary>
+
+首次加载需从服务端拉取数据，受网络影响。后续访问会使用缓存，速度会明显提升。
+</details>
+
+<details>
+<summary><b>截图不显示？</b></summary>
+
+1. 确认服务端 `previews/{app_id}/` 目录下有截图文件
+2. 文件命名应为 `1.PNG`、`2.PNG`（大小写敏感）
+3. 确认服务端地址可正常访问
+</details>
+
+<details>
+<summary><b>安装失败？</b></summary>
+
+1. 确认飞牛系统有足够的存储空间
+2. 检查服务端 `apps/` 目录下是否存在对应的 `.fpk` 文件
+3. 查看 `app.log` 日志获取详细错误信息
+</details>
+
+---
+
+## 👨‍💻 开发者信息
+
+| 项目 | 信息 |
+| :--- | :--- |
+| **作者** | 晦华先生 |
+| **联系方式** | 2303537063@qq.com |
+| **开源地址** | [https://gitee.com/hhxs2025/fn-appstores](https://gitee.com/hhxs2025/fn-appstores) |
+
+---
+
+## 🤝 参与共建
+
+欢迎开发者自托管服务端接入 FN软仓生态，或为现有应用提供更新维护。如有疑问请联系作者。
