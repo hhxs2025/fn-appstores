@@ -1679,11 +1679,6 @@
 <!-- ===== 关于 ===== -->
 <div id="tabAbout" class="tab-content">
     <div class="about-container">
-        <div class="about-card">
-            <p><strong>开发者：</strong>晦华先生</p>
-            <p><strong>联系方式：</strong>2303537063@qq.com</p>
-        </div>
-
         <!-- ===== 📢 公告板 ===== -->
         <div class="about-card" id="noticeCard">
             <div class="about-section-title">📢 公告</div>
@@ -1805,10 +1800,10 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
     // ================================================================
-    // ✅ API 基础地址（v2.2.0）
+    // ✅ API 基础地址（2.2.0）
     // ================================================================
     var API_BASE = window.location.origin;
 
@@ -1917,49 +1912,6 @@
         if (activePanel) {
             activePanel.classList.add('active');
             activePanel.style.display = 'block';
-        }
-    }
-
-    // ================================================================
-    // 日志
-    // ================================================================
-    async function loadLogs() {
-        try {
-            var resp = await fetch(API_BASE + '/api/logs');
-            var data = await resp.json();
-            var container = document.getElementById('logList');
-            if (data.success && data.data && data.data.length > 0) {
-                container.innerHTML = data.data.map(function (log) {return '<div class="log-item">' + log + '</div>';}).join('');
-            } else {
-                container.innerHTML = '<div class="log-empty">暂无操作日志</div>';
-            }
-        } catch (e) {
-            document.getElementById('logList').innerHTML = '<div class="log-empty">加载日志失败</div>';
-        }
-    }
-
-    async function exportLogs() {
-        try {
-            showToast('正在导出日志...', '');
-            var resp = await fetch(API_BASE + '/api/logs/export');
-            if (resp.status === 200) {
-                var blob = await resp.blob();
-                var url = URL.createObjectURL(blob);
-                var a = document.createElement('a');
-                a.href = url;
-                var timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
-                a.download = 'fnsoft_log_' + timestamp + '.txt';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                showToast('日志导出成功', 'success');
-            } else {
-                var data = await resp.json();
-                showToast('导出失败: ' + data.message, 'error');
-            }
-        } catch (e) {
-            showToast('导出失败: ' + e.message, 'error');
         }
     }
 
@@ -2296,11 +2248,19 @@
                 '</div>' +
                 tagsHtml +
                 '<div class="desc">' + (app.desc || '暂无描述') + '</div>' +
-                '<div class="actions" onclick="event.stopPropagation();">' + btnHtml + '</div>' +
+                // ===== 新增下载统计 =====
+               '<div class="actions" onclick="event.stopPropagation();" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
+                      '<div style="display:flex;gap:4px;flex-wrap:wrap;">' + btnHtml + '</div>' +
+                      '<span style="font-size:10px;color:var(--text-muted);margin-left:auto;white-space:nowrap;">📥 ' + (app.downloads || 0) + '</span>' +
+                '</div>' +
+                // ===== 新增结束 =====
+                // ===== 删除了下面这一行 =====
+                // '<div class="actions" onclick="event.stopPropagation();">' + btnHtml + '</div>' +
+                // ===== 删除结束 =====
                 '<div class="progress-container" id="progress-' + app.id + '">' +
-                '<div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar-' + app.id + '" style="width:0%;"></div></div>' +
-                '<div class="progress-text"><span class="status-msg" id="progressMsg-' + app.id + '">准备中...</span></div>' +
-                '<div class="progress-details"><span class="speed" id="speed-' + app.id + '"></span><span class="eta" id="eta-' + app.id + '"></span></div>' +
+                        '<div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar-' + app.id + '" style="width:0%;"></div></div>' +
+                        '<div class="progress-text"><span class="status-msg" id="progressMsg-' + app.id + '">准备中...</span></div>' +
+                        '<div class="progress-details"><span class="speed" id="speed-' + app.id + '"></span><span class="eta" id="eta-' + app.id + '"></span></div>' +
                 '</div>' +
                 '<div class="status-text" id="status-' + app.id + '"></div>' +
                 '</div>';
@@ -3036,19 +2996,25 @@
     async function loadNotice() {
         var container = document.getElementById('noticeContent');
         var timeEl = document.getElementById('noticeUpdateTime');
+      
+        console.log('loadNotice 被调用了'); 
 
         try {
             var resp = await fetch(API_BASE + '/api/notice');
             var data = await resp.json();
 
+            console.log('公告数据:', data);
+
             if (data.enabled && data.content) {
-                container.innerHTML = marked.parse(data.content);
+                container.innerHTML = data.content;
                 timeEl.textContent = data.updated_at ? '更新于 ' + data.updated_at : '';
             } else {
                 container.innerHTML = '<span style="color:var(--text-muted);font-size:12px;">暂无公告</span>';
                 timeEl.textContent = '';
             }
         } catch (e) {
+            console.error('加载公告失败:', e);  
+
             container.innerHTML = '<span style="color:var(--text-muted);font-size:12px;">暂无公告</span>';
             timeEl.textContent = '';
         }
@@ -3063,7 +3029,7 @@
         setTimeout(function() {
             loadApps();
         }, 300);
-        loadLogs();
+        //loadLogs();//
         loadNotice();  // 🆕 加载公告
         // 源管理已独立，会在切换Tab时通过 switchTab 调用 loadSources
     });
