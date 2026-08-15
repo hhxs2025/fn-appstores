@@ -2734,14 +2734,26 @@
 
         var htmlContent = '';
         if (steps && steps.length > 0) {
-            var items = steps.flatMap(function (step) {return step.items || [];});
+            var items = steps.flatMap(function (step) { return step.items || []; });
             if (items.length === 0) {
                 htmlContent = '<p>无配置项，点击确认安装</p>';
             } else {
                 items.forEach(function (item) {
-                    var required = item.rules && item.rules.some(function (r) {return r.required;});
+                    // ===== 先处理 tips 类型 =====
+                    if (item.type === 'tips') {
+                        // 优先使用 helpText，若为空则尝试 label，再尝试 initValue，最后默认“提示信息”
+                        var tipText = item.helpText || item.label || item.initValue || '提示信息';
+                        htmlContent += '<div class="wizard-field">';
+                        htmlContent += '<div class="hint" style="margin-bottom:8px;">' + tipText + '</div>';
+                        htmlContent += '</div>';
+                        return; // 跳过后续 label 和输入框渲染
+                    }
+
+                    // ===== 非 tips 类型 =====
+                    var required = item.rules && item.rules.some(function (r) { return r.required; });
                     htmlContent += '<div class="wizard-field">';
                     htmlContent += '<label>' + (item.label || item.field) + (required ? ' <span class="required">*</span>' : '') + '</label>';
+
                     if (item.type === 'text' || item.type === 'password') {
                         var inputType = item.type === 'password' ? 'password' : 'text';
                         htmlContent += '<input type="' + inputType + '" id="wizard_' + item.field + '" name="' + item.field + '" value="' + (item.initValue || '') + '"' + (required ? ' required' : '') + '>';
@@ -2754,11 +2766,12 @@
                     } else if (item.type === 'switch') {
                         var checked = item.initValue === 'true' || item.initValue === true;
                         htmlContent += '<div style="display:flex;align-items:center;gap:4px;"><input type="checkbox" id="wizard_' + item.field + '" name="' + item.field + '"' + (checked ? ' checked' : '') + '> ' + item.label + '</div>';
-                    } else if (item.type === 'tips') {
-                        htmlContent += '<div class="hint">' + (item.helpText || '') + '</div>';
                     } else {
+                        // 未知类型默认文本输入
                         htmlContent += '<input type="text" id="wizard_' + item.field + '" name="' + item.field + '" value="' + (item.initValue || '') + '">';
                     }
+
+                    // 如果非 tips 类型有 helpText，作为辅助提示
                     if (item.helpText && item.type !== 'tips') {
                         htmlContent += '<div class="hint">' + item.helpText + '</div>';
                     }
