@@ -1,0 +1,74 @@
+name: 🌐 申请内置源
+description: 申请将您的三方源加入官方 upstream.json 白名单
+title: "[内置源申请] "
+labels: ["enhancement", "upstream"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 申请前请确认
+        - 您的源地址**长期稳定可访问**
+        - 应用内容**不违反相关法律法规**
+        - 应用经过**基本功能验证**，可正常安装运行
+
+  - type: input
+    id: source_name
+    attributes:
+      label: 源名称
+      description: 您的应用源名称（将显示在应用卡片的来源标签中）
+      placeholder: 例如：张三的应用源
+    validations:
+      required: true
+
+  - type: input
+    id: source_url
+    attributes:
+      label: 源地址
+      description: 您的 FN软仓 服务端地址（需包含端口）
+      placeholder: 例如：http://your-domain.com:5660
+    validations:
+      required: true
+
+  - type: input
+    id: source_desc
+    attributes:
+      label: 源简介
+      description: 简要介绍您的应用源包含哪些应用
+      placeholder: 例如：个人开发的应用集合，包含文件管理、网络工具等
+    validations:
+      required: true
+
+  - type: textarea
+    id: apps_list
+    attributes:
+      label: 应用列表
+      description: 列出您源中包含的所有应用（名称 + ID + 版本）
+      placeholder: |
+        1. 我的应用 (myapp) v1.0.0
+        2. 工具集 (tools) v2.1.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: 自测证明
+      description: 附上您自测可用的证明（截图或文字说明）
+      placeholder: 粘贴截图链接或描述测试结果
+    validations:
+      required: true
+
+  - type: input
+    id: contact
+    attributes:
+      label: 联系方式
+      description: 邮箱或其他联系方式，便于我们沟通审核结果
+      placeholder: 例如：your@email.com
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 补充说明
+      description: 其他您想说明的信息（可选）
