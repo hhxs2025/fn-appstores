@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "id": "frankluise",
+      "name": "frankluise的源",
+      "url": "http://fnapp.floatingice.win:5660",
+      "enabled": true,
+      "added_at": "2026-08-15",
+      "description": "个人开发的应用集合"
+    }
+  ]
+}
