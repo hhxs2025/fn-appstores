@@ -1678,15 +1678,8 @@
 
 <!-- ===== 关于 ===== -->
 <div id="tabAbout" class="tab-content">
-    <div class="about-container">
-        <!-- ===== 📢 公告板 ===== -->
-        <div class="about-card" id="noticeCard">
-            <div class="about-section-title">📢 公告</div>
-            <div id="noticeContent">
-                <span style="color:var(--text-muted);font-size:12px;">加载中...</span>
-            </div>
-            <div id="noticeUpdateTime" style="font-size:10px;color:var(--text-muted);margin-top:6px;"></div>
-        </div>
+    <div id="aboutContent" class="about-container">
+        <span style="color:var(--text-muted);font-size:12px;">加载中...</span>
     </div>
 </div>
 
@@ -3007,8 +3000,7 @@
     // 📢 公告板（v2.2.0）
     // ================================================================
     async function loadNotice() {
-        var container = document.getElementById('noticeContent');
-        var timeEl = document.getElementById('noticeUpdateTime');
+        var container = document.getElementById('aboutContent');
       
         console.log('loadNotice 被调用了'); 
 
@@ -3020,16 +3012,12 @@
 
             if (data.enabled && data.content) {
                 container.innerHTML = data.content;
-                timeEl.textContent = data.updated_at ? '更新于 ' + data.updated_at : '';
             } else {
-                container.innerHTML = '<span style="color:var(--text-muted);font-size:12px;">暂无公告</span>';
-                timeEl.textContent = '';
+                container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);">暂无公告</div>';
             }
         } catch (e) {
             console.error('加载公告失败:', e);  
-
-            container.innerHTML = '<span style="color:var(--text-muted);font-size:12px;">暂无公告</span>';
-            timeEl.textContent = '';
+            container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);">加载失败</div>';
         }
     }
 
