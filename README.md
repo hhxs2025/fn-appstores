@@ -21,11 +21,7 @@ FN软仓是飞牛OS上的第三方应用商店客户端，支持**多软件源�
 
 | 应用列表 | 应用详情 | 源管理 |
 | :---: | :---: | :---: |
-| ![应用列表](previews/1.PNG) | ![应用详情](previews/2.PNG) | ![源管理](previews/3.PNG) |
-
-| 公告板 | 深色模式 |  
-| :---: | :---: |  
-| ![安装进度](previews/4.PNG) | ![深色模式](previews/5.PNG) |  
+| ![应用列表](previews/1.PNG) | ![源管理](previews/2.PNG) | ![公告板](previews/3.PNG) |
 
 ---
 
