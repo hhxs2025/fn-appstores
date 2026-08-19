@@ -1,7 +1,8 @@
 """
-FN软仓-关于页编辑工具 v1.1
-notice.json生成器
+FN软仓公告编辑工具 v1.2
+notice.json化生成器
 支持设置轮播图切换间隔（秒）
+支持系统托盘
 """
 
 import tkinter as tk
@@ -10,8 +11,19 @@ import json
 from datetime import datetime
 import os
 import sys
+import threading
 
-# 获取资源路径
+# 尝试导入系统托盘相关库
+try:
+    import pystray
+    from PIL import Image, ImageDraw
+    HAS_TRAY = True
+except ImportError:
+    HAS_TRAY = False
+    print("警告: pystray 或 PIL 未安装，系统托盘功能不可用")
+    print("请运行: pip install pystray pillow")
+
+# 获取资源路径（兼容 PyInstaller 打包）
 def resource_path(relative_path):
     try:
         base_path = sys._MEIPASS
@@ -23,39 +35,50 @@ def resource_path(relative_path):
 class NoticeGenerator:
     def __init__(self, root):
         self.root = root
-        self.root.title("FN软仓公告工具 v1.1")
+        self.root.title("FN软仓公告工具 v1.2")
         self.root.geometry("950x750")
         self.root.resizable(True, True)
         self.root.minsize(800, 600)
 
+        # 设置窗口图标
         try:
-            self.root.iconbitmap(resource_path("app.ico"))
+            icon_path = resource_path("app.ico")
+            self.root.iconbitmap(icon_path)
         except:
             pass
 
+        # 系统托盘相关
+        self.tray_icon = None
+        self.tray_thread = None
+        self.running = True
+
         self.carousel_images = []
-        self.interval_var = tk.IntVar(value=5)  # 默认 5 秒
+        self.interval_var = tk.IntVar(value=5)
 
         self.setup_ui()
         self.load_defaults()
+        self.setup_tray()
+
+        # 窗口关闭事件
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     def setup_ui(self):
         main_frame = ttk.Frame(self.root, padding="12")
         main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # 顶部----启用+更新时间
+        # 顶部：启用 + 更新时间
         top_frame = ttk.Frame(main_frame)
         top_frame.pack(fill=tk.X, pady=(0, 10))
 
         self.enabled_var = tk.BooleanVar(value=True)
-        ttk.Checkbutton(top_frame, text="✅启用公告", variable=self.enabled_var).pack(side=tk.LEFT)
+        ttk.Checkbutton(top_frame, text="✅ 启用公告", variable=self.enabled_var).pack(side=tk.LEFT)
 
         ttk.Label(top_frame, text="更新时间：").pack(side=tk.RIGHT, padx=(0, 5))
         self.update_time_label = ttk.Label(top_frame, text=datetime.now().strftime("%Y-%m-%d"))
         self.update_time_label.pack(side=tk.RIGHT)
 
         # ===== 轮播图管理 =====
-        carousel_frame = ttk.LabelFrame(main_frame, text="🖼️轮播图地址（填写图片完整 URL）", padding="10")
+        carousel_frame = ttk.LabelFrame(main_frame, text="🖼️轮播图地址（必须用完整 URL）", padding="10")
         carousel_frame.pack(fill=tk.X, pady=(0, 10))
 
         ttk.Label(carousel_frame, text="示例：http://rc.hhxs2026.top:5660/previews/fnrc/A.PNG", font=("", 9), foreground="gray").pack(anchor=tk.W)
@@ -81,13 +104,13 @@ class NoticeGenerator:
         # ===== 间隔时间设置 =====
         interval_frame = ttk.Frame(main_frame)
         interval_frame.pack(fill=tk.X, pady=(0, 10))
-        ttk.Label(interval_frame, text="⏱️轮播切换间隔（秒）：").pack(side=tk.LEFT)
+        ttk.Label(interval_frame, text="⏱️ 轮播切换间隔（秒）：").pack(side=tk.LEFT)
         interval_spinbox = ttk.Spinbox(interval_frame, from_=2, to=15, textvariable=self.interval_var, width=5)
         interval_spinbox.pack(side=tk.LEFT, padx=(5, 0))
         ttk.Label(interval_frame, text="（建议 4~8 秒）", font=("", 9), foreground="gray").pack(side=tk.LEFT, padx=(5, 0))
 
         # ===== 公告内容 =====
-        desc_frame = ttk.LabelFrame(main_frame, text="📝公告内容", padding="10")
+        desc_frame = ttk.LabelFrame(main_frame, text="📝 公告内容", padding="10")
         desc_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
 
         info_row = ttk.Frame(desc_frame)
@@ -104,10 +127,10 @@ class NoticeGenerator:
         action_frame = ttk.Frame(main_frame)
         action_frame.pack(fill=tk.X, pady=(0, 10))
 
-        ttk.Button(action_frame, text="👁️预览", command=self.preview_notice, width=12).pack(side=tk.LEFT, padx=(0, 5))
+        ttk.Button(action_frame, text="👁️预览", command=self.preview_notice, width=10).pack(side=tk.LEFT, padx=(0, 5))
         ttk.Button(action_frame, text="📋生成 JSON", command=self.generate_json, width=12).pack(side=tk.LEFT, padx=(0, 5))
         ttk.Button(action_frame, text="💾导出到 data/", command=self.export_to_data, width=14).pack(side=tk.LEFT, padx=(0, 5))
-        ttk.Button(action_frame, text="🗑️清空", command=self.clear_form, width=8).pack(side=tk.LEFT)
+        ttk.Button(action_frame, text="🗑️清空", command=self.clear_form, width=10).pack(side=tk.LEFT)
 
         # ===== 预览区域 =====
         preview_frame = ttk.LabelFrame(main_frame, text="预览效果（模拟软仓关于页）", padding="10")
@@ -123,6 +146,68 @@ class NoticeGenerator:
         self.status_var = tk.StringVar(value="就绪")
         status_bar = ttk.Label(main_frame, textvariable=self.status_var, relief=tk.SUNKEN, anchor=tk.W)
         status_bar.pack(fill=tk.X, pady=(5, 0))
+
+    def setup_tray(self):
+        """设置系统托盘"""
+        if not HAS_TRAY:
+            return
+
+        try:
+            # 创建托盘图标
+            icon_path = resource_path("app.ico")
+            if os.path.exists(icon_path):
+                image = Image.open(icon_path)
+            else:
+                # 如果找不到图标，创建一个简单的图标
+                image = self.create_tray_icon()
+
+            menu = pystray.Menu(
+                pystray.MenuItem("显示窗口", self.show_window),
+                pystray.MenuItem("退出", self.quit_app)
+            )
+
+            self.tray_icon = pystray.Icon("FN公告工具", image, "FN软仓公告工具", menu)
+
+            # 在后台线程中运行托盘
+            self.tray_thread = threading.Thread(target=self.tray_icon.run, daemon=True)
+            self.tray_thread.start()
+        except Exception as e:
+            print(f"系统托盘初始化失败: {e}")
+
+    def create_tray_icon(self):
+        """创建默认托盘图标"""
+        size = 64
+        image = Image.new('RGB', (size, size), color='#2196F3')
+        draw = ImageDraw.Draw(image)
+        # 绘制一个简单的"公告"图标
+        draw.rectangle([10, 10, 54, 40], fill='white', outline='white')
+        draw.line([10, 30, 54, 30], fill='#2196F3', width=2)
+        draw.line([10, 20, 54, 20], fill='#2196F3', width=2)
+        draw.rectangle([20, 45, 44, 55], fill='white', outline='white')
+        return image
+
+    def show_window(self):
+        """显示窗口"""
+        self.root.deiconify()
+        self.root.lift()
+        self.root.focus_force()
+
+    def on_closing(self):
+        """窗口关闭时，隐藏到托盘而不是退出"""
+        if self.tray_icon:
+            self.root.withdraw()
+            self.status_var.set("程序已最小化到系统托盘")
+        else:
+            self.quit_app()
+
+    def quit_app(self):
+        """完全退出程序"""
+        self.running = False
+        if self.tray_icon:
+            self.tray_icon.stop()
+        self.root.quit()
+        self.root.destroy()
+        os._exit(0)
 
     def update_word_count(self, event=None):
         content = self.desc_text.get(1.0, tk.END).strip()
@@ -167,7 +252,7 @@ Q群:2154077576"""
             index = selection[0]
             removed = self.carousel_images.pop(index)
             self.refresh_carousel_listbox()
-            self.status_var.set(f"🗑️已删除：{removed}")
+            self.status_var.set(f"🗑️ 已删除：{removed}")
 
     def refresh_carousel_listbox(self):
         self.carousel_listbox.delete(0, tk.END)
@@ -187,10 +272,10 @@ Q群:2154077576"""
 
     def preview_notice(self):
         data = self.get_data()
-        preview_text = f"📌 公告状态：{'✅已启用' if data['enabled'] else '❌ 已禁用'}\n"
-        preview_text += f"📅更新时间：{data['updated_at']}\n"
-        preview_text += f"⏱️切换间隔：{data['interval']} 秒\n"
-        preview_text += f"🖼️轮播图：{len(data['carousel'])} 张\n"
+        preview_text = f"📌 公告状态：{'✅ 已启用' if data['enabled'] else '❌ 已禁用'}\n"
+        preview_text += f"📅 更新时间：{data['updated_at']}\n"
+        preview_text += f"⏱️ 切换间隔：{data['interval']} 秒\n"
+        preview_text += f"🖼️ 轮播图：{len(data['carousel'])} 张\n"
         for i, url in enumerate(data['carousel'], 1):
             preview_text += f"   {i}. {url}\n"
         preview_text += f"\n{'─' * 50}\n"
@@ -198,7 +283,7 @@ Q群:2154077576"""
         preview_text += data['desc'].replace("<br>", "\n")
 
         self.preview_label.config(text=preview_text, justify=tk.LEFT, font=("Courier", 10), foreground="black")
-        self.status_var.set("👁️预览已更新")
+        self.status_var.set("👁️ 预览已更新")
 
     def generate_json(self):
         data = self.get_data()
@@ -220,17 +305,17 @@ Q群:2154077576"""
 
         btn_frame = ttk.Frame(result_window)
         btn_frame.pack(fill=tk.X, pady=5)
-        ttk.Button(btn_frame, text="📋复制到剪贴板",
+        ttk.Button(btn_frame, text="📋 复制到剪贴板",
                    command=lambda: self.copy_to_clipboard(json_str)).pack(side=tk.LEFT, padx=5)
-        ttk.Button(btn_frame, text="💾保存到文件",
+        ttk.Button(btn_frame, text="💾 保存到文件",
                    command=lambda: self.save_json_file(json_str)).pack(side=tk.LEFT, padx=5)
 
-        self.status_var.set("📋JSON 已生成")
+        self.status_var.set("📋 JSON 已生成")
 
     def copy_to_clipboard(self, text):
         self.root.clipboard_clear()
         self.root.clipboard_append(text)
-        self.status_var.set("✅已复制到剪贴板")
+        self.status_var.set("✅ 已复制到剪贴板")
 
     def save_json_file(self, json_str):
         file_path = filedialog.asksaveasfilename(
@@ -241,7 +326,7 @@ Q群:2154077576"""
         if file_path:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(json_str)
-            self.status_var.set(f"💾已保存到：{file_path}")
+            self.status_var.set(f"💾 已保存到：{file_path}")
             messagebox.showinfo("成功", f"已保存到：{file_path}")
 
     def export_to_data(self):
@@ -257,7 +342,7 @@ Q群:2154077576"""
         if file_path:
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(json_str)
-            self.status_var.set(f"💾已导出到：{file_path}")
+            self.status_var.set(f"💾 已导出到：{file_path}")
             messagebox.showinfo("成功", f"notice.json 已保存到：\n{file_path}")
 
     def clear_form(self):
@@ -267,7 +352,7 @@ Q群:2154077576"""
             self.desc_text.delete(1.0, tk.END)
             self.enabled_var.set(True)
             self.interval_var.set(5)
-            self.status_var.set("🗑️已清空")
+            self.status_var.set("🗑️ 已清空")
 
 
 def main():
