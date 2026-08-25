@@ -1,5 +1,0 @@
-# 1. 安装依赖
-pip install pyinstaller pystray pillow
-
-# 2. 打包（带图标）
-pyinstaller --onefile --windowed --name="FN软仓-关于页编辑器" --icon="app.ico" --add-data="app.ico;." --hidden-import=pystray --hidden-import=PIL --collect-all=pystray --collect-all=PIL notice_generator.py
