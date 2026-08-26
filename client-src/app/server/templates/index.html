@@ -2,11 +2,9 @@
 
 {% block extra_css %}
 <style>
-    /* ===== 全局通用样式 ===== */
-    * {
-        transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
+    /* ================================================================
+       布局通用
+       ================================================================ */
     .toolbar {
         display: flex;
         justify-content: space-between;
@@ -17,24 +15,20 @@
         margin-bottom: 2px;
         padding: 4px 0 2px;
     }
-
     .toolbar .left {
         display: flex;
         align-items: center;
         gap: 8px;
     }
-
     .toolbar .count {
         color: var(--text-secondary);
         font-size: 11px;
         font-weight: 400;
     }
-
     .toolbar .count strong {
         color: var(--text-primary);
         font-weight: 500;
     }
-
     .toolbar .badge {
         padding: 1px 10px;
         border-radius: 4px;
@@ -43,22 +37,18 @@
         background: #e8eaed;
         color: #6b6b6b;
     }
-
     .toolbar .badge.cached {
         background: #e8eaed;
         color: #6b6b6b;
     }
-
     .toolbar .badge.connected {
         background: #e8eaed;
         color: #6b6b6b;
     }
-
     .toolbar .badge.loading {
         background: #e8eaed;
         color: #6b6b6b;
     }
-
     .toolbar .badge.error {
         background: #f5e6e0;
         color: #b55a5a;
@@ -74,19 +64,16 @@
         font-weight: 400;
         cursor: pointer;
         min-width: 56px;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
     }
-
     .refresh-btn:hover:not(:disabled) {
         background: #e8eaed;
         border-color: #b8bac2;
     }
-
     .refresh-btn:disabled {
         opacity: 0.5;
         cursor: not-allowed;
     }
-
     .refresh-btn.cooldown {
         color: var(--text-muted);
         border-color: var(--border);
@@ -99,7 +86,6 @@
         margin-bottom: 4px;
         padding: 2px 0;
     }
-
     .search-bar input {
         flex: 1;
         padding: 5px 12px;
@@ -107,35 +93,16 @@
         border-radius: 6px;
         font-size: 11px;
         outline: none;
-        transition: all 0.2s ease;
-        background: #ffffff;
+        transition: all 0.2s;
+        background: #fff;
         color: var(--text-primary);
     }
-
     .search-bar input:focus {
         border-color: #b0a8a0;
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.03);
+        box-shadow: 0 0 0 2px rgba(0,0,0,0.03);
     }
-
     .search-bar input::placeholder {
         color: var(--text-muted);
-    }
-
-    /* ===== v2.4.1 新增：状态筛选独立行 ===== */
-    .status-filter-bar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px;
-        flex-shrink: 0;
-        margin-bottom: 2px;
-        padding: 2px 0;
-        align-items: center;
-    }
-
-    .status-filter-bar .sep {
-        color: var(--text-muted);
-        font-size: 10px;
-        margin: 0 2px;
     }
 
     .filter-bar {
@@ -146,8 +113,8 @@
         margin-bottom: 4px;
         background: transparent;
         padding: 2px 0;
+        justify-content: flex-start;
     }
-
     .filter-btn {
         background: transparent;
         border: 1px solid #d5d7dd;
@@ -158,31 +125,16 @@
         cursor: pointer;
         color: var(--text-secondary);
         line-height: 1.4;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
     }
-
     .filter-btn:hover {
         background: #e8eaed;
         border-color: #b8bac2;
     }
-
     .filter-btn.active {
         background: #e8eaed;
         border-color: #b0a8a0;
         color: var(--text-primary);
-    }
-
-    .filter-btn.clear-btn {
-        border-color: transparent;
-        color: var(--text-muted);
-        font-size: 9px;
-        padding: 2px 8px;
-    }
-
-    .filter-btn.clear-btn:hover {
-        background: transparent;
-        border-color: transparent;
-        color: var(--text-secondary);
     }
 
     .tab-content.active .toolbar:first-of-type {
@@ -202,7 +154,7 @@
 
     .app-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 10px;
         flex: 1;
         align-content: start;
@@ -213,24 +165,26 @@
         max-height: 100%;
     }
 
-    /* ===== 应用卡片 ===== */
+    /* ===== 应用卡片（统一高度布局） ===== */
     .app-card {
-        background: #ffffff;
+        background: var(--card-bg);
         border-radius: 10px;
         padding: 14px 16px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border);
         display: flex;
         flex-direction: column;
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: all 0.25s;
         min-height: 148px;
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
     }
-
     .app-card:hover {
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         border-color: #c5c7d0;
         transform: translateY(-1px);
-        background: #fafcfd;
+        background: var(--hover-bg, #fafcfd);
     }
 
     .app-card .top {
@@ -238,8 +192,8 @@
         align-items: flex-start;
         gap: 10px;
         margin-bottom: 4px;
+        flex-shrink: 0;
     }
-
     .app-card .icon {
         width: 38px;
         height: 38px;
@@ -252,7 +206,6 @@
         font-size: 18px;
         overflow: hidden;
     }
-
     .app-card .icon img {
         width: 100%;
         height: 100%;
@@ -263,7 +216,6 @@
         flex: 1;
         min-width: 0;
     }
-
     .app-card .info .name {
         font-size: 14px;
         font-weight: 500;
@@ -273,15 +225,18 @@
         align-items: center;
         gap: 4px;
     }
-
+    .app-card .info .name .app-name-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
     .app-card .info .version-text {
         font-size: 9px;
         color: var(--text-muted);
-        background: transparent;
-        padding: 0;
         font-weight: 400;
+        flex-shrink: 0;
     }
-
     .app-card .info .update-badge {
         font-size: 8px;
         color: #8a7a5a;
@@ -289,8 +244,8 @@
         padding: 0 6px;
         border-radius: 3px;
         font-weight: 400;
+        flex-shrink: 0;
     }
-
     .app-card .info .installed-badge {
         font-size: 8px;
         color: #4a7a5a;
@@ -298,14 +253,16 @@
         padding: 0 6px;
         border-radius: 3px;
         font-weight: 400;
+        flex-shrink: 0;
     }
-
     .app-card .info .author {
         font-size: 11px;
         color: var(--text-secondary);
         margin-top: 1px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
-
     .app-card .info .source-tag {
         color: var(--text-muted);
         font-size: 9px;
@@ -314,32 +271,20 @@
         display: inline-block;
         margin-top: 2px;
         font-weight: 400;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
-    .app-card .stats {
-        display: flex;
-        gap: 12px;
-        font-size: 10px;
-        color: var(--text-muted);
-        margin: 3px 0 4px;
-    }
-
-    .app-card .stats span {
-        display: flex;
-        align-items: center;
-        gap: 3px;
-    }
-
-    .app-card .tags,
-    .modal-tags-detail {
+    .app-card .tags {
         margin: 2px 0 5px;
         display: flex;
         flex-wrap: wrap;
         gap: 3px;
+        flex-shrink: 0;
     }
-
-    .app-card .tags .tag,
-    .modal-tags-detail .tag {
+    .app-card .tags .tag {
         background: #eff6ff;
         color: #2563eb;
         font-size: 9px;
@@ -359,16 +304,16 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        min-height: 0;
     }
 
-    /* ===== 卡片按钮 ===== */
     .app-card .actions {
         display: flex;
         gap: 4px;
-        margin-top: 4px;
+        margin-top: auto;
         flex-wrap: wrap;
+        flex-shrink: 0;
     }
-
     .app-card .actions .btn {
         padding: 3px 16px;
         border: none;
@@ -378,55 +323,43 @@
         cursor: pointer;
         flex: none;
         text-align: center;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
     }
-
     .app-card .actions .btn-primary {
         background: #2563ea;
-        color: #ffffff;
-        border: none;
+        color: #fff;
     }
-
     .app-card .actions .btn-primary:hover:not(:disabled) {
         background: #1d4ed8;
     }
-
     .app-card .actions .btn-primary:disabled {
         opacity: 0.5;
         cursor: not-allowed;
     }
-
     .app-card .actions .btn-danger {
         background: transparent;
         color: #b55a5a;
         border: 1px solid #e8d0d0;
         padding: 3px 16px;
     }
-
     .app-card .actions .btn-danger:hover:not(:disabled) {
         background: #f5e8e8;
         border-color: #d0b0b0;
     }
-
     .app-card .actions .btn-warning {
         background: #fef3c7;
         color: #92400e;
         border: none;
-        padding: 3px 16px;
     }
-
     .app-card .actions .btn-warning:hover:not(:disabled) {
         background: #fde68a;
     }
-
     .app-card .actions .btn-secondary {
         background: #e6f0e6;
         color: #4a7a5a;
         border: none;
         cursor: default;
-        padding: 3px 16px;
     }
-
     .app-card .actions .btn-repo {
         background: transparent;
         color: var(--text-secondary);
@@ -438,26 +371,22 @@
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
         cursor: pointer;
     }
-
     .app-card .actions .btn-repo:hover {
         background: #e8eaed;
         border-color: #b8bac2;
     }
 
-    /* ===== 进度条 ===== */
     .app-card .progress-container {
         display: none;
         margin-top: 6px;
         padding: 4px 0 2px;
     }
-
     .app-card .progress-container.show {
         display: block;
     }
-
     .app-card .progress-bar-bg {
         width: 100%;
         height: 3px;
@@ -465,23 +394,19 @@
         border-radius: 2px;
         overflow: hidden;
     }
-
     .app-card .progress-bar-fill {
         height: 100%;
         width: 0%;
         border-radius: 2px;
         background: #8aacd0;
-        transition: width 0.3s ease;
+        transition: width 0.3s;
     }
-
     .app-card .progress-bar-fill.complete {
         background: #7a9b7a;
     }
-
     .app-card .progress-bar-fill.error {
         background: #c47a7a;
     }
-
     .app-card .progress-text {
         font-size: 9px;
         color: var(--text-secondary);
@@ -490,24 +415,20 @@
         justify-content: space-between;
         align-items: center;
     }
-
     .app-card .progress-text .status-msg {
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-
     .app-card .progress-details {
         font-size: 8px;
         color: var(--text-muted);
         margin-top: 1px;
         display: flex;
         gap: 10px;
-        align-items: center;
         flex-wrap: wrap;
     }
-
     .app-card .progress-details .speed {
         color: var(--text-secondary);
     }
@@ -518,19 +439,15 @@
         padding: 1px 0;
         margin-top: 2px;
     }
-
     .app-card .status-text.show {
         display: block;
     }
-
     .app-card .status-text.success {
         color: #5a8a5a;
     }
-
     .app-card .status-text.error {
         color: #b55a5a;
     }
-
     .app-card .status-text.installing {
         color: var(--text-muted);
     }
@@ -541,13 +458,11 @@
         padding: 40px 20px;
         color: var(--text-muted);
     }
-
     .empty-state .icon {
         font-size: 36px;
         margin-bottom: 8px;
         opacity: 0.5;
     }
-
     .empty-state p {
         font-size: 12px;
     }
@@ -560,11 +475,9 @@
         padding: 4px 0 2px;
         flex-shrink: 0;
     }
-
     .pagination.show {
         display: flex;
     }
-
     .page-btn {
         background: transparent;
         color: var(--text-secondary);
@@ -573,53 +486,23 @@
         border-radius: 4px;
         font-size: 10px;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
     }
-
     .page-btn:hover:not(:disabled) {
         background: #e8eaed;
     }
-
     .page-btn:disabled {
         opacity: 0.4;
         cursor: not-allowed;
     }
-
     #pageInfo {
         color: var(--text-muted);
         font-size: 11px;
     }
 
-    /* ===== 日志 ===== */
-    #tabLogs {
-        background: var(--card-bg);
-        border-radius: 10px;
-        padding: 12px 16px;
-        overflow-y: auto;
-        flex: 1;
-        border: 1px solid var(--border);
-        min-height: 0;
-    }
-
-    .log-item {
-        padding: 3px 0;
-        font-size: 11px;
-        color: var(--text-secondary);
-        border-bottom: 1px solid var(--border);
-        font-family: "SF Mono", "Cascadia Code", monospace;
-    }
-
-    .log-item:last-child {
-        border-bottom: none;
-    }
-
-    .log-empty {
-        text-align: center;
-        padding: 30px 0;
-        color: var(--text-muted);
-        font-size: 12px;
-    }
-    /* ===== 弹窗 ===== */
+    /* ================================================================
+       弹窗
+       ================================================================ */
     .modal-overlay {
         display: none;
         position: fixed;
@@ -627,17 +510,15 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(60, 60, 60, 0.3);
+        background: rgba(60,60,60,0.3);
         z-index: 1000;
         justify-content: center;
         align-items: center;
         padding: 20px;
     }
-
     .modal-overlay.active {
         display: flex;
     }
-
     .modal-content {
         background: var(--card-bg);
         border-radius: 10px;
@@ -646,22 +527,13 @@
         max-height: 85vh;
         overflow-y: auto;
         padding: 20px 24px;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-        animation: modalIn 0.2s ease;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        animation: modalIn 0.2s;
     }
-
     @keyframes modalIn {
-        from {
-            opacity: 0;
-            transform: scale(0.98) translateY(6px);
-        }
-
-        to {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
+        from { opacity:0; transform:scale(0.98) translateY(6px); }
+        to { opacity:1; transform:scale(1) translateY(0); }
     }
-
     .modal-close {
         float: right;
         background: none;
@@ -672,11 +544,9 @@
         line-height: 1;
         padding: 0 4px;
     }
-
     .modal-close:hover {
         color: var(--text-primary);
     }
-
     .modal-title {
         font-size: 16px;
         font-weight: 500;
@@ -687,7 +557,6 @@
     .modal-content .form-group {
         margin-bottom: 10px;
     }
-
     .modal-content .form-group label {
         display: block;
         font-size: 11px;
@@ -695,7 +564,6 @@
         color: var(--text-secondary);
         margin-bottom: 2px;
     }
-
     .modal-content .form-group input,
     .modal-content .form-group select {
         width: 100%;
@@ -704,17 +572,15 @@
         border-radius: 4px;
         font-size: 11px;
         outline: none;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
         background: var(--card-bg);
         color: var(--text-primary);
     }
-
     .modal-content .form-group input:focus,
     .modal-content .form-group select:focus {
         border-color: #b0a8a0;
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.03);
+        box-shadow: 0 0 0 2px rgba(0,0,0,0.03);
     }
-
     .modal-content .form-group .hint {
         font-size: 9px;
         color: var(--text-muted);
@@ -728,23 +594,20 @@
         font-size: 12px;
         font-weight: 400;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
         width: 100%;
         background: transparent;
         color: var(--text-secondary);
     }
-
     .modal-actions .btn-primary {
         background: transparent;
         color: var(--text-secondary);
         border-color: #d5d7dd;
     }
-
     .modal-actions .btn-primary:hover:not(:disabled) {
         background: #e8eaed;
         border-color: #b8bac2;
     }
-
     .modal-actions .btn-primary:disabled {
         opacity: 0.5;
         cursor: not-allowed;
@@ -758,29 +621,26 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(60, 60, 60, 0.3);
+        background: rgba(60,60,60,0.3);
         z-index: 1000;
         justify-content: center;
         align-items: center;
         padding: 20px;
     }
-
     .modal-overlay-detail.active {
         display: flex;
     }
-
     .modal-content-detail {
-        background: #ffffff;
+        background: var(--card-bg);
         border-radius: 10px;
         width: 640px;
         max-width: 94vw;
         max-height: 90vh;
         overflow-y: auto;
         padding: 20px 28px;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-        animation: modalIn 0.2s ease;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        animation: modalIn 0.2s;
     }
-
     .modal-close-detail {
         float: right;
         background: none;
@@ -791,11 +651,9 @@
         line-height: 1;
         padding: 0 4px;
     }
-
     .modal-close-detail:hover {
         color: var(--text-primary);
     }
-
     .modal-icon-detail {
         width: 48px;
         height: 48px;
@@ -808,31 +666,26 @@
         font-size: 24px;
         margin-bottom: 6px;
     }
-
     .modal-icon-detail img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-
     .modal-title-detail {
         font-size: 18px;
         font-weight: 500;
         color: var(--text-primary);
     }
-
     .modal-version-detail {
         font-size: 12px;
         color: var(--text-muted);
         margin-left: 6px;
     }
-
     .modal-author-detail {
         font-size: 12px;
         color: var(--text-secondary);
         margin: 2px 0 4px;
     }
-
     .modal-desc-detail {
         font-size: 13px;
         color: var(--text-secondary);
@@ -843,23 +696,16 @@
         margin: 6px 0 10px;
         border-left: 2px solid #e5e7eb;
     }
-
     .modal-desc-detail p {
         margin: 0 0 6px;
     }
 
-    .modal-desc-detail p:last-child {
-        margin-bottom: 0;
-    }
-
-    /* ===== 标签页样式 ===== */
     .detail-tabs {
         display: flex;
         gap: 0;
         margin: 10px 0 8px;
         border-bottom: 1px solid var(--border);
     }
-
     .detail-tab {
         padding: 6px 16px;
         font-size: 12px;
@@ -869,15 +715,13 @@
         border: none;
         border-bottom: 2px solid transparent;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
         border-radius: 0;
     }
-
     .detail-tab:hover {
         color: var(--text-primary);
         background: #f5f5f5;
     }
-
     .detail-tab.active {
         color: var(--text-primary);
         border-bottom-color: #2563ea;
@@ -891,20 +735,16 @@
         overflow-y: auto;
         padding: 4px 0;
     }
-
     .detail-panel.active {
         display: block;
     }
-
     .detail-panel .modal-desc-detail {
         margin: 0;
     }
 
-    /* ===== 轮播 ===== */
     .modal-screenshots-detail {
         margin: 10px 0;
     }
-
     .modal-screenshots-detail .screenshot-title {
         font-size: 12px;
         font-weight: 400;
@@ -920,12 +760,10 @@
         min-height: 80px;
         display: none;
     }
-
     .carousel-track {
         display: flex;
         transition: transform 0.35s ease;
     }
-
     .carousel-track img {
         width: 100%;
         flex-shrink: 0;
@@ -939,7 +777,7 @@
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(60, 60, 60, 0.3);
+        background: rgba(60,60,60,0.3);
         color: white;
         border: none;
         width: 26px;
@@ -950,22 +788,18 @@
         display: none;
         align-items: center;
         justify-content: center;
-        transition: background 0.15s ease;
+        transition: background 0.15s;
         z-index: 5;
     }
-
     .carousel-btn:hover {
-        background: rgba(60, 60, 60, 0.5);
+        background: rgba(60,60,60,0.5);
     }
-
     .carousel-btn.prev {
         left: 6px;
     }
-
     .carousel-btn.next {
         right: 6px;
     }
-
     .carousel-btn.show {
         display: flex;
     }
@@ -976,7 +810,6 @@
         gap: 4px;
         padding: 5px 0 2px;
     }
-
     .carousel-dots .dot {
         width: 6px;
         height: 6px;
@@ -984,10 +817,9 @@
         background: #d0c8c0;
         border: none;
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition: all 0.15s;
         padding: 0;
     }
-
     .carousel-dots .dot.active {
         background: #8a8a8a;
         width: 16px;
@@ -1012,7 +844,6 @@
         margin-top: 4px;
         flex-wrap: wrap;
     }
-
     .modal-actions-detail .btn {
         padding: 4px 20px;
         border: 1px solid #d5d7dd;
@@ -1020,42 +851,36 @@
         font-size: 12px;
         font-weight: 400;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
         background: transparent;
         color: var(--text-secondary);
         flex: none;
         min-width: 80px;
         text-align: center;
     }
-
     .modal-actions-detail .btn-primary {
         background: #2563ea;
-        color: #ffffff;
+        color: #fff;
         border: none;
     }
-
     .modal-actions-detail .btn-primary:hover:not(:disabled) {
         background: #1d4ed8;
     }
-
     .modal-actions-detail .btn-danger {
         background: transparent;
         color: #b55a5a;
         border: 1px solid #e8d0d0;
     }
-
     .modal-actions-detail .btn-danger:hover:not(:disabled) {
         background: #f5e8e8;
         border-color: #d0b0b0;
     }
-
     .modal-actions-detail .btn-secondary {
         background: #e6f0e6;
         color: #4a7a5a;
         border: none;
         cursor: default;
     }
-
     .modal-actions-detail .btn-repo {
         background: transparent;
         color: var(--text-secondary);
@@ -1067,15 +892,13 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
     }
-
     .modal-actions-detail .btn-repo:hover {
         background: #e8eaed;
         border-color: #b8bac2;
     }
 
-    /* ===== 大图预览 ===== */
     .modal-overlay-image {
         display: none;
         position: fixed;
@@ -1083,33 +906,30 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(30, 30, 30, 0.85);
+        background: rgba(30,30,30,0.85);
         z-index: 2000;
         justify-content: center;
         align-items: center;
         padding: 20px;
     }
-
     .modal-overlay-image.active {
         display: flex;
     }
-
     .modal-content-image {
         background: #1a1a1a;
         border-radius: 10px;
         max-width: 94vw;
         max-height: 94vh;
         padding: 12px 16px 16px;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-        animation: modalIn 0.2s ease;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        animation: modalIn 0.2s;
         position: relative;
     }
-
     .modal-close-image {
         position: absolute;
         top: -10px;
         right: -10px;
-        background: rgba(60, 60, 60, 0.7);
+        background: rgba(60,60,60,0.7);
         border: none;
         font-size: 20px;
         cursor: pointer;
@@ -1124,11 +944,9 @@
         align-items: center;
         justify-content: center;
     }
-
     .modal-close-image:hover {
-        background: rgba(100, 100, 100, 0.9);
+        background: rgba(100,100,100,0.9);
     }
-
     .image-container {
         display: flex;
         align-items: center;
@@ -1137,7 +955,6 @@
         max-height: 82vh;
         position: relative;
     }
-
     .image-container img {
         max-width: 100%;
         max-height: 82vh;
@@ -1145,12 +962,11 @@
         border-radius: 4px;
         background: #111;
     }
-
     .image-nav-btn {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(60, 60, 60, 0.4);
+        background: rgba(60,60,60,0.4);
         color: white;
         border: none;
         width: 36px;
@@ -1161,34 +977,28 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background 0.15s ease;
+        transition: background 0.15s;
         z-index: 5;
     }
-
     .image-nav-btn:hover {
-        background: rgba(80, 80, 80, 0.6);
+        background: rgba(80,80,80,0.6);
     }
-
     .image-nav-btn.prev {
         left: -16px;
     }
-
     .image-nav-btn.next {
         right: -16px;
     }
-
     .image-counter {
         text-align: center;
         font-size: 11px;
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255,255,255,0.5);
         margin-top: 6px;
     }
 
-    /* ===== 向导 ===== */
     .wizard-field {
         margin-bottom: 10px;
     }
-
     .wizard-field label {
         display: block;
         font-size: 12px;
@@ -1196,7 +1006,6 @@
         margin-bottom: 2px;
         color: var(--text-secondary);
     }
-
     .wizard-field input,
     .wizard-field select,
     .wizard-field textarea {
@@ -1208,359 +1017,107 @@
         outline: none;
         background: var(--card-bg);
         color: var(--text-primary);
-        transition: all 0.2s ease;
+        transition: all 0.2s;
     }
-
     .wizard-field input:focus,
     .wizard-field select:focus,
     .wizard-field textarea:focus {
         border-color: #b0a8a0;
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.03);
+        box-shadow: 0 0 0 2px rgba(0,0,0,0.03);
     }
-
     .wizard-field .hint {
         font-size: 10px;
         color: var(--text-muted);
         margin-top: 1px;
     }
-
     .wizard-field .required {
         color: #b55a5a;
         margin-left: 2px;
     }
 
-    /* ===== Toast ===== */
-    .toast {
-        position: fixed;
-        bottom: 24px;
-        left: 50%;
-        transform: translateX(-50%) translateY(80px);
-        background: rgba(40, 40, 40, 0.92);
-        color: #fff;
-        padding: 8px 20px;
-        border-radius: 6px;
-        font-size: 12px;
-        z-index: 9999;
-        opacity: 0;
-        transition: all 0.3s ease;
-        pointer-events: none;
-        max-width: 90%;
-        text-align: center;
-    }
+    /* ================================================================
+       首页样式
+       ================================================================ */
 
-    .toast.show {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-
-    .toast.success {
-        background: rgba(40, 70, 40, 0.92);
-    }
-
-    .toast.error {
-        background: rgba(80, 40, 40, 0.92);
-    }
-
-    .toast.warning {
-        background: rgba(80, 70, 40, 0.92);
-    }
-
-    /* ===== 关于页面 ===== */
-    .about-container {
+    .home-container {
         width: 100%;
         max-width: 100%;
-        margin: 0;
-        padding: 16px 20px;
+        margin: 0 auto;
+        padding: 0;
         overflow-y: auto;
         height: 100%;
         box-sizing: border-box;
-    }
-
-    .about-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 16px 20px;
-        margin-bottom: 16px;
-        overflow: visible;
-    }
-
-    .about-card p {
-        margin: 4px 0;
-        font-size: 13px;
-        color: var(--text-secondary);
-    }
-
-    .about-card p strong {
-        color: var(--text-primary);
-    }
-
-    .about-section-title {
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text-primary);
-        margin: 0 0 6px 0;
-    }
-
-    .about-section-desc {
-        font-size: 12px;
-        color: var(--text-secondary);
-        margin: 0 0 12px 0;
-    }
-
-    .about-theme-section {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .about-theme-section .theme-label {
-        font-size: 13px;
-        color: var(--text-secondary);
-    }
-
-    .theme-toggle-btn {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        padding: 6px 16px;
-        font-size: 12px;
-        cursor: pointer;
-        color: var(--text-primary);
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .theme-toggle-btn:hover {
-        background: var(--hover-bg);
-        border-color: var(--border-hover);
-    }
-
-    /* ===== 深色模式 ===== */
-    body.dark-mode {
-        --bg-primary: #1a1a2e;
-        --bg-secondary: #16213e;
-        --card-bg: #1e2a45;
-        --border: #2a3a5a;
-        --border-hover: #3a4a6a;
-        --hover-bg: #2a3a5a;
-        --text-primary: #e8e8f0;
-        --text-secondary: #a8b8d0;
-        --text-muted: #6a7a9a;
-    }
-
-    body.dark-mode .app-card {
-        background: #1e2a45;
-        border-color: #2a3a5a;
-    }
-
-    body.dark-mode .app-card:hover {
-        background: #223050;
-        border-color: #3a4a6a;
-    }
-
-    body.dark-mode .search-bar input {
-        background: #1a2a3a;
-        border-color: #2a3a5a;
-        color: #e8e8f0;
-    }
-
-    body.dark-mode .search-bar input:focus {
-        border-color: #4a6a8a;
-    }
-
-    body.dark-mode .filter-btn {
-        border-color: #2a3a5a;
-        color: var(--text-secondary);
-    }
-
-    body.dark-mode .filter-btn:hover {
-        background: #2a3a5a;
-    }
-
-    body.dark-mode .filter-btn.active {
-        background: #2a3a5a;
-        border-color: #4a6a8a;
-        color: var(--text-primary);
-    }
-
-    body.dark-mode .refresh-btn {
-        border-color: #2a3a5a;
-        color: var(--text-secondary);
-    }
-
-    body.dark-mode .refresh-btn:hover:not(:disabled) {
-        background: #2a3a5a;
-    }
-
-    body.dark-mode .modal-content-detail {
-        background: #1e2a45;
-        color: var(--text-primary);
-    }
-
-    body.dark-mode .modal-desc-detail {
-        background: #16213e;
-    }
-
-    body.dark-mode .modal-overlay-detail {
-        background: rgba(0, 0, 0, 0.6);
-    }
-
-    body.dark-mode .modal-overlay {
-        background: rgba(0, 0, 0, 0.6);
-    }
-
-    body.dark-mode .modal-content {
-        background: #1e2a45;
-        color: var(--text-primary);
-    }
-
-    body.dark-mode .about-card {
-        background: #16213e;
-        border-color: #2a3a5a;
-    }
-
-    body.dark-mode .modal-close,
-    body.dark-mode .modal-close-detail {
-        color: var(--text-muted);
-    }
-
-    body.dark-mode .modal-close:hover,
-    body.dark-mode .modal-close-detail:hover {
-        color: var(--text-primary);
-    }
-
-    body.dark-mode .detail-tab {
-        color: var(--text-secondary);
-    }
-
-    body.dark-mode .detail-tab:hover {
-        color: var(--text-primary);
-        background: #2a3a5a;
-    }
-
-    body.dark-mode .detail-tab.active {
-        color: var(--text-primary);
-        border-bottom-color: #4a8ad4;
-    }
-
-    body.dark-mode .toast {
-        background: rgba(30, 30, 50, 0.95);
-    }
-
-    body.dark-mode .log-export-btn {
-        border-color: #2a3a5a;
-        color: var(--text-secondary);
-    }
-
-    body.dark-mode .log-export-btn:hover {
-        background: #2a3a5a;
-    }
-
-    body.dark-mode .app-card .actions .btn-repo {
-        border-color: #2a3a5a;
-        color: var(--text-secondary);
-    }
-
-    body.dark-mode .app-card .actions .btn-repo:hover {
-        background: #2a3a5a;
-    }
-
-    body.dark-mode .modal-actions-detail .btn-repo {
-        border-color: #2a3a5a;
-        color: var(--text-secondary);
-    }
-
-    body.dark-mode .modal-actions-detail .btn-repo:hover {
-        background: #2a3a5a;
-    }
-
-    body.dark-mode .theme-toggle-btn {
-        background: #16213e;
-        border-color: #2a3a5a;
-        color: var(--text-primary);
-    }
-
-    body.dark-mode .theme-toggle-btn:hover {
-        background: #2a3a5a;
-    }
-
-    /* ===== 关于页公告轮播图（v2.4.1 手动切换） ===== */
-    .nb-wrapper {
-        background: #161b22;
-        border-radius: 8px;
-        padding: 16px;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-    .nb-board {
-        background: linear-gradient(145deg, #1c2333, #131a26);
-        border-radius: 8px;
-        overflow: hidden;
-        height: 420px;
         display: flex;
         flex-direction: column;
+        gap: 12px;
     }
-    .nb-top {
-        flex: 1;
+
+    .home-top-row {
         display: flex;
         flex-direction: row;
-        min-height: 0;
-        height: 100%;
+        gap: 0;
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        height: 320px;
+        flex-shrink: 0;
     }
-    .nb-carousel {
-        flex: 0 0 75%;
-        height: 100%;
-        background: #0b1018;
+
+    .home-carousel-wrapper {
+        flex: 0 0 70%;
         position: relative;
         overflow: hidden;
-        border-right: 2px solid rgba(255, 255, 255, 0.08);
+        background: var(--card-bg);
+        height: 100%;
     }
-    .nb-carousel .carousel-track {
+
+    .home-carousel-track {
         display: flex;
         height: 100%;
         transition: transform 0.5s ease;
         will-change: transform;
     }
-    .nb-carousel .carousel-slide {
+
+    .home-carousel-slide {
         flex: 0 0 100%;
         height: 100%;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
-    .nb-carousel .carousel-btn-about {
+
+    .home-carousel-btn {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(0, 0, 0, 0.4);
+        background: rgba(0,0,0,0.35);
         color: white;
         border: none;
         width: 32px;
         height: 32px;
         border-radius: 50%;
         cursor: pointer;
-        font-size: 18px;
+        font-size: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 5;
-        transition: background 0.2s ease;
-        opacity: 0.7;
+        transition: background 0.2s;
+        opacity: 0.5;
     }
-    .nb-carousel .carousel-btn-about:hover {
-        background: rgba(0, 0, 0, 0.7);
+    .home-carousel-btn:hover {
+        background: rgba(0,0,0,0.65);
         opacity: 1;
     }
-    .nb-carousel .carousel-btn-about.prev {
+    .home-carousel-btn.prev {
         left: 8px;
     }
-    .nb-carousel .carousel-btn-about.next {
+    .home-carousel-btn.next {
         right: 8px;
     }
-    .nb-carousel .carousel-dots-about {
+
+    .home-carousel-dots {
         position: absolute;
         bottom: 10px;
         left: 50%;
@@ -1569,138 +1126,767 @@
         gap: 6px;
         z-index: 5;
     }
-    .nb-carousel .carousel-dots-about .dot {
+    .home-carousel-dots .dot {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: rgba(255, 255, 255, 0.4);
+        background: rgba(255,255,255,0.4);
         border: none;
         cursor: pointer;
         padding: 0;
-        transition: all 0.2s ease;
+        transition: all 0.2s;
     }
-    .nb-carousel .carousel-dots-about .dot.active {
+    .home-carousel-dots .dot.active {
         background: #fff;
         transform: scale(1.2);
     }
-    .nb-text {
-        flex: 0 0 25%;
-        padding: 16px 12px 14px 12px;
+
+    /* 公告记录列表 */
+    .home-notice-wrapper {
+        flex: 0 0 30%;
+        padding: 16px 18px;
+        overflow: hidden;
+        background: var(--card-bg);
+        border-left: 1px solid var(--border);
+        height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        background: linear-gradient(135deg, #1a2236, #131c2e);
-        gap: 2px;
-        color: #c9d1d9;
-        font-size: 13px;
-        line-height: 1.6;
+        gap: 4px;
+    }
+
+    .home-notice-wrapper .notice-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--blue);
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+    }
+
+    .notice-records {
+        flex: 1;
         overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding-right: 2px;
     }
-    .nb-text a {
-        color: #58a6ff;
-        text-decoration: none;
+
+    .notice-record {
+        padding: 4px 6px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.15s;
+        border-bottom: 1px solid var(--border);
     }
-    .nb-text a:hover {
+    .notice-record:last-child {
+        border-bottom: none;
+    }
+    .notice-record:hover {
+        background: var(--bg);
+    }
+
+    .notice-record .record-date {
+        font-size: 9px;
+        color: var(--text-muted);
+    }
+    .notice-record .record-title {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-primary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .notice-more {
+        font-size: 11px;
+        color: var(--blue);
+        cursor: pointer;
+        padding: 4px 6px;
+        text-align: right;
+        flex-shrink: 0;
+    }
+    .notice-more:hover {
         text-decoration: underline;
     }
 
-    /* ===== 响应式 ===== */
-    @media (min-width: 1400px) {
-        .app-grid {
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 12px;
-        }
+    /* ================================================================
+       四列快捷卡片（已安装 / 可更新 / 热度榜 / 新应用）
+       ================================================================ */
+    .home-quick-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        flex-shrink: 0;
     }
 
-    @media (max-width: 1200px) and (min-width: 801px) {
-        .app-grid {
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 10px;
-        }
+    .home-quick-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        min-height: 160px;
+        max-height: 280px;
+        overflow: hidden;
+        transition: all 0.2s;
+    }
+    .home-quick-card:hover {
+        border-color: var(--blue);
+        box-shadow: 0 2px 8px rgba(37,99,235,0.06);
     }
 
-    @media (max-width: 800px) {
-        .app-grid {
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    .home-quick-card .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+        flex-shrink: 0;
+    }
+    .home-quick-card .card-header .title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+    .home-quick-card .card-header .badge {
+        font-size: 10px;
+        color: var(--text-muted);
+        background: var(--bg);
+        padding: 0 8px;
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+
+    .home-quick-card .card-list {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+    .home-quick-card .card-list .item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 3px 4px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+    .home-quick-card .card-list .item:hover {
+        background: var(--bg);
+    }
+    .home-quick-card .card-list .item .icon-sm {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        flex-shrink: 0;
+        overflow: hidden;
+        background: #e8eaed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+    .home-quick-card .card-list .item .icon-sm img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .home-quick-card .card-list .item .name {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .home-quick-card .card-list .item .meta {
+        font-size: 10px;
+        color: var(--text-muted);
+        flex-shrink: 0;
+        margin-left: 4px;
+    }
+    .home-quick-card .card-list .empty {
+        font-size: 11px;
+        color: var(--text-muted);
+        text-align: center;
+        padding: 12px 0;
+    }
+
+    /* ================================================================
+       设置页 — 标签切换
+       ================================================================ */
+    .settings-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 8px 0;
+        overflow-y: auto;
+        height: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .settings-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 12px;
+        flex-shrink: 0;
+        overflow-x: auto;
+    }
+    .settings-tab {
+        padding: 8px 20px;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+    .settings-tab:hover {
+        color: var(--text-primary);
+    }
+    .settings-tab.active {
+        color: var(--text-primary);
+        border-bottom-color: var(--blue);
+        font-weight: 600;
+    }
+
+    .settings-panels {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    .settings-panel {
+        display: none;
+        flex: 1;
+        overflow-y: auto;
+        padding: 4px 0;
+    }
+    .settings-panel.active {
+        display: block;
+    }
+
+    .settings-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin-bottom: 12px;
+    }
+    .settings-card .title {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+    }
+    .settings-card .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--border);
+    }
+    .settings-card .row:last-child {
+        border-bottom: none;
+    }
+    .settings-card .row .label {
+        font-size: 13px;
+        color: var(--text-secondary);
+    }
+    .settings-card .row .value {
+        font-size: 13px;
+        color: var(--text-primary);
+    }
+    .settings-card .row .value a {
+        color: #2563ea;
+        text-decoration: none;
+    }
+    .settings-card .row .value a:hover {
+        text-decoration: underline;
+    }
+    .settings-card .row .action-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 4px 14px;
+        font-size: 11px;
+        cursor: pointer;
+        color: var(--text-secondary);
+        transition: all 0.2s;
+    }
+    .settings-card .row .action-btn:hover {
+        background: var(--hover-bg);
+        border-color: var(--border-hover);
+    }
+
+    .switch {
+        position: relative;
+        width: 38px;
+        height: 20px;
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .switch .slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ccc;
+        border-radius: 20px;
+        transition: 0.3s;
+    }
+    .switch .slider::before {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        left: 2px;
+        bottom: 2px;
+        background: white;
+        border-radius: 50%;
+        transition: 0.3s;
+    }
+    .switch input:checked+.slider {
+        background: #2563ea;
+    }
+    .switch input:checked+.slider::before {
+        transform: translateX(18px);
+    }
+
+    /* ================================================================
+       源管理
+       ================================================================ */
+    .source-container {
+        padding: 0 10px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .source-add-form {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 12px;
+        flex-shrink: 0;
+    }
+    .source-add-form .form-row {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .source-add-form .form-row input {
+        flex: 1;
+        min-width: 100px;
+        padding: 4px 10px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font-size: 12px;
+        background: var(--bg);
+        color: var(--text-primary);
+    }
+    .source-add-form .form-row input:focus {
+        outline: none;
+        border-color: #4a6a8a;
+    }
+    .source-add-form .form-row .btn {
+        padding: 4px 12px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: transparent;
+        color: var(--text-secondary);
+        cursor: pointer;
+        font-size: 11px;
+        transition: all 0.2s;
+    }
+    .source-add-form .form-row .btn:hover {
+        background: var(--hover-bg);
+    }
+    .source-add-form .form-row .btn-primary {
+        background: #2563ea;
+        color: #fff;
+        border: none;
+    }
+    .source-add-form .form-row .btn-primary:hover {
+        background: #1d4ed8;
+    }
+    .source-add-form .test-result {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-top: 4px;
+    }
+
+    .source-list {
+        flex: 1;
+        overflow-y: auto;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 4px 0;
+        background: var(--card-bg);
+    }
+
+    .source-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        border-bottom: 1px solid var(--border);
+    }
+    .source-item:last-child {
+        border-bottom: none;
+    }
+    .source-item .info {
+        flex: 1;
+        min-width: 0;
+    }
+    .source-item .info .name-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    .source-item .info .name-row .name {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+    .source-item .info .name-row .badge {
+        font-size: 8px;
+        background: #e8eaed;
+        color: #6b6b6b;
+        padding: 0 6px;
+        border-radius: 3px;
+    }
+    .source-item .info .name-row .status {
+        font-size: 9px;
+    }
+    .source-item .info .url {
+        font-size: 10px;
+        color: var(--text-muted);
+        word-break: break-all;
+    }
+    .source-item .info .status-msg {
+        font-size: 9px;
+        color: #b55a5a;
+    }
+    .source-item .actions {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+        margin-left: 8px;
+    }
+    .source-item .actions .btn {
+        padding: 1px 8px;
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        background: transparent;
+        cursor: pointer;
+        font-size: 9px;
+        transition: all 0.2s;
+    }
+    .source-item .actions .btn-enable {
+        border-color: #5a8a5a;
+        color: #5a8a5a;
+    }
+    .source-item .actions .btn-disable {
+        border-color: #999;
+        color: #999;
+    }
+    .source-item .actions .btn-delete {
+        border-color: #b55a5a;
+        color: #b55a5a;
+    }
+    .source-item .actions .btn:hover {
+        opacity: 0.7;
+    }
+
+    /* ================================================================
+       深色覆盖
+       ================================================================ */
+    body.dark-mode .app-card {
+        background: #1e2a45;
+        border-color: #2a3a5a;
+    }
+    body.dark-mode .app-card:hover {
+        background: #223050;
+        border-color: #3a4a6a;
+    }
+    body.dark-mode .search-bar input {
+        background: #1a2a3a;
+        border-color: #2a3a5a;
+        color: #e8e8f0;
+    }
+    body.dark-mode .search-bar input:focus {
+        border-color: #4a6a8a;
+    }
+    body.dark-mode .filter-btn {
+        border-color: #2a3a5a;
+        color: var(--text-secondary);
+    }
+    body.dark-mode .filter-btn:hover {
+        background: #2a3a5a;
+    }
+    body.dark-mode .filter-btn.active {
+        background: #2a3a5a;
+        border-color: #4a6a8a;
+        color: var(--text-primary);
+    }
+    body.dark-mode .refresh-btn {
+        border-color: #2a3a5a;
+        color: var(--text-secondary);
+    }
+    body.dark-mode .refresh-btn:hover:not(:disabled) {
+        background: #2a3a5a;
+    }
+    body.dark-mode .modal-content-detail {
+        background: #1e2a45;
+        color: var(--text-primary);
+    }
+    body.dark-mode .modal-desc-detail {
+        background: #16213e;
+    }
+    body.dark-mode .modal-overlay-detail {
+        background: rgba(0,0,0,0.6);
+    }
+    body.dark-mode .modal-overlay {
+        background: rgba(0,0,0,0.6);
+    }
+    body.dark-mode .modal-content {
+        background: #1e2a45;
+        color: var(--text-primary);
+    }
+    body.dark-mode .settings-card {
+        background: #1e2a45;
+        border-color: #2a3a5a;
+    }
+    body.dark-mode .settings-card .row {
+        border-bottom-color: #2a3a5a;
+    }
+    body.dark-mode .source-add-form {
+        background: #1e2a45;
+        border-color: #2a3a5a;
+    }
+    body.dark-mode .source-list {
+        background: #1e2a45;
+        border-color: #2a3a5a;
+    }
+    body.dark-mode .source-item {
+        border-bottom-color: #2a3a5a;
+    }
+    body.dark-mode .source-item .info .name-row .badge {
+        background: #2a3a5a;
+        color: #8a9aaa;
+    }
+    body.dark-mode .home-top-row {
+        background: #1e2a45;
+        border-color: #2a3a5a;
+    }
+    body.dark-mode .home-carousel-wrapper {
+        background: #1e2a45;
+    }
+    body.dark-mode .home-notice-wrapper {
+        background: #1e2a45;
+        border-left-color: #2a3a5a;
+    }
+    body.dark-mode .notice-record:hover {
+        background: #2a3a5a;
+    }
+    body.dark-mode .notice-record {
+        border-bottom-color: #2a3a5a;
+    }
+    body.dark-mode .home-quick-card {
+        background: #1e2a45;
+        border-color: #2a3a5a;
+    }
+    body.dark-mode .home-quick-card:hover {
+        border-color: #4a6a8a;
+    }
+    body.dark-mode .home-quick-card .card-list .item:hover {
+        background: #2a3a5a;
+    }
+    body.dark-mode .modal-close,
+    body.dark-mode .modal-close-detail {
+        color: var(--text-muted);
+    }
+    body.dark-mode .modal-close:hover,
+    body.dark-mode .modal-close-detail:hover {
+        color: var(--text-primary);
+    }
+    body.dark-mode .detail-tab {
+        color: var(--text-secondary);
+    }
+    body.dark-mode .detail-tab:hover {
+        color: var(--text-primary);
+        background: #2a3a5a;
+    }
+    body.dark-mode .detail-tab.active {
+        color: var(--text-primary);
+        border-bottom-color: #4a8ad4;
+    }
+    body.dark-mode .app-card .actions .btn-repo {
+        border-color: #2a3a5a;
+        color: var(--text-secondary);
+    }
+    body.dark-mode .app-card .actions .btn-repo:hover {
+        background: #2a3a5a;
+    }
+    body.dark-mode .modal-actions-detail .btn-repo {
+        border-color: #2a3a5a;
+        color: var(--text-secondary);
+    }
+    body.dark-mode .modal-actions-detail .btn-repo:hover {
+        background: #2a3a5a;
+    }
+
+    /* ================================================================
+       响应式
+       ================================================================ */
+    @media (max-width: 768px) {
+        .home-top-row {
+            flex-direction: column;
+            height: auto;
+            min-height: 340px;
+        }
+        .home-carousel-wrapper {
+            flex: 0 0 auto;
+            width: 100%;
+            height: 200px;
+            min-height: 160px;
+        }
+        .home-notice-wrapper {
+            flex: 0 0 auto;
+            width: 100%;
+            border-left: none;
+            border-top: 1px solid var(--border);
+            min-height: 100px;
+            max-height: 220px;
+            padding: 12px 16px;
+        }
+        .home-quick-grid {
+            grid-template-columns: repeat(2, 1fr);
             gap: 8px;
         }
+        .home-quick-card {
+            min-height: 140px;
+            max-height: 220px;
+        }
+        .home-quick-card .card-list .item {
+            font-size: 11px;
+        }
 
+        .app-grid {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 8px;
+        }
         .app-card {
             padding: 12px 14px;
         }
-
         .app-card .info .name {
             font-size: 13px;
         }
-
         .app-card .desc {
             font-size: 10px;
         }
-
         .modal-content-detail {
             padding: 16px;
             max-width: 98vw;
         }
-
         .detail-panel {
             max-height: 200px;
         }
 
-        .about-container {
-            padding: 12px 12px;
+        .settings-tabs {
+            gap: 0;
         }
-
-        .about-card {
-            padding: 12px 14px;
+        .settings-tab {
+            padding: 6px 14px;
+            font-size: 13px;
         }
-
-        .nb-board {
-            height: auto;
-            min-height: 420px;
-        }
-        .nb-top {
-            flex-direction: column;
-            height: auto;
-        }
-        .nb-carousel {
-            flex: 0 0 auto;
-            width: 100%;
-            height: 200px;
-            border-right: none;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
-        }
-        .nb-text {
-            flex: 0 0 auto;
-            width: 100%;
-            padding: 14px 16px;
-            gap: 4px;
+        .settings-container {
+            padding: 4px 0;
         }
     }
 
     @media (max-width: 550px) {
-        .app-grid {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        .home-top-row {
+            min-height: 280px;
+        }
+        .home-carousel-wrapper {
+            height: 150px;
+            min-height: 120px;
+        }
+        .home-carousel-btn {
+            width: 26px;
+            height: 26px;
+            font-size: 13px;
+        }
+        .home-carousel-btn.prev {
+            left: 4px;
+        }
+        .home-carousel-btn.next {
+            right: 4px;
+        }
+        .home-notice-wrapper {
+            max-height: 180px;
+            min-height: 70px;
+            padding: 10px 14px;
+        }
+        .notice-record .record-title {
+            font-size: 11px;
+        }
+        .home-quick-grid {
+            grid-template-columns: 1fr 1fr;
             gap: 6px;
         }
-
-        .app-card {
+        .home-quick-card {
+            min-height: 120px;
+            max-height: 200px;
             padding: 10px 12px;
-            min-height: 110px;
+        }
+        .home-quick-card .card-header .title {
+            font-size: 12px;
+        }
+        .home-quick-card .card-list .item {
+            font-size: 10px;
+            padding: 2px 3px;
         }
 
+        .app-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+        .app-card {
+            padding: 10px 12px;
+            min-height: 120px;
+        }
         .app-card .info .name {
             font-size: 12px;
         }
-
         .app-card .info .author {
             font-size: 10px;
         }
-
         .app-card .desc {
             font-size: 9px;
             -webkit-line-clamp: 1;
         }
-
         .app-card .icon {
             width: 32px;
             height: 32px;
@@ -1712,101 +1898,84 @@
             margin: 10px;
             padding: 14px;
         }
-
         .modal-content-detail {
             max-width: 100%;
             margin: 10px;
             padding: 14px;
         }
-
         .carousel-track img {
             max-height: 140px;
         }
-
         .app-card .progress-details {
             font-size: 7px;
         }
-
-        .image-nav-btn {
-            width: 28px;
-            height: 28px;
-            font-size: 14px;
-        }
-
-        .image-nav-btn.prev {
-            left: -6px;
-        }
-
-        .image-nav-btn.next {
-            right: -6px;
-        }
-
         .detail-tab {
             padding: 4px 10px;
             font-size: 11px;
         }
-
         .detail-panel {
             max-height: 150px;
         }
 
-        .about-header .logo {
-            font-size: 36px;
-        }
-
-        .about-header h2 {
-            font-size: 18px;
-        }
-
-        .about-card p {
+        .settings-tab {
+            padding: 4px 12px;
             font-size: 12px;
-        }
-
-        .nb-board {
-            min-height: 360px;
-        }
-        .nb-carousel {
-            height: 150px;
-        }
-        .nb-carousel .carousel-btn-about {
-            width: 26px;
-            height: 26px;
-            font-size: 14px;
         }
     }
 
     @media (max-width: 400px) {
-        .app-grid {
+        .home-top-row {
+            min-height: 240px;
+        }
+        .home-carousel-wrapper {
+            height: 120px;
+            min-height: 100px;
+        }
+        .home-carousel-btn {
+            width: 22px;
+            height: 22px;
+            font-size: 11px;
+        }
+        .home-notice-wrapper {
+            max-height: 140px;
+            min-height: 60px;
+            padding: 8px 12px;
+        }
+        .notice-record .record-title {
+            font-size: 10px;
+        }
+        .home-quick-grid {
             grid-template-columns: 1fr;
+            gap: 6px;
+        }
+        .home-quick-card {
+            min-height: 100px;
+            max-height: 180px;
         }
 
+        .app-grid {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
         .app-card .top {
             flex-direction: row;
             align-items: center;
         }
-
         .app-card .icon {
             width: 28px;
             height: 28px;
             font-size: 12px;
         }
-
-        .modal-stats-detail {
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        .carousel-track img {
-            max-height: 100px;
-        }
-
-        .detail-tab {
+        .settings-tab {
             padding: 4px 8px;
-            font-size: 10px;
+            font-size: 11px;
         }
+    }
 
-        .nb-carousel {
-            height: 120px;
+    @media (max-width: 350px) {
+        .app-grid {
+            grid-template-columns: 1fr;
+            gap: 6px;
         }
     }
 </style>
@@ -1814,11 +1983,81 @@
 
 {% block content %}
 
-<!-- ===== Toast ===== -->
 <div class="toast" id="toast"></div>
 
-<!-- ===== 应用列表 ===== -->
-<div id="tabApps" class="tab-content active">
+<!-- ============================================================
+     Tab: 首页
+     ============================================================ -->
+<div id="tabHome" class="tab-content active">
+    <div class="home-container" id="homeContainer">
+
+        <!-- 顶部行：轮播图 70% + 公告记录 30% -->
+        <div class="home-top-row">
+            <div class="home-carousel-wrapper" id="homeCarouselWrapper">
+                <div class="home-carousel-track" id="homeCarouselTrack"></div>
+                <button class="home-carousel-btn prev" onclick="homeCarouselPrev(event)">‹</button>
+                <button class="home-carousel-btn next" onclick="homeCarouselNext(event)">›</button>
+                <div class="home-carousel-dots" id="homeCarouselDots"></div>
+            </div>
+            <div class="home-notice-wrapper" id="homeNoticeWrapper">
+                <div class="notice-label">📢 公告记录</div>
+                <div class="notice-records" id="homeNoticeContent">
+                    <div style="color:var(--text-muted);font-size:12px;text-align:center;padding:12px 0;">加载中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 四列快捷卡片 -->
+        <div class="home-quick-grid">
+            <!-- 已安装 -->
+            <div class="home-quick-card" id="quickInstalled">
+                <div class="card-header">
+                    <span class="title">已安装</span>
+                    <span class="badge" id="quickInstalledCount">0</span>
+                </div>
+                <div class="card-list" id="quickInstalledList">
+                    <div class="empty">加载中...</div>
+                </div>
+            </div>
+            <!-- 可更新 -->
+            <div class="home-quick-card" id="quickUpdatable">
+                <div class="card-header">
+                    <span class="title">可更新</span>
+                    <span class="badge" id="quickUpdatableCount">0</span>
+                </div>
+                <div class="card-list" id="quickUpdatableList">
+                    <div class="empty">加载中...</div>
+                </div>
+            </div>
+            <!-- 热度榜 -->
+            <div class="home-quick-card" id="quickHot">
+                <div class="card-header">
+                    <span class="title">热度榜</span>
+                    <span class="badge">Top 5</span>
+                </div>
+                <div class="card-list" id="quickHotList">
+                    <div class="empty">加载中...</div>
+                </div>
+            </div>
+            <!-- 🆕 新应用 -->
+            <div class="home-quick-card" id="quickNewest">
+                <div class="card-header">
+                    <span class="title">新应用</span>
+                    <span class="badge">最新</span>
+                </div>
+                <div class="card-list" id="quickNewestList">
+                    <div class="empty">加载中...</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ============================================================
+     Tab: 应用
+     ============================================================ -->
+<div id="tabApps" class="tab-content">
     <div class="toolbar">
         <div class="left">
             <span class="badge" id="statusBadge">在线</span>
@@ -1832,27 +2071,10 @@
         <input type="text" id="searchInput" placeholder="搜索应用名称、描述、作者..." oninput="searchApps()">
     </div>
 
-    <!-- ===== v2.4.1: 状态筛选独立行 ===== -->
-    <div class="status-filter-bar">
-        <button class="filter-btn" data-filter="installed" onclick="filterByStatus('installed')">✓ 已安装</button>
-        <button class="filter-btn" data-filter="update" onclick="filterByStatus('update')">⬆ 可更新</button>
-        <span class="sep">|</span>
-        <button class="filter-btn clear-btn" onclick="filterByStatus('all')">清除筛选</button>
-    </div>
-
-    <!-- ===== 标签分类行 ===== -->
-    <div class="filter-bar" id="filterBar">
-        <button class="filter-btn active" data-tag="all" onclick="filterByTag('all')">全部</button>
-        <!-- 动态标签由 JavaScript 生成 -->
-    </div>
+    <div class="filter-bar" id="filterBar"></div>
 
     <div class="app-grid-wrapper">
-        <div class="app-grid" id="appGrid">
-            <div class="empty-state">
-                <div class="icon">·</div>
-                <p>加载中...</p>
-            </div>
-        </div>
+        <div class="app-grid" id="appGrid"><div class="empty-state"><div class="icon">·</div><p>加载中...</p></div></div>
         <div class="pagination" id="pagination">
             <button class="page-btn" onclick="prevPage()" id="prevBtn">上一页</button>
             <span id="pageInfo">1/1</span>
@@ -1861,66 +2083,108 @@
     </div>
 </div>
 
-<!-- ===== 关于 ===== -->
-<div id="tabAbout" class="tab-content">
-    <div id="aboutContent" class="about-container">
-        <span style="color:var(--text-muted);font-size:12px;">加载中...</span>
-    </div>
-</div>
-
-<!-- ===== 源管理（独立Tab） ===== -->
+<!-- ============================================================
+     Tab: 源管理
+     ============================================================ -->
 <div id="tabSources" class="tab-content">
-    <div class="toolbar">
-        <div class="left">
-            <span class="count">应用源管理</span>
-        </div>
-        <button class="refresh-btn" onclick="loadSources(true)">刷新</button>
-    </div>
-
-    <div style="padding:0 10px;flex:1;display:flex;flex-direction:column;overflow:hidden;">
-        <!-- 添加源表单 -->
-        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:12px;flex-shrink:0;">
-            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-                <input type="text" id="newSourceName" placeholder="源名称" style="flex:1;min-width:100px;padding:4px 10px;border:1px solid var(--border);border-radius:4px;font-size:12px;background:var(--bg);color:var(--text-primary);">
-                <input type="text" id="newSourceUrl" placeholder="http://xxx:5660" style="flex:2;min-width:140px;padding:4px 10px;border:1px solid var(--border);border-radius:4px;font-size:12px;background:var(--bg);color:var(--text-primary);">
-                <button onclick="testSourceUrl()" style="padding:4px 12px;border:1px solid var(--border);border-radius:4px;background:transparent;color:var(--text-secondary);cursor:pointer;font-size:11px;">测试</button>
-                <button onclick="addSource()" style="padding:4px 16px;border:none;border-radius:4px;background:#2563ea;color:#fff;cursor:pointer;font-size:11px;">添加</button>
+    <div class="toolbar"><div class="left"><span class="count">应用源管理</span></div><button class="refresh-btn" onclick="loadSources(true)">刷新</button></div>
+    <div class="source-container">
+        <div class="source-add-form">
+            <div class="form-row">
+                <input type="text" id="newSourceName" placeholder="源名称">
+                <input type="text" id="newSourceUrl" placeholder="http://xxx:5660">
+                <button class="btn" onclick="testSourceUrl()">测试</button>
+                <button class="btn btn-primary" onclick="addSource()">添加</button>
             </div>
-            <div id="testResult" style="font-size:11px;color:var(--text-muted);margin-top:4px;"></div>
+            <div class="test-result" id="testResult"></div>
         </div>
+        <div class="source-list" id="sourceList"><div style="text-align:center;padding:12px;color:var(--text-muted);font-size:11px;">加载中...</div></div>
+    </div>
+</div>
 
-        <!-- 源列表（可滚动） -->
-        <div id="sourceList" style="flex:1;max-height:400px;overflow-y:auto;border:1px solid var(--border);border-radius:4px;padding:4px 0;background:var(--card-bg);">
-            <div style="text-align:center;padding:12px;color:var(--text-muted);font-size:11px;">加载中...</div>
+<!-- ============================================================
+     Tab: 设置
+     ============================================================ -->
+<div id="tabSettings" class="tab-content">
+    <div class="settings-container">
+        <!-- 标签栏 -->
+        <div class="settings-tabs">
+            <button class="settings-tab active" data-stab="general" onclick="switchSettingTab('general')">通用</button>
+            <button class="settings-tab" data-stab="system" onclick="switchSettingTab('system')">系统</button>
+            <button class="settings-tab" data-stab="about" onclick="switchSettingTab('about')">关于</button>
+            <button class="settings-tab" data-stab="stats" onclick="switchSettingTab('stats')">统计</button>
+        </div>
+        <!-- 标签内容 -->
+        <div class="settings-panels">
+            <!-- 通用 -->
+            <div class="settings-panel active" id="spanel-general">
+                <div class="settings-card">
+                    <div class="title">通用设置</div>
+                    <div class="row"><span class="label">深色模式</span><label class="switch"><input type="checkbox" id="themeSwitch" onchange="handleThemeSwitch(this.checked)"><span class="slider"></span></label></div>
+                    <div class="row"><span class="label">导出日志</span><button class="action-btn" onclick="exportLogs()">导出</button></div>
+                </div>
+            </div>
+            <!-- 系统 -->
+            <div class="settings-panel" id="spanel-system">
+                <div class="settings-card">
+                    <div class="title">系统信息</div>
+                    <div class="row"><span class="label">客户端版本</span><span class="value">v2.5.0</span></div>
+                    <div class="row"><span class="label">系统架构</span><span class="value" id="settingsArch">x86_64</span></div>
+                </div>
+            </div>
+            <!-- 关于 -->
+            <div class="settings-panel" id="spanel-about">
+                <div class="settings-card">
+                    <div class="title">关于 FN软仓</div>
+                    <div class="row"><span class="label">开发者</span><span class="value">晦华先生</span></div>
+                    <div class="row"><span class="label">开源协议</span><span class="value">MIT</span></div>
+                    <div class="row"><span class="label">源码仓库</span><span class="value"><a href="https://gitee.com/hhxs2025/fn-appstores" target="_blank">Gitee</a></span></div>
+                    <div class="row"><span class="label">交流群</span><span class="value">2154077576</span></div>
+                    <div class="row"><span class="label">应用接入</span><span class="value"><a href="https://f.wps.cn/g/L7KeYADl/" target="_blank">提交应用 →</a></span></div>
+                    <div class="row"><span class="label">官方源查询</span><span class="value"><a href="https://gitee.com/hhxs2025/fn-appstores/raw/master/源.md" target="_blank">查看源列表 →</a></span></div>
+                </div>
+            </div>
+            <!-- 统计 -->
+            <div class="settings-panel" id="spanel-stats">
+                <div class="settings-card">
+                    <div class="title">应用统计</div>
+                    <div class="row"><span class="label">总应用数</span><span class="value" id="settingsTotalApps">--</span></div>
+                    <div class="row"><span class="label">已安装</span><span class="value" id="settingsInstalled">--</span></div>
+                    <div class="row"><span class="label">可更新</span><span class="value" id="settingsUpdatable">--</span></div>
+                    <div class="row"><span class="label">已配置源</span><span class="value" id="settingsSourceCount">--</span></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- ===== 详情弹窗 ===== -->
+<!-- ============================================================
+     弹窗
+     ============================================================ -->
+
+<!-- 公告详情弹窗（单条或全部） -->
+<div class="modal-overlay" id="noticeDetailModal" onclick="if(event.target===this) closeNoticeDetail()">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeNoticeDetail()">✕</button>
+        <div class="modal-title" id="noticeDetailTitle">📢 公告详情</div>
+        <div id="noticeDetailBody" style="font-size:13px;color:var(--text-secondary);line-height:1.8;max-height:60vh;overflow-y:auto;">加载中...</div>
+    </div>
+</div>
+
+<!-- 详情弹窗 -->
 <div class="modal-overlay-detail" id="detailModal" onclick="if(event.target===this) closeDetail()">
     <div class="modal-content-detail">
         <button class="modal-close-detail" onclick="closeDetail()">✕</button>
-
-        <!-- 头部 -->
         <div class="modal-icon-detail" id="modalIcon">·</div>
-        <div>
-            <span class="modal-title-detail" id="modalTitle">应用名</span>
-            <span class="modal-version-detail" id="modalVersion">v1.0.0</span>
-        </div>
+        <div><span class="modal-title-detail" id="modalTitle">应用名</span><span class="modal-version-detail" id="modalVersion">v1.0.0</span></div>
         <div class="modal-author-detail" id="modalAuthor">作者</div>
         <div class="modal-tags-detail" id="modalTags"></div>
-
-        <!-- 标签页 -->
         <div class="detail-tabs">
-            <button class="detail-tab active" data-tab="desc" onclick="switchDetailTab('desc')">📄 说明</button>
-            <button class="detail-tab" data-tab="screenshots" onclick="switchDetailTab('screenshots')">🖼️ 预览</button>
+            <button class="detail-tab active" data-tab="desc" onclick="switchDetailTab('desc')">说明</button>
+            <button class="detail-tab" data-tab="screenshots" onclick="switchDetailTab('screenshots')">预览</button>
         </div>
-
-        <!-- 标签内容 -->
         <div class="detail-tab-content">
-            <div class="detail-panel active" id="panel-desc">
-                <div class="modal-desc-detail" id="modalDesc">描述</div>
-            </div>
+            <div class="detail-panel active" id="panel-desc"><div class="modal-desc-detail" id="modalDesc">描述</div></div>
             <div class="detail-panel" id="panel-screenshots" style="display:none;">
                 <div class="modal-screenshots-detail">
                     <div class="screenshot-title">应用预览</div>
@@ -1933,20 +2197,18 @@
                 </div>
             </div>
         </div>
-
-        <!-- 底部 -->
         <div class="modal-stats-detail" id="modalStats">
             <span>版本 <span id="modalVersionInfo">--</span></span>
             <span>来源 <span id="modalSource">本地</span></span>
         </div>
         <div class="modal-actions-detail" id="modalActions">
             <button class="btn btn-primary" id="modalInstallBtn" onclick="modalInstall()">安装</button>
-            <a href="#" id="modalRepoBtn" target="_blank" class="btn-repo" style="display:none;">📖 查看 README</a>
+            <a href="#" id="modalRepoBtn" target="_blank" class="btn-repo" style="display:none;">查看 README</a>
         </div>
     </div>
 </div>
 
-<!-- ===== 大图预览弹窗 ===== -->
+<!-- 大图预览弹窗 -->
 <div class="modal-overlay-image" id="imageModal" onclick="if(event.target===this) closeImageModal()">
     <div class="modal-content-image">
         <button class="modal-close-image" onclick="closeImageModal()">✕</button>
@@ -1959,7 +2221,7 @@
     </div>
 </div>
 
-<!-- ===== 向导安装弹窗 ===== -->
+<!-- 向导安装弹窗 -->
 <div class="modal-overlay" id="wizardModal" onclick="if(event.target===this) closeWizard()">
     <div class="modal-content">
         <button class="modal-close" onclick="closeWizard()">✕</button>
@@ -1967,9 +2229,7 @@
         <div id="wizardBody"></div>
         <div style="margin-top:12px;display:flex;gap:6px;">
             <button class="btn btn-primary" id="wizardSubmitBtn" onclick="submitWizard()">确认安装</button>
-            <button class="btn"
-                style="background:transparent;border:1px solid var(--border);color:var(--text-secondary);"
-                onclick="closeWizard()">取消</button>
+            <button class="btn" style="background:transparent;border:1px solid var(--border);color:var(--text-secondary);" onclick="closeWizard()">取消</button>
         </div>
         <div id="wizardStatus" style="margin-top:6px;font-size:11px;color:var(--text-muted);"></div>
     </div>
@@ -1981,12 +2241,12 @@
 
 <script>
     // ================================================================
-    // ✅ API 基础地址（2.2.0）
+    // 固定分类标签
     // ================================================================
-    var API_BASE = window.location.origin;
+    var FIXED_TAGS = ['全部', '影音', '办公', '下载', 'AI', '设计', '社交', '网络', '工具', '生活', '效率', '开发', '游戏'];
 
-    var currentTag = 'all';
-    var currentStatusFilter = 'all'; // 'all', 'installed', 'update'  (v2.4.1)
+    var API_BASE = window.location.origin;
+    var currentTag = '全部';
     var currentPage = 1;
     var pageSize = 8;
     var allAppsData = [];
@@ -1994,15 +2254,15 @@
     var currentDetailApp = null;
     var currentSlide = 0;
     var slideCount = 0;
-
     var refreshCooldown = false;
     var refreshTimer = null;
     var REFRESH_COOLDOWN = 30;
-
     var currentWizardSessionId = null;
-
     var imageList = [];
     var currentImageIndex = 0;
+    var homeSlideIndex = 0;
+    var homeSlideCount = 0;
+    var homeNoticeData = null;
 
     // ================================================================
     // Toast
@@ -2011,14 +2271,14 @@
         var toast = document.getElementById('toast');
         toast.textContent = msg;
         toast.className = 'toast show ' + (type || '');
-        var durations = {success: 2500, error: 4000, warning: 3000, info: 2000};
+        var durations = { success: 2500, error: 4000, warning: 3000, info: 2000 };
         var duration = durations[type] || 3000;
         clearTimeout(toast._timer);
-        toast._timer = setTimeout(function () {toast.classList.remove('show');}, duration);
+        toast._timer = setTimeout(function() { toast.classList.remove('show'); }, duration);
     }
 
     // ================================================================
-    // 工具函数
+    // 工具
     // ================================================================
     function compareVersions(v1, v2) {
         if (!v1 || !v2) return 0;
@@ -2039,51 +2299,70 @@
         if (!tags) return [];
         if (Array.isArray(tags)) return tags;
         if (typeof tags === 'string') {
-            return tags.split(',').map(function (s) {return s.trim();}).filter(function (s) {return s;});
+            return tags.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
         }
         return [];
     }
 
     // ================================================================
-    // 主题切换
+    // 主题
     // ================================================================
-    function getTheme() {
-        return localStorage.getItem('fnsoft_theme') || 'light';
-    }
+    function getTheme() { return localStorage.getItem('fnsoft_theme') || 'light'; }
 
     function setTheme(theme) {
         localStorage.setItem('fnsoft_theme', theme);
+        if (theme === 'dark') document.body.classList.add('dark-mode');
+        else document.body.classList.remove('dark-mode');
         var icon = document.getElementById('themeIconHeader');
         var label = document.getElementById('themeLabelHeader');
-        if (theme === 'dark') {
-            document.body.classList.add('dark-mode');
-            if (icon) icon.textContent = '☀️';
-            if (label) label.textContent = '浅色';
-        } else {
-            document.body.classList.remove('dark-mode');
-            if (icon) icon.textContent = '🌙';
-            if (label) label.textContent = '深色';
-        }
+        if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        if (label) label.textContent = theme === 'dark' ? '浅色' : '深色';
     }
+
+    function handleThemeSwitch(checked) { setTheme(checked ? 'dark' : 'light'); }
 
     function toggleTheme() {
         var current = getTheme();
         setTheme(current === 'dark' ? 'light' : 'dark');
+        var sw = document.getElementById('themeSwitch');
+        if (sw) sw.checked = (getTheme() === 'dark');
     }
 
     function initTheme() {
         var theme = getTheme();
         setTheme(theme);
+        var sw = document.getElementById('themeSwitch');
+        if (sw) sw.checked = (theme === 'dark');
     }
 
     // ================================================================
-    // 标签页切换
+    // 导出日志
+    // ================================================================
+    function exportLogs() {
+        window.open(API_BASE + '/api/logs/export', '_blank');
+        showToast('正在导出日志...', 'info');
+    }
+
+    // ================================================================
+    // 设置页标签切换
+    // ================================================================
+    function switchSettingTab(tab) {
+        document.querySelectorAll('.settings-tab').forEach(function(el) {
+            el.classList.toggle('active', el.dataset.stab === tab);
+        });
+        document.querySelectorAll('.settings-panel').forEach(function(el) {
+            el.classList.toggle('active', el.id === 'spanel-' + tab);
+        });
+    }
+
+    // ================================================================
+    // 详情弹窗切换
     // ================================================================
     function switchDetailTab(tabName) {
-        document.querySelectorAll('.detail-tab').forEach(function (tab) {
+        document.querySelectorAll('.detail-tab').forEach(function(tab) {
             tab.classList.toggle('active', tab.dataset.tab === tabName);
         });
-        document.querySelectorAll('.detail-panel').forEach(function (panel) {
+        document.querySelectorAll('.detail-panel').forEach(function(panel) {
             panel.classList.remove('active');
             panel.style.display = 'none';
         });
@@ -2102,51 +2381,21 @@
         renderFilteredApps();
     }
 
-    // 标签筛选
     function filterByTag(tag) {
         currentTag = tag;
-        // 取消所有状态筛选的高亮（因为切换标签时，我们希望保持状态筛选不变，但为了 UI 清晰，不取消状态高亮，而是让它们共存）
-        // 但我们仍然保持高亮逻辑：标签按钮高亮，状态按钮保持其状态
-        document.querySelectorAll('.filter-btn[data-tag]').forEach(function (btn) {
+        document.querySelectorAll('.filter-btn[data-tag]').forEach(function(btn) {
             btn.classList.toggle('active', btn.dataset.tag === tag);
         });
-        // 如果点击的是“全部”标签，并且当前有状态筛选，不重置状态，让它们叠加
         currentPage = 1;
         renderFilteredApps();
     }
 
-    // v2.4.1: 状态筛选
-    function filterByStatus(status) {
-        currentStatusFilter = status;
-        // 高亮状态按钮
-        document.querySelectorAll('.status-filter-bar .filter-btn').forEach(function (btn) {
-            btn.classList.toggle('active', btn.dataset.filter === status);
-        });
-        // 如果有清除筛选，高亮处理：当 status === 'all' 时，清除所有状态高亮
-        if (status === 'all') {
-            document.querySelectorAll('.status-filter-bar .filter-btn').forEach(function (btn) {
-                btn.classList.remove('active');
-            });
-        }
-        // 不重置标签，保持标签与状态叠加
-        currentPage = 1;
-        renderFilteredApps();
-    }
-
-    // 渲染标签按钮（保留状态按钮独立）
-    function renderFilterButtons(apps) {
-        var tagSet = new Set();
-        apps.forEach(function (app) {
-            var tags = getTagsArray(app.tags);
-            tags.forEach(function (t) {if (t) tagSet.add(t);});
-        });
-        var tags = ['all', ...tagSet];
+    function renderFilterButtons() {
         var container = document.getElementById('filterBar');
-        var tagLabels = {'all': '全部'};
         var html = '';
-        tags.forEach(function (tag) {
+        FIXED_TAGS.forEach(function(tag) {
             var active = (tag === currentTag) ? ' active' : '';
-            html += '<button class="filter-btn' + active + '" data-tag="' + tag + '" onclick="filterByTag(\'' + tag + '\')">' + (tagLabels[tag] || tag) + '</button>';
+            html += '<button class="filter-btn' + active + '" data-tag="' + tag + '" onclick="filterByTag(\'' + tag + '\')">' + tag + '</button>';
         });
         container.innerHTML = html;
     }
@@ -2170,36 +2419,29 @@
     }
 
     function prevPage() {
-        if (currentPage > 1) {currentPage--; renderFilteredApps();}
+        if (currentPage > 1) { currentPage--; renderFilteredApps(); }
     }
+
     function nextPage() {
         var totalPages = Math.ceil(getFilteredApps().length / pageSize);
-        if (currentPage < totalPages) {currentPage++; renderFilteredApps();}
+        if (currentPage < totalPages) { currentPage++; renderFilteredApps(); }
     }
 
     function getFilteredApps() {
         var result = allAppsData;
         var keyword = document.getElementById('searchInput').value.toLowerCase().trim();
         if (keyword) {
-            result = result.filter(function (app) {
+            result = result.filter(function(app) {
                 return (app.name && app.name.toLowerCase().includes(keyword)) ||
                     (app.desc && app.desc.toLowerCase().includes(keyword)) ||
                     (app.author && app.author.toLowerCase().includes(keyword));
             });
         }
-        // 标签筛选
-        if (currentTag !== 'all') {
-            var tagsArray = getTagsArray(currentTag);
-            result = result.filter(function (app) {
+        if (currentTag !== '全部') {
+            result = result.filter(function(app) {
                 var appTags = getTagsArray(app.tags);
-                return appTags.some(function (t) {return tagsArray.includes(t);});
+                return appTags.some(function(t) { return t === currentTag; });
             });
-        }
-        // 状态筛选 (v2.4.1)
-        if (currentStatusFilter === 'installed') {
-            result = result.filter(function (app) { return app.installed === true; });
-        } else if (currentStatusFilter === 'update') {
-            result = result.filter(function (app) { return app.has_update === true; });
         }
         return result;
     }
@@ -2210,6 +2452,7 @@
         renderApps(pageData);
         renderPagination(filtered.length);
         document.getElementById('appCount').textContent = filtered.length;
+        updateSettingsStats();
     }
 
     // ================================================================
@@ -2229,13 +2472,13 @@
         }
         container.style.display = 'block';
         window._currentScreenshots = screenshots;
-        track.innerHTML = screenshots.map(function (url, index) {
+        track.innerHTML = screenshots.map(function(url, index) {
             return '<img src="' + url + '" alt="应用截图" loading="lazy" onerror="this.style.display=\'none\'" onclick="event.stopPropagation();openImageModal(window._currentScreenshots || [], ' + index + ')">';
         }).join('');
         prevBtn.classList.toggle('show', slideCount > 1);
         nextBtn.classList.toggle('show', slideCount > 1);
         if (slideCount > 1) {
-            dotsContainer.innerHTML = screenshots.map(function (_, i) {
+            dotsContainer.innerHTML = screenshots.map(function(_, i) {
                 return '<button class="dot' + (i === 0 ? ' active' : '') + '" onclick="goToSlide(' + i + ')"></button>';
             }).join('');
         } else {
@@ -2247,7 +2490,7 @@
     function updateCarousel() {
         var track = document.getElementById('carouselTrack');
         track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-        document.querySelectorAll('.carousel-dots .dot').forEach(function (dot, i) {
+        document.querySelectorAll('.carousel-dots .dot').forEach(function(dot, i) {
             dot.classList.toggle('active', i === currentSlide);
         });
     }
@@ -2257,11 +2500,13 @@
         currentSlide = (currentSlide - 1 + slideCount) % slideCount;
         updateCarousel();
     }
+
     function carouselNext() {
         if (slideCount <= 1) return;
         currentSlide = (currentSlide + 1) % slideCount;
         updateCarousel();
     }
+
     function goToSlide(index) {
         currentSlide = index;
         updateCarousel();
@@ -2305,19 +2550,19 @@
         document.getElementById('imageCounter').textContent = (currentImageIndex + 1) + ' / ' + imageList.length;
     }
 
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', function(e) {
         var modal = document.getElementById('imageModal');
         if (!modal.classList.contains('active')) return;
-        if (e.key === 'ArrowLeft') {e.preventDefault(); imagePrev();}
-        if (e.key === 'ArrowRight') {e.preventDefault(); imageNext();}
-        if (e.key === 'Escape') {e.preventDefault(); closeImageModal();}
+        if (e.key === 'ArrowLeft') { e.preventDefault(); imagePrev(); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); imageNext(); }
+        if (e.key === 'Escape') { e.preventDefault(); closeImageModal(); }
     });
 
     // ================================================================
     // 详情弹窗
     // ================================================================
     function openDetail(appId) {
-        var app = allAppsData.find(function (a) {return a.id === appId;});
+        var app = allAppsData.find(function(a) { return a.id === appId; });
         if (!app) return;
         currentDetailApp = app;
 
@@ -2338,7 +2583,7 @@
         var tagsContainer = document.getElementById('modalTags');
         var tags = getTagsArray(app.tags);
         if (tags.length > 0) {
-            tagsContainer.innerHTML = tags.map(function (t) {return '<span class="tag">' + t + '</span>';}).join('');
+            tagsContainer.innerHTML = tags.map(function(t) { return '<span class="tag">' + t + '</span>'; }).join('');
             tagsContainer.style.display = 'flex';
         } else {
             tagsContainer.style.display = 'none';
@@ -2346,15 +2591,12 @@
 
         switchDetailTab('desc');
 
-        // 截图
-        var screenshotSection = document.getElementById('panel-screenshots');
         if (app.screenshots && app.screenshots.length > 0) {
             initCarousel(app.screenshots);
         } else {
             document.getElementById('carouselContainer').style.display = 'none';
         }
 
-        // 安装按钮
         var btn = document.getElementById('modalInstallBtn');
         if (app.installed) {
             if (app.has_update) {
@@ -2376,7 +2618,6 @@
         }
         btn.dataset.appId = app.id;
 
-        // README 跳转按钮
         var repoBtn = document.getElementById('modalRepoBtn');
         if (app.repo) {
             repoBtn.href = app.repo;
@@ -2403,12 +2644,12 @@
         }
         if (btn.dataset.action === 'update') {
             closeDetail();
-            setTimeout(function () {updateApp(appId);}, 200);
+            setTimeout(function() { updateApp(appId); }, 200);
             return;
         }
         if (btn.dataset.action === 'install') {
             closeDetail();
-            setTimeout(function () {installApp(appId);}, 200);
+            setTimeout(function() { installApp(appId); }, 200);
         }
     }
 
@@ -2421,7 +2662,7 @@
             grid.innerHTML = '<div class="empty-state"><div class="icon">·</div><p>暂无符合条件的应用</p></div>';
             return;
         }
-        grid.innerHTML = apps.map(function (app) {
+        grid.innerHTML = apps.map(function(app) {
             var btnHtml = '';
 
             if (app.installed && app.has_update) {
@@ -2441,7 +2682,6 @@
                 versionHtml += ' <span class="installed-badge">✓</span>';
             }
 
-            // ===== 来源标签（v2.4.0 认证标识） =====
             var sourceLabel = '';
             if (app._source_name) {
                 var displayName = app._source_name;
@@ -2461,14 +2701,14 @@
             var tagsHtml = '';
             var tags = getTagsArray(app.tags);
             if (tags.length > 0) {
-                tagsHtml = '<div class="tags">' + tags.map(function (t) {return '<span class="tag">' + t + '</span>';}).join('') + '</div>';
+                tagsHtml = '<div class="tags">' + tags.map(function(t) { return '<span class="tag">' + t + '</span>'; }).join('') + '</div>';
             }
 
             return '<div class="app-card" id="card-' + app.id + '" onclick="openDetail(\'' + app.id + '\')">' +
                 '<div class="top">' +
                 '<div class="icon">' + (app.icon ? '<img src="' + app.icon + '" alt="' + app.name + '">' : '·') + '</div>' +
                 '<div class="info">' +
-                '<div class="name">' + app.name + ' ' + versionHtml + '</div>' +
+                '<div class="name"><span class="app-name-text">' + app.name + '</span> ' + versionHtml + '</div>' +
                 '<div class="author">' + (app.author || '未知') + '</div>' +
                 sourceLabel +
                 '</div>' +
@@ -2476,13 +2716,13 @@
                 tagsHtml +
                 '<div class="desc">' + (app.desc || '暂无描述') + '</div>' +
                 '<div class="actions" onclick="event.stopPropagation();" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
-                      '<div style="display:flex;gap:4px;flex-wrap:wrap;">' + btnHtml + '</div>' +
-                      '<span style="font-size:10px;color:var(--text-muted);margin-left:auto;white-space:nowrap;">📥 ' + (app.downloads || 0) + '</span>' +
+                '<div style="display:flex;gap:4px;flex-wrap:wrap;">' + btnHtml + '</div>' +
+                '<span style="font-size:10px;color:var(--text-muted);margin-left:auto;white-space:nowrap;">📥 ' + (app.downloads || 0) + '</span>' +
                 '</div>' +
                 '<div class="progress-container" id="progress-' + app.id + '">' +
-                        '<div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar-' + app.id + '" style="width:0%;"></div></div>' +
-                        '<div class="progress-text"><span class="status-msg" id="progressMsg-' + app.id + '">准备中...</span></div>' +
-                        '<div class="progress-details"><span class="speed" id="speed-' + app.id + '"></span><span class="eta" id="eta-' + app.id + '"></span></div>' +
+                '<div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar-' + app.id + '" style="width:0%;"></div></div>' +
+                '<div class="progress-text"><span class="status-msg" id="progressMsg-' + app.id + '">准备中...</span></div>' +
+                '<div class="progress-details"><span class="speed" id="speed-' + app.id + '"></span><span class="eta" id="eta-' + app.id + '"></span></div>' +
                 '</div>' +
                 '<div class="status-text" id="status-' + app.id + '"></div>' +
                 '</div>';
@@ -2490,7 +2730,7 @@
     }
 
     // ================================================================
-    // 加载应用列表（支持前端缓存）
+    // 加载应用列表
     // ================================================================
     async function loadApps() {
         var hasCache = false;
@@ -2507,11 +2747,11 @@
                     return;
                 }
             }
-        } catch (e) { }
+        } catch (e) {}
 
         try {
             var controller = new AbortController();
-            var timeoutId = setTimeout(function () { controller.abort(); }, 30000);
+            var timeoutId = setTimeout(function() { controller.abort(); }, 30000);
             var resp = await fetch(API_BASE + '/api/apps', { signal: controller.signal });
             clearTimeout(timeoutId);
 
@@ -2519,8 +2759,7 @@
                 var data = await resp.json();
                 showToast(data.message, 'warning');
                 startCooldown(data.retry_after || 30);
-                document.getElementById('appGrid').innerHTML =
-                    '<div class="empty-state"><div class="icon">⏳</div><p>请求过于频繁，请 ' + (data.retry_after || 30) + ' 秒后点击刷新</p></div>';
+                document.getElementById('appGrid').innerHTML = '<div class="empty-state"><div class="icon">⏳</div><p>请求过于频繁，请 ' + (data.retry_after || 30) + ' 秒后点击刷新</p></div>';
                 document.getElementById('appCount').textContent = '0';
                 return;
             }
@@ -2529,11 +2768,9 @@
             if (data.success && data.data.length > 0) {
                 allAppsData = data.data;
                 await loadInstalledVersions();
-                renderFilterButtons(allAppsData);
+                renderFilterButtons();
                 currentPage = 1;
-                setTimeout(function() {
-                    restoreAppsView();
-                }, 300);
+                setTimeout(function() { restoreAppsView(); }, 300);
 
                 document.getElementById('statusBadge').textContent = '在线';
                 document.getElementById('statusBadge').className = 'badge connected';
@@ -2544,8 +2781,7 @@
                     data: allAppsData
                 }));
             } else if (!hasCache) {
-                document.getElementById('appGrid').innerHTML =
-                    '<div class="empty-state"><div class="icon">⚠️</div><p>加载失败，请点击右上角「刷新」重试</p></div>';
+                document.getElementById('appGrid').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>加载失败，请点击右上角「刷新」重试</p></div>';
                 document.getElementById('appCount').textContent = '0';
                 allAppsData = [];
             }
@@ -2557,16 +2793,12 @@
             }
             if (!hasCache) {
                 allAppsData = [];
-                document.getElementById('appGrid').innerHTML =
-                    '<div class="empty-state"><div class="icon">⚠️</div><p>加载失败，请点击右上角「刷新」重试</p></div>';
+                document.getElementById('appGrid').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>加载失败，请点击右上角「刷新」重试</p></div>';
                 document.getElementById('appCount').textContent = '0';
             }
         }
     }
 
-    // ================================================================
-    // 恢复应用列表视图（供 Tab 切换时调用）
-    // ================================================================
     function restoreAppsView() {
         try {
             var cached = localStorage.getItem('fnsoft_apps_cache');
@@ -2586,20 +2818,22 @@
             renderFilteredApps();
             return;
         }
-
         loadApps();
     }
 
+    // ================================================================
+    // 修复：loadInstalledVersions 完成后刷新首页快捷卡片
+    // ================================================================
     async function loadInstalledVersions() {
         try {
             var resp = await fetch(API_BASE + '/api/installed');
             var data = await resp.json();
             if (data.success) {
                 installedAppsCache = {};
-                data.apps.forEach(function (app) {
+                data.apps.forEach(function(app) {
                     installedAppsCache[app.id] = app.version;
                 });
-                allAppsData.forEach(function (app) {
+                allAppsData.forEach(function(app) {
                     if (app.id in installedAppsCache) {
                         app.installed = true;
                         app.installed_version = installedAppsCache[app.id];
@@ -2610,6 +2844,10 @@
                         app.has_update = false;
                     }
                 });
+            }
+            // ✅ 关键修复：已安装版本更新完成后，刷新首页快捷卡片
+            if (typeof updateHomeQuickCards === 'function') {
+                updateHomeQuickCards();
             }
         } catch (e) {
             console.warn('获取已安装版本失败:', e);
@@ -2624,6 +2862,9 @@
         }
     }
 
+    // ================================================================
+    // 刷新
+    // ================================================================
     async function refreshApps() {
         var btn = document.getElementById('refreshBtn');
         var badge = document.getElementById('statusBadge');
@@ -2645,7 +2886,7 @@
         try {
             var resp = await fetch(API_BASE + '/api/refresh', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'}
+                headers: { 'Content-Type': 'application/json' }
             });
             var data = await resp.json();
 
@@ -2661,7 +2902,7 @@
             if (data.success) {
                 allAppsData = data.data;
                 await loadInstalledVersions();
-                renderFilterButtons(allAppsData);
+                renderFilterButtons();
                 currentPage = 1;
                 renderFilteredApps();
                 showToast(data.message, 'success');
@@ -2695,7 +2936,7 @@
         var remaining = seconds;
         if (refreshTimer) clearInterval(refreshTimer);
         btn.classList.add('cooldown');
-        refreshTimer = setInterval(function () {
+        refreshTimer = setInterval(function() {
             remaining--;
             if (remaining <= 0) {
                 clearInterval(refreshTimer);
@@ -2718,27 +2959,25 @@
     var reconnectTimer = null;
 
     function connectWS() {
-        var url = window.location.origin.replace(/^http/,'ws') + '/ws';
+        var url = window.location.origin.replace(/^http/, 'ws') + '/ws';
         try {
             if (ws && (ws.readyState === WebSocket.CONNECTING || ws.readyState === WebSocket.OPEN)) return;
             ws = new WebSocket(url);
-            ws.onopen = function () {console.log('WebSocket 已连接'); wsReady = true;};
-            ws.onmessage = function (e) {
+            ws.onopen = function() { console.log('WebSocket 已连接'); wsReady = true; };
+            ws.onmessage = function(e) {
                 try {
                     var msg = JSON.parse(e.data);
                     handleWsMessage(msg);
-                } catch (err) {
-                    console.warn('解析WS消息失败:', err);
-                }
+                } catch (err) { console.warn('解析WS消息失败:', err); }
             };
-            ws.onclose = function () {
+            ws.onclose = function() {
                 console.log('WebSocket 已断开');
                 wsReady = false;
                 ws = null;
                 if (reconnectTimer) clearTimeout(reconnectTimer);
                 reconnectTimer = setTimeout(connectWS, 3000);
             };
-            ws.onerror = function () {ws.close();};
+            ws.onerror = function() { ws.close(); };
         } catch (e) {
             wsReady = false;
             if (reconnectTimer) clearTimeout(reconnectTimer);
@@ -2752,7 +2991,6 @@
             showWizardFromSession(data.session_id, data.steps, data.title);
             return;
         }
-
         if (msg.event === 'progress') {
             var data = msg.data;
             var appId = data.app_id;
@@ -2764,9 +3002,7 @@
             }
 
             var progressContainer = document.getElementById('progress-' + appId);
-            if (progressContainer) {
-                progressContainer.classList.add('show');
-            }
+            if (progressContainer) progressContainer.classList.add('show');
 
             var progressBar = document.getElementById('progressBar-' + appId);
             if (progressBar) {
@@ -2776,14 +3012,10 @@
             }
 
             var msgEl = document.getElementById('progressMsg-' + appId);
-            if (msgEl) {
-                msgEl.textContent = data.msg || '处理中...';
-            }
+            if (msgEl) msgEl.textContent = data.msg || '处理中...';
 
             var speedEl = document.getElementById('speed-' + appId);
-            if (speedEl) {
-                speedEl.textContent = data.speed_str || '';
-            }
+            if (speedEl) speedEl.textContent = data.speed_str || '';
 
             var etaEl = document.getElementById('eta-' + appId);
             if (etaEl) {
@@ -2828,15 +3060,15 @@
                     btn.textContent = '已安装';
                 }
 
-                var app = allAppsData.find(function (a) {return a.id === appId;});
+                var app = allAppsData.find(function(a) { return a.id === appId; });
                 var appName = app ? app.name : appId;
                 showToast(appName + ' 安装成功', 'success');
 
-                setTimeout(function () {
+                setTimeout(function() {
                     if (progressContainer) progressContainer.classList.remove('show');
                 }, 5000);
 
-                setTimeout(function () {
+                setTimeout(function() {
                     refreshApps();
                 }, 3000);
             } else {
@@ -2866,22 +3098,20 @@
     async function installApp(appId) {
         if (!ws || ws.readyState !== WebSocket.OPEN) {
             showToast('连接中，请稍候...', '');
-            if (typeof connectWS === 'function') {
-                connectWS();
-                setTimeout(function () {
-                    if (ws && ws.readyState === WebSocket.OPEN) {
-                        installApp(appId);
-                    } else {
-                        showToast('连接失败，请刷新页面重试', 'error');
-                    }
-                }, 2000);
-            }
+            connectWS();
+            setTimeout(function() {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    installApp(appId);
+                } else {
+                    showToast('连接失败，请刷新页面重试', 'error');
+                }
+            }, 2000);
             return;
         }
 
         var btn = document.getElementById('installBtn-' + appId);
         if (btn && btn.disabled) return;
-        if (btn) {btn.disabled = true; btn.textContent = '安装中...';}
+        if (btn) { btn.disabled = true; btn.textContent = '安装中...'; }
 
         var progressContainer = document.getElementById('progress-' + appId);
         if (progressContainer) progressContainer.classList.add('show');
@@ -2893,15 +3123,15 @@
             var data = await resp.json();
             if (!data.success || !data.data.download_url) {
                 showToast('获取下载地址失败', 'error');
-                if (btn) {btn.disabled = false; btn.textContent = '安装';}
+                if (btn) { btn.disabled = false; btn.textContent = '安装'; }
                 if (progressContainer) progressContainer.classList.remove('show');
                 return;
             }
-            ws.send(JSON.stringify({event: 'install', data: {app_id: appId, download_url: data.data.download_url}}));
+            ws.send(JSON.stringify({ event: 'install', data: { app_id: appId, download_url: data.data.download_url } }));
             showToast('开始安装...', '');
         } catch (e) {
             showToast(e.message, 'error');
-            if (btn) {btn.disabled = false; btn.textContent = '安装';}
+            if (btn) { btn.disabled = false; btn.textContent = '安装'; }
             if (progressContainer) progressContainer.classList.remove('show');
         }
     }
@@ -2911,34 +3141,32 @@
 
         if (!ws || ws.readyState !== WebSocket.OPEN) {
             showToast('连接中，请稍候...', '');
-            if (typeof connectWS === 'function') {
-                connectWS();
-                setTimeout(function () {
-                    if (ws && ws.readyState === WebSocket.OPEN) {
-                        updateApp(appId);
-                    } else {
-                        showToast('连接失败，请刷新页面重试', 'error');
-                    }
-                }, 2000);
-            }
+            connectWS();
+            setTimeout(function() {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    updateApp(appId);
+                } else {
+                    showToast('连接失败，请刷新页面重试', 'error');
+                }
+            }, 2000);
             return;
         }
 
         var btn = document.getElementById('updateBtn-' + appId);
-        if (btn) {btn.disabled = true; btn.textContent = '更新中...';}
+        if (btn) { btn.disabled = true; btn.textContent = '更新中...'; }
         try {
             var resp = await fetch(API_BASE + '/api/app/' + appId);
             var data = await resp.json();
             if (!data.success || !data.data.download_url) {
                 showToast('获取下载地址失败', 'error');
-                if (btn) {btn.disabled = false; btn.textContent = '更新';}
+                if (btn) { btn.disabled = false; btn.textContent = '更新'; }
                 return;
             }
-            ws.send(JSON.stringify({event: 'install', data: {app_id: appId, download_url: data.data.download_url}}));
+            ws.send(JSON.stringify({ event: 'install', data: { app_id: appId, download_url: data.data.download_url } }));
             showToast('开始更新...', '');
         } catch (e) {
             showToast(e.message, 'error');
-            if (btn) {btn.disabled = false; btn.textContent = '更新';}
+            if (btn) { btn.disabled = false; btn.textContent = '更新'; }
         }
     }
 
@@ -2955,20 +3183,18 @@
 
         var htmlContent = '';
         if (steps && steps.length > 0) {
-            var items = steps.flatMap(function (step) { return step.items || []; });
+            var items = steps.flatMap(function(step) { return step.items || []; });
             if (items.length === 0) {
                 htmlContent = '<p>无配置项，点击确认安装</p>';
             } else {
-                items.forEach(function (item) {
+                items.forEach(function(item) {
                     if (item.type === 'tips') {
                         var tipText = item.helpText || item.label || item.initValue || '提示信息';
-                        htmlContent += '<div class="wizard-field">';
-                        htmlContent += '<div class="hint" style="margin-bottom:8px;">' + tipText + '</div>';
-                        htmlContent += '</div>';
+                        htmlContent += '<div class="wizard-field"><div class="hint" style="margin-bottom:8px;">' + tipText + '</div></div>';
                         return;
                     }
 
-                    var required = item.rules && item.rules.some(function (r) { return r.required; });
+                    var required = item.rules && item.rules.some(function(r) { return r.required; });
                     htmlContent += '<div class="wizard-field">';
                     htmlContent += '<label>' + (item.label || item.field) + (required ? ' <span class="required">*</span>' : '') + '</label>';
 
@@ -2977,7 +3203,7 @@
                         htmlContent += '<input type="' + inputType + '" id="wizard_' + item.field + '" name="' + item.field + '" value="' + (item.initValue || '') + '"' + (required ? ' required' : '') + '>';
                     } else if (item.type === 'radio' || item.type === 'select') {
                         htmlContent += '<select id="wizard_' + item.field + '" name="' + item.field + '">';
-                        (item.options || []).forEach(function (opt) {
+                        (item.options || []).forEach(function(opt) {
                             htmlContent += '<option value="' + opt.value + '"' + (opt.value === item.initValue ? ' selected' : '') + '>' + opt.label + '</option>';
                         });
                         htmlContent += '</select>';
@@ -3006,9 +3232,9 @@
         if (currentWizardSessionId) {
             fetch(API_BASE + '/api/wizard/cancel', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({session_id: currentWizardSessionId})
-            }).catch(function () { });
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: currentWizardSessionId })
+            }).catch(function() {});
             currentWizardSessionId = null;
         }
         document.getElementById('wizardModal').classList.remove('active');
@@ -3023,7 +3249,7 @@
 
         var inputs = {};
         var fields = document.querySelectorAll('#wizardBody input, #wizardBody select, #wizardBody textarea');
-        fields.forEach(function (el) {
+        fields.forEach(function(el) {
             var name = el.name;
             if (!name) return;
             if (el.type === 'checkbox') {
@@ -3036,15 +3262,15 @@
         try {
             var resp = await fetch(API_BASE + '/api/wizard/install', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({session_id: currentWizardSessionId, inputs: inputs})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: currentWizardSessionId, inputs: inputs })
             });
             var result = await resp.json();
             if (result.success) {
                 status.textContent = '安装成功';
                 showToast('安装成功', 'success');
                 closeWizard();
-                setTimeout(function () {refreshApps();}, 2000);
+                setTimeout(function() { refreshApps(); }, 2000);
             } else {
                 status.textContent = result.message;
                 btn.disabled = false;
@@ -3056,10 +3282,9 @@
     }
 
     // ================================================================
-    // 🆕 软件源管理（2.2.0-beta开始）
+    // 软件源管理
     // ================================================================
-
-    async function loadSources(force = false) {
+    async function loadSources(force) {
         var container = document.getElementById('sourceList');
         container.innerHTML = '<div style="text-align:center;padding:12px;color:var(--text-muted);font-size:11px;">加载中...</div>';
 
@@ -3077,31 +3302,33 @@
                 return;
             }
 
-           container.innerHTML = sources.map(function(source) {
+            document.getElementById('settingsSourceCount').textContent = sources.length;
+
+            container.innerHTML = sources.map(function(source) {
                 var statusColor = source.status === 'online' ? '#5a8a5a' :
-                      source.status === 'disabled' ? '#999' :
-                      source.status === 'offline' ? '#b55a5a' : '#999';
+                    source.status === 'disabled' ? '#999' :
+                    source.status === 'offline' ? '#b55a5a' : '#999';
                 var statusText = source.status === 'online' ? '在线' :
-                     source.status === 'disabled' ? '已禁用' :
-                     source.status === 'offline' ? '离线' : '未知';
+                    source.status === 'disabled' ? '已禁用' :
+                    source.status === 'offline' ? '离线' : '未知';
                 var isDefault = source.id === 'official' || source.id === 'official_backup';
 
-                return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);">' +
-                    '<div style="flex:1;min-width:0;">' +
-                    '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
-                    '<span style="font-size:13px;font-weight:500;color:var(--text-primary);">' + source.name + '</span>' +
-                    (isDefault ? '<span style="font-size:8px;background:#e8eaed;color:#6b6b6b;padding:0 6px;border-radius:3px;">官方</span>' : '') +
-                    '<span style="font-size:9px;color:' + statusColor + ';">● ' + statusText + '</span>' +
+                return '<div class="source-item">' +
+                    '<div class="info">' +
+                    '<div class="name-row">' +
+                    '<span class="name">' + source.name + '</span>' +
+                    (isDefault ? '<span class="badge">官方</span>' : '') +
+                    '<span class="status" style="color:' + statusColor + ';">● ' + statusText + '</span>' +
                     '</div>' +
-                    '<div style="font-size:10px;color:var(--text-muted);word-break:break-all;">' + source.url + '</div>' +
-                    (source.status_msg && source.status !== 'online' ? '<div style="font-size:9px;color:#b55a5a;">' + source.status_msg + '</div>' : '') +
+                    '<div class="url">' + source.url + '</div>' +
+                    (source.status_msg && source.status !== 'online' ? '<div class="status-msg">' + source.status_msg + '</div>' : '') +
                     '</div>' +
-                    '<div style="display:flex;gap:4px;flex-shrink:0;margin-left:8px;">' +
+                    '<div class="actions">' +
                     (source.enabled ?
-                        '<button onclick="toggleSource(\'' + source.id + '\',false)" style="padding:1px 8px;border:1px solid #5a8a5a;border-radius:3px;background:transparent;color:#5a8a5a;cursor:pointer;font-size:9px;">启用</button>' :
-                        '<button onclick="toggleSource(\'' + source.id + '\',true)" style="padding:1px 8px;border:1px solid #999;border-radius:3px;background:transparent;color:#999;cursor:pointer;font-size:9px;">禁用</button>'
+                        '<button class="btn btn-enable" onclick="toggleSource(\'' + source.id + '\',false)">启用</button>' :
+                        '<button class="btn btn-disable" onclick="toggleSource(\'' + source.id + '\',true)">禁用</button>'
                     ) +
-                    (isDefault ? '' : '<button onclick="removeSource(\'' + source.id + '\')" style="padding:1px 8px;border:1px solid #b55a5a;border-radius:3px;background:transparent;color:#b55a5a;cursor:pointer;font-size:9px;">删除</button>') +
+                    (isDefault ? '' : '<button class="btn btn-delete" onclick="removeSource(\'' + source.id + '\')">删除</button>') +
                     '</div>' +
                     '</div>';
             }).join('');
@@ -3124,8 +3351,8 @@
         try {
             var resp = await fetch(API_BASE + '/api/sources/add', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name: name, url: url})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, url: url })
             });
             var data = await resp.json();
             if (data.success) {
@@ -3149,8 +3376,8 @@
         try {
             var resp = await fetch(API_BASE + '/api/sources/remove', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({id: sourceId})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: sourceId })
             });
             var data = await resp.json();
             if (data.success) {
@@ -3169,8 +3396,8 @@
         try {
             var resp = await fetch(API_BASE + '/api/sources/toggle', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({id: sourceId, enabled: enabled})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: sourceId, enabled: enabled })
             });
             var data = await resp.json();
             if (data.success) {
@@ -3202,8 +3429,8 @@
         try {
             var resp = await fetch(API_BASE + '/api/sources/test', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({url: url})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: url })
             });
             var data = await resp.json();
             if (data.success) {
@@ -3220,198 +3447,334 @@
     }
 
     // ================================================================
-    // 📢 公告板（v2.4.1 手动切换轮播 + 富文本支持）
+    // 📢 首页
     // ================================================================
-    async function loadNotice() {
-        var container = document.getElementById('aboutContent');
+    var homeLoaded = false;
+
+    async function loadHome() {
+        if (homeLoaded) return;
 
         try {
-            var resp = await fetch(API_BASE + '/api/notice');
-            var data = await resp.json();
-
-            // 兼容旧版 content 格式
-            if (data.content && !data.carousel) {
-                container.innerHTML = data.content;
+            if (allAppsData.length === 0) {
+                setTimeout(loadHome, 500);
                 return;
             }
 
-            // ================================================================
-            // sanitizeDesc: 富文本安全过滤
-            // 白名单标签: p, a, b, strong, h1, h2, h3, h4, h5, br
-            // 支持 style: font-size, color
-            // ================================================================
-            function sanitizeDesc(html) {
-                var allowedTags = ['p', 'a', 'b', 'strong', 'h1', 'h2', 'h3', 'h4', 'h5', 'br'];
-                var allowedStyles = ['font-size', 'color'];
+            var resp = await fetch(API_BASE + '/api/notice');
+            var data = await resp.json();
+            homeNoticeData = data;
 
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                var body = doc.body;
+            renderCarousel(data);
+            renderNoticeRecords(data);
+            updateHomeQuickCards();
 
-                function cleanNode(node) {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        return document.createTextNode(node.textContent);
-                    }
-                    if (node.nodeType !== Node.ELEMENT_NODE) {
-                        return document.createTextNode('');
-                    }
-
-                    var tag = node.tagName.toLowerCase();
-
-                    // 不在白名单中的标签：保留子节点，丢弃标签本身
-                    if (allowedTags.indexOf(tag) === -1) {
-                        var fragment = document.createDocumentFragment();
-                        node.childNodes.forEach(function(child) {
-                            fragment.appendChild(cleanNode(child));
-                        });
-                        return fragment;
-                    }
-
-                    var newEl = document.createElement(tag);
-
-                    // <a> 标签处理
-                    if (tag === 'a') {
-                        var href = node.getAttribute('href');
-                        if (href) {
-                            newEl.setAttribute('href', href);
-                            newEl.setAttribute('target', '_blank');
-                            newEl.setAttribute('rel', 'noopener noreferrer');
-                        }
-                    }
-
-                    // 处理 style（仅允许 font-size 和 color）
-                    var style = node.getAttribute('style');
-                    if (style) {
-                        var allowedStyle = '';
-                        style.split(';').forEach(function(rule) {
-                            var parts = rule.trim().split(':');
-                            if (parts.length === 2) {
-                                var prop = parts[0].trim().toLowerCase();
-                                var val = parts[1].trim();
-                                if (allowedStyles.indexOf(prop) !== -1 && val) {
-                                    allowedStyle += prop + ':' + val + ';';
-                                }
-                            }
-                        });
-                        if (allowedStyle) {
-                            newEl.setAttribute('style', allowedStyle);
-                        }
-                    }
-
-                    node.childNodes.forEach(function(child) {
-                        newEl.appendChild(cleanNode(child));
-                    });
-
-                    return newEl;
-                }
-
-                var fragment = document.createDocumentFragment();
-                body.childNodes.forEach(function(child) {
-                    fragment.appendChild(cleanNode(child));
-                });
-
-                var container = document.createElement('div');
-                container.appendChild(fragment);
-                return container.innerHTML;
-            }
-
-            if (data.enabled && data.carousel && data.carousel.length > 0 && data.desc) {
-                var baseUrl = window.location.origin;
-                var images = data.carousel.map(function(url) {
-                    if (url.startsWith('/')) {
-                        url = baseUrl + url;
-                    }
-                    return url;
-                });
-
-                var count = images.length;
-                var html = '<div class="nb-wrapper"><div class="nb-board"><div class="nb-top">';
-                html += '<div class="nb-carousel" id="aboutCarousel">';
-                html += '<div class="carousel-track" id="aboutCarouselTrack">';
-                images.forEach(function(url) {
-                    html += '<div class="carousel-slide" style="background-image:url(' + url + ');"></div>';
-                });
-                html += '</div>';
-                if (count > 1) {
-                    html += '<button class="carousel-btn-about prev" onclick="aboutCarouselPrev(event)">‹</button>';
-                    html += '<button class="carousel-btn-about next" onclick="aboutCarouselNext(event)">›</button>';
-                }
-                html += '<div class="carousel-dots-about" id="aboutCarouselDots">';
-                for (var i = 0; i < count; i++) {
-                    html += '<button class="dot' + (i === 0 ? ' active' : '') + '" data-index="' + i + '" onclick="aboutCarouselGoTo(' + i + ')"></button>';
-                }
-                html += '</div>';
-                html += '</div>';
-                var sanitizedDesc = sanitizeDesc(data.desc);
-                html += '<div class="nb-text">' + sanitizedDesc + '</div>';
-                html += '</div></div></div>';
-
-                container.innerHTML = html;
-
-                window._aboutCarouselIndex = 0;
-                window._aboutCarouselCount = count;
-                aboutCarouselUpdate();
-
-            } else if (data.enabled && data.desc && (!data.carousel || data.carousel.length === 0)) {
-                var sanitizedDesc = sanitizeDesc(data.desc);
-                container.innerHTML = '<div class="nb-wrapper"><div class="nb-board"><div class="nb-top" style="flex:1;display:flex;align-items:center;justify-content:center;padding:20px;"><div class="nb-text" style="flex:1;padding:16px 20px;text-align:center;">' + sanitizedDesc + '</div></div></div></div>';
-            } else {
-                container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);">暂无公告</div>';
-            }
+            homeLoaded = true;
         } catch (e) {
-            container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);">加载失败</div>';
+            console.warn('加载首页失败:', e);
+            document.getElementById('homeNoticeContent').innerHTML = '<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:12px 0;">加载公告失败</div>';
+            homeLoaded = true;
         }
     }
 
-    // 关于页轮播控制函数
-    function aboutCarouselUpdate() {
-        var index = window._aboutCarouselIndex || 0;
-        var count = window._aboutCarouselCount || 0;
-        var track = document.getElementById('aboutCarouselTrack');
-        var dots = document.querySelectorAll('#aboutCarouselDots .dot');
+    function renderCarousel(data) {
+        var track = document.getElementById('homeCarouselTrack');
+        var dotsContainer = document.getElementById('homeCarouselDots');
+
+        if (data.enabled && data.carousel && data.carousel.length > 0) {
+            var baseUrl = window.location.origin;
+            var images = data.carousel.map(function(url) {
+                if (url.startsWith('/')) url = baseUrl + url;
+                return url;
+            });
+            homeSlideCount = images.length;
+            homeSlideIndex = 0;
+
+            track.innerHTML = images.map(function(url) {
+                return '<div class="home-carousel-slide" style="background-image:url(' + url + ');"></div>';
+            }).join('');
+
+            if (homeSlideCount > 1) {
+                dotsContainer.innerHTML = images.map(function(_, i) {
+                    return '<button class="dot' + (i === 0 ? ' active' : '') + '" onclick="homeCarouselGoTo(' + i + ')"></button>';
+                }).join('');
+            } else {
+                dotsContainer.innerHTML = '';
+            }
+        } else {
+            track.innerHTML = '<div class="home-carousel-slide" style="background:var(--card-bg);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-muted);">暂无轮播图</div>';
+            homeSlideCount = 1;
+            homeSlideIndex = 0;
+            dotsContainer.innerHTML = '';
+        }
+    }
+
+    function renderNoticeRecords(data) {
+        var container = document.getElementById('homeNoticeContent');
+        if (!data.enabled || !data.records || data.records.length === 0) {
+            container.innerHTML = '<div style="color:var(--text-muted);font-size:12px;text-align:center;padding:12px 0;">暂无公告</div>';
+            return;
+        }
+
+        var html = '<div class="notice-records">';
+        var displayRecords = data.records.slice(0, 5);
+        displayRecords.forEach(function(record, index) {
+            html += '<div class="notice-record" onclick="openNoticeDetail(' + index + ')">' +
+                '<div class="record-date">' + record.date + '</div>' +
+                '<div class="record-title">' + record.title + '</div>' +
+                '</div>';
+        });
+        if (data.records.length > 5) {
+            html += '<div class="notice-more" onclick="openAllNotices()">查看全部公告 →</div>';
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    // ================================================================
+    // 首页轮播控制
+    // ================================================================
+    function homeCarouselUpdate() {
+        var track = document.getElementById('homeCarouselTrack');
+        var dots = document.querySelectorAll('#homeCarouselDots .dot');
         if (track) {
-            track.style.transform = 'translateX(-' + (index * 100) + '%)';
+            track.style.transform = 'translateX(-' + (homeSlideIndex * 100) + '%)';
         }
         dots.forEach(function(dot, i) {
-            dot.classList.toggle('active', i === index);
+            dot.classList.toggle('active', i === homeSlideIndex);
         });
     }
 
-    function aboutCarouselPrev(e) {
+    function homeCarouselPrev(e) {
         if (e) e.stopPropagation();
-        var count = window._aboutCarouselCount || 0;
-        if (count <= 1) return;
-        var index = (window._aboutCarouselIndex - 1 + count) % count;
-        window._aboutCarouselIndex = index;
-        aboutCarouselUpdate();
+        if (homeSlideCount <= 1) return;
+        homeSlideIndex = (homeSlideIndex - 1 + homeSlideCount) % homeSlideCount;
+        homeCarouselUpdate();
     }
 
-    function aboutCarouselNext(e) {
+    function homeCarouselNext(e) {
         if (e) e.stopPropagation();
-        var count = window._aboutCarouselCount || 0;
-        if (count <= 1) return;
-        var index = (window._aboutCarouselIndex + 1) % count;
-        window._aboutCarouselIndex = index;
-        aboutCarouselUpdate();
+        if (homeSlideCount <= 1) return;
+        homeSlideIndex = (homeSlideIndex + 1) % homeSlideCount;
+        homeCarouselUpdate();
     }
 
-    function aboutCarouselGoTo(index) {
-        var count = window._aboutCarouselCount || 0;
-        if (index < 0 || index >= count) return;
-        window._aboutCarouselIndex = index;
-        aboutCarouselUpdate();
+    function homeCarouselGoTo(index) {
+        if (index < 0 || index >= homeSlideCount) return;
+        homeSlideIndex = index;
+        homeCarouselUpdate();
+    }
+
+    // ================================================================
+    // 首页四列快捷卡片
+    // ================================================================
+    function updateHomeQuickCards() {
+        if (!allAppsData || allAppsData.length === 0) {
+            document.getElementById('quickInstalledList').innerHTML = '<div class="empty">加载中...</div>';
+            document.getElementById('quickUpdatableList').innerHTML = '<div class="empty">加载中...</div>';
+            document.getElementById('quickHotList').innerHTML = '<div class="empty">加载中...</div>';
+            document.getElementById('quickNewestList').innerHTML = '<div class="empty">加载中...</div>';
+            return;
+        }
+
+        // 已安装 —— 显示全部
+        var installed = allAppsData.filter(function(app) { return app.installed; });
+        document.getElementById('quickInstalledCount').textContent = installed.length;
+        renderQuickList('quickInstalledList', installed, 'installed');
+
+        // 可更新 —— 显示全部
+        var updatable = allAppsData.filter(function(app) { return app.has_update; });
+        document.getElementById('quickUpdatableCount').textContent = updatable.length;
+        renderQuickList('quickUpdatableList', updatable, 'updatable');
+
+        // 热度榜 —— 按下载量排序，取前5
+        var hot = allAppsData.slice().sort(function(a, b) {
+            return (b.downloads || 0) - (a.downloads || 0);
+        }).slice(0, 5);
+        renderQuickList('quickHotList', hot, 'hot');
+
+        // 新应用 —— 按 updated_at 排序，最新的前5
+        var newest = allAppsData.slice().sort(function(a, b) {
+            var dateA = a.updated_at || '1970-01-01';
+            var dateB = b.updated_at || '1970-01-01';
+            return new Date(dateB) - new Date(dateA);
+        }).slice(0, 5);
+        renderQuickList('quickNewestList', newest, 'newest');
+    }
+
+    function renderQuickList(containerId, apps, type) {
+        var container = document.getElementById(containerId);
+        if (!apps || apps.length === 0) {
+            container.innerHTML = '<div class="empty">暂无应用</div>';
+            return;
+        }
+
+        var html = '';
+        apps.forEach(function(app) {
+            var iconHtml = '·';
+            if (app.icon) {
+                iconHtml = '<img src="' + app.icon + '" alt="">';
+            }
+            var meta = '';
+            if (type === 'hot') {
+                meta = '↓ ' + (app.downloads || 0);
+            } else if (type === 'installed') {
+                meta = 'v' + (app.installed_version || app.version);
+            } else if (type === 'updatable') {
+                meta = '⬆ ' + app.version;
+            } else if (type === 'newest') {
+                meta = '📅 ' + (app.updated_at || '');
+            }
+
+            html += '<div class="item" onclick="openDetail(\'' + app.id + '\')">' +
+                '<span class="icon-sm">' + iconHtml + '</span>' +
+                '<span class="name">' + app.name + '</span>' +
+                '<span class="meta">' + meta + '</span>' +
+                '</div>';
+        });
+        container.innerHTML = html;
+    }
+
+    // ================================================================
+    // 公告详情
+    // ================================================================
+    function openNoticeDetail(index) {
+        var data = homeNoticeData;
+        if (!data || !data.records || !data.records[index]) return;
+        var record = data.records[index];
+        var modal = document.getElementById('noticeDetailModal');
+        var body = document.getElementById('noticeDetailBody');
+        document.getElementById('noticeDetailTitle').textContent = record.title;
+        body.innerHTML = sanitizeDesc(record.content);
+        modal.classList.add('active');
+    }
+
+    function openAllNotices() {
+        var data = homeNoticeData;
+        if (!data || !data.records || data.records.length === 0) return;
+        var modal = document.getElementById('noticeDetailModal');
+        var body = document.getElementById('noticeDetailBody');
+        document.getElementById('noticeDetailTitle').textContent = '全部公告';
+        var html = '';
+        data.records.forEach(function(record, idx) {
+            html += '<div style="margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">' +
+                '<div style="font-size:11px;color:var(--text-muted);">' + record.date + '</div>' +
+                '<div style="font-size:14px;font-weight:600;color:var(--text-primary);cursor:pointer;" onclick="event.stopPropagation();openNoticeDetail(' + idx + ')">' + record.title + '</div>' +
+                '</div>';
+        });
+        body.innerHTML = html;
+        modal.classList.add('active');
+    }
+
+    function closeNoticeDetail() {
+        document.getElementById('noticeDetailModal').classList.remove('active');
+    }
+
+    // ================================================================
+    // sanitizeDesc 富文本安全过滤
+    // ================================================================
+    function sanitizeDesc(html) {
+        var allowedTags = ['p', 'a', 'b', 'strong', 'h1', 'h2', 'h3', 'h4', 'h5', 'br'];
+        var allowedStyles = ['font-size', 'color'];
+
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+        var body = doc.body;
+
+        function cleanNode(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                return document.createTextNode(node.textContent);
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE) {
+                return document.createTextNode('');
+            }
+            var tag = node.tagName.toLowerCase();
+            if (allowedTags.indexOf(tag) === -1) {
+                var fragment = document.createDocumentFragment();
+                node.childNodes.forEach(function(child) {
+                    fragment.appendChild(cleanNode(child));
+                });
+                return fragment;
+            }
+            var newEl = document.createElement(tag);
+            if (tag === 'a') {
+                var href = node.getAttribute('href');
+                if (href) {
+                    newEl.setAttribute('href', href);
+                    newEl.setAttribute('target', '_blank');
+                    newEl.setAttribute('rel', 'noopener noreferrer');
+                }
+            }
+            var style = node.getAttribute('style');
+            if (style) {
+                var allowedStyle = '';
+                style.split(';').forEach(function(rule) {
+                    var parts = rule.trim().split(':');
+                    if (parts.length === 2) {
+                        var prop = parts[0].trim().toLowerCase();
+                        var val = parts[1].trim();
+                        if (allowedStyles.indexOf(prop) !== -1 && val) {
+                            allowedStyle += prop + ':' + val + ';';
+                        }
+                    }
+                });
+                if (allowedStyle) {
+                    newEl.setAttribute('style', allowedStyle);
+                }
+            }
+            node.childNodes.forEach(function(child) {
+                newEl.appendChild(cleanNode(child));
+            });
+            return newEl;
+        }
+
+        var fragment = document.createDocumentFragment();
+        body.childNodes.forEach(function(child) {
+            fragment.appendChild(cleanNode(child));
+        });
+        var container = document.createElement('div');
+        container.appendChild(fragment);
+        return container.innerHTML;
+    }
+
+    // ================================================================
+    // 更新设置页统计
+    // ================================================================
+    function updateSettingsStats() {
+        if (!allAppsData || allAppsData.length === 0) return;
+        var total = allAppsData.length;
+        var installed = allAppsData.filter(function(app) { return app.installed; }).length;
+        var updates = allAppsData.filter(function(app) { return app.has_update; }).length;
+
+        document.getElementById('settingsTotalApps').textContent = total;
+        document.getElementById('settingsInstalled').textContent = installed;
+        document.getElementById('settingsUpdatable').textContent = updates;
     }
 
     // ================================================================
     // 初始化
     // ================================================================
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         initTheme();
         connectWS();
+
         setTimeout(function() {
             loadApps();
-        }, 300);
-        loadNotice();
+        }, 200);
+
+        setTimeout(function() {
+            loadHome();
+        }, 600);
+
+        setTimeout(function() {
+            loadSources();
+        }, 500);
+
+        setTimeout(function() {
+            if (typeof checkUpdate === 'function') {
+                checkUpdate();
+                setInterval(checkUpdate, 3600000);
+            }
+        }, 2000);
     });
 </script>
 {% endblock %}
