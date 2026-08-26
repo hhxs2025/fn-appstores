@@ -13,7 +13,7 @@ FN软仓是飞牛OS上的第三方应用商店客户端，支持**多软件源�
 | 链接 | 说明 |
 | :--- | :--- |
 | **客户端项目地址** | [https://gitee.com/hhxs2025/fn-appstores](https://gitee.com/hhxs2025/fn-appstores) |
-| **服务端镜像拉取** | `docker pull ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.4.1` |
+| **服务端镜像拉取** | `docker pull ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.5.0` |
 
 ---
 
@@ -21,7 +21,7 @@ FN软仓是飞牛OS上的第三方应用商店客户端，支持**多软件源�
 
 | 首页（轮播+公告记录） | 应用列表 | 设置页 |
 | :---: | :---: | :---: |
-| ![首页](previews/home.PNG) | ![应用列表](previews/1.PNG) | ![设置页](previews/settings.PNG) |
+| ![首页](previews/1.webp) | ![应用列表](previews/2.webp) | ![设置页](previews/4.webp) |
 
 > 左侧导航设计，首页默认展示轮播图、公告记录、快捷卡片（已安装/可更新/热度榜/新应用）
 
@@ -42,7 +42,7 @@ FN软仓是飞牛OS上的第三方应用商店客户端，支持**多软件源�
 | **主题切换** | 深色/浅色模式一键切换，偏好保存至浏览器 |
 | **中继环境适配** | API 地址动态适配 `window.location.origin`，无需额外反代 |
 
-> **v2.5.0+ 配合服务端 v2.4.0 使用**，支持树状聚合架构，官方源可聚合三方源应用，用户无需自行添加三方源即可发现更多应用。
+> **v2.3.2+ 配合服务端 v2.4.0 使用**，支持树状聚合架构，官方源可聚合三方源应用，用户无需自行添加三方源即可发现更多应用。
 
 ---
 
