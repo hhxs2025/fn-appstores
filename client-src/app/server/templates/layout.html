@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="referrer" content="no-referrer" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
-    <title>{% block title %}FN软仓{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>FN软仓</title>
     <style>
-        /* ===== 全局重置 ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ===== 全局重置 & 基础变量 ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --bg: #f3f3f3;
@@ -23,19 +19,12 @@
             --text-muted: #a0a0a0;
             --border: #e5e7eb;
             --blue: #2563ea;
-            --blue-hover: #1d4ed8;
-            --green: #6b9b7a;
-            --red: #c47a7a;
-            --yellow: #c4a06a;
             --sidebar-width: 140px;
             --max-width: 1500px;
             --nav-item-height: 40px;
         }
 
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
+        html, body { height: 100%; overflow: hidden; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -56,19 +45,13 @@
             padding: 6px 16px 4px;
             flex-shrink: 0;
             border-bottom: 1px solid var(--border);
-            transition: background 0.25s, border-color 0.25s;
             display: flex;
             align-items: center;
             justify-content: space-between;
             height: 44px;
             z-index: 100;
         }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .header-left { display: flex; align-items: center; gap: 10px; }
         .header-left .hamburger {
             display: none;
             background: none;
@@ -78,19 +61,8 @@
             color: var(--text-secondary);
             padding: 4px;
         }
-        .header-left .hamburger:hover {
-            color: var(--text-primary);
-        }
-        .header-left .app-name {
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-        .header-left .app-version {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
+        .header-left .app-name { font-size: 15px; font-weight: 500; color: var(--text-primary); }
+        .header-left .app-version { font-size: 11px; color: var(--text-muted); font-weight: 400; }
 
         .header-right {
             display: flex;
@@ -99,16 +71,9 @@
             font-size: 9px;
             color: var(--text-muted);
         }
-        .header-right .sep {
-            color: #d5d5dd;
-        }
-        .header-right a {
-            color: var(--text-secondary);
-            text-decoration: none;
-        }
-        .header-right a:hover {
-            color: var(--text-primary);
-        }
+        .header-right .sep { color: #d5d5dd; }
+        .header-right a { color: var(--text-secondary); text-decoration: none; }
+        .header-right a:hover { color: var(--text-primary); }
 
         .theme-btn-header {
             background: none;
@@ -121,24 +86,7 @@
             align-items: center;
             gap: 2px;
         }
-        .theme-btn-header:hover {
-            color: var(--text-secondary);
-        }
-
-        .update-badge {
-            display: none;
-            background: var(--yellow);
-            color: #fff;
-            font-size: 8px;
-            padding: 0 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            line-height: 16px;
-            font-weight: 500;
-        }
-        .update-badge:hover {
-            opacity: 0.8;
-        }
+        .theme-btn-header:hover { color: var(--text-secondary); }
 
         /* ===== 主体布局 ===== */
         .app-layout {
@@ -160,11 +108,9 @@
             flex-direction: column;
             flex-shrink: 0;
             padding: 12px 0 8px;
-            transition: background 0.25s, border-color 0.25s, transform 0.3s;
             overflow-y: auto;
             z-index: 50;
         }
-
         .sidebar-nav {
             display: flex;
             flex-direction: column;
@@ -172,15 +118,11 @@
             padding: 0 8px;
             flex: 1;
         }
-
-        /* ===== 导航项：修正版-去图标的===== */
         .sidebar-nav .nav-item {
             display: flex;
             align-items: center;
             padding: 0 12px;
             height: var(--nav-item-height);
-            min-height: var(--nav-item-height);
-            max-height: var(--nav-item-height);
             border: none;
             background: transparent;
             border-radius: 6px;
@@ -191,24 +133,10 @@
             transition: all 0.2s;
             width: 100%;
             text-align: left;
-            line-height: 1;
-            justify-content: flex-start;
         }
-        .sidebar-nav .nav-item:hover {
-            background: rgba(0,0,0,0.05);
-            color: var(--text-primary);
-        }
-        .sidebar-nav .nav-item.active {
-            background: rgba(37,99,235,0.1);
-            color: var(--blue);
-            font-weight: 600;
-        }
-
-        .sidebar-nav .nav-item .label {
-            flex: 1;
-            text-align: left;
-            line-height: 1;
-        }
+        .sidebar-nav .nav-item:hover { background: rgba(0,0,0,0.05); color: var(--text-primary); }
+        .sidebar-nav .nav-item.active { background: rgba(37,99,235,0.1); color: var(--blue); }
+        .sidebar-nav .nav-item .label { flex: 1; }
 
         .sidebar-footer {
             padding: 8px 12px 0;
@@ -227,7 +155,6 @@
             background: var(--content-bg);
             padding: 0 20px 0;
             min-width: 0;
-            transition: background 0.25s;
         }
 
         .tab-content {
@@ -238,9 +165,7 @@
             overflow: hidden;
             padding: 4px 0 8px;
         }
-        .tab-content.active {
-            display: flex;
-        }
+        .tab-content.active { display: flex; }
 
         /* ===== 深色模式 ===== */
         body.dark-mode {
@@ -253,203 +178,17 @@
             --text-secondary: #a8b8d0;
             --text-muted: #6a7a9a;
         }
-        body.dark-mode .header {
-            background: #16213e;
-            border-bottom-color: var(--border);
-        }
-        body.dark-mode .sidebar {
-            background: #141c30;
-            border-right-color: var(--border);
-        }
-        body.dark-mode .sidebar-nav .nav-item {
-            font-weight: 600;
-        }
-        body.dark-mode .sidebar-nav .nav-item:hover {
-            background: rgba(255,255,255,0.05);
-        }
-        body.dark-mode .sidebar-nav .nav-item.active {
-            background: rgba(37,99,235,0.2);
-            color: #60a5fa;
-        }
-        body.dark-mode .sidebar-footer {
-            border-top-color: var(--border);
-        }
-        body.dark-mode .toast {
-            background: rgba(30,30,50,0.95);
-        }
-
-        /* ===== 响应式 ===== */
-
-        /* 窄屏：只显示单字简写 */
-        @media (max-width: 1100px) {
-            :root {
-                --nav-item-height: 42px;
-            }
-            .sidebar {
-                width: 48px;
-            }
-            .sidebar-footer {
-                display: none;
-            }
-            .sidebar-nav {
-                padding: 0 4px;
-            }
-            .sidebar-nav .nav-item {
-                font-size: 0;
-                padding: 0 8px;
-                justify-content: center;
-                height: var(--nav-item-height);
-                min-height: var(--nav-item-height);
-                max-height: var(--nav-item-height);
-            }
-            .sidebar-nav .nav-item .label {
-                display: none;
-            }
-            .sidebar-nav .nav-item[data-tab="home"]::after {
-                content: "首";
-                font-size: 16px;
-                font-weight: 600;
-            }
-            .sidebar-nav .nav-item[data-tab="apps"]::after {
-                content: "应";
-                font-size: 16px;
-                font-weight: 600;
-            }
-            .sidebar-nav .nav-item[data-tab="sources"]::after {
-                content: "源";
-                font-size: 16px;
-                font-weight: 600;
-            }
-            .sidebar-nav .nav-item[data-tab="settings"]::after {
-                content: "设";
-                font-size: 16px;
-                font-weight: 600;
-            }
-            .main-content {
-                padding: 0 12px;
-            }
-        }
-
-        /* 移动端：汉堡菜单 */
-        @media (max-width: 768px) {
-            :root {
-                --nav-item-height: 44px;
-            }
-            .header-left .hamburger {
-                display: block;
-            }
-            .header-right {
-                font-size: 8px;
-                gap: 4px;
-            }
-            .header-right .sep {
-                display: none;
-            }
-
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
-                width: 100px;
-                transform: translateX(-100%);
-                box-shadow: 2px 0 16px rgba(0,0,0,0.1);
-                z-index: 200;
-                padding-top: 12px;
-            }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .sidebar .sidebar-nav {
-                padding: 0 8px;
-            }
-            .sidebar .sidebar-nav .nav-item {
-                font-size: 14px;
-                font-weight: 600;
-                justify-content: flex-start;
-                padding: 0 12px;
-                height: var(--nav-item-height);
-                min-height: var(--nav-item-height);
-                max-height: var(--nav-item-height);
-            }
-            .sidebar .sidebar-nav .nav-item .label {
-                display: inline;
-                flex: 1;
-                text-align: left;
-            }
-            .sidebar .sidebar-nav .nav-item::after {
-                display: none;
-            }
-            .sidebar .sidebar-footer {
-                display: block;
-            }
-
-            .sidebar-overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.3);
-                z-index: 150;
-            }
-            .sidebar-overlay.active {
-                display: block;
-            }
-
-            .main-content {
-                padding: 0 8px;
-            }
-            .header {
-                padding: 4px 8px 4px;
-                height: 44px;
-            }
-            .header-left .app-name {
-                font-size: 14px;
-            }
-            .header-left .app-version {
-                font-size: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header {
-                height: 40px;
-                padding: 3px 6px 3px;
-            }
-            .header-left .app-name {
-                font-size: 13px;
-            }
-            .header-left .app-version {
-                font-size: 9px;
-            }
-            .header-right {
-                font-size: 7px;
-            }
-            .header-right a {
-                display: none;
-            }
-            .main-content {
-                padding: 0 4px;
-            }
-        }
+        body.dark-mode .header { background: #16213e; border-bottom-color: var(--border); }
+        body.dark-mode .sidebar { background: #141c30; border-right-color: var(--border); }
+        body.dark-mode .sidebar-nav .nav-item:hover { background: rgba(255,255,255,0.05); }
+        body.dark-mode .sidebar-nav .nav-item.active { background: rgba(37,99,235,0.2); color: #60a5fa; }
+        body.dark-mode .sidebar-footer { border-top-color: var(--border); }
 
         /* ===== 滚动条 ===== */
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #d5d5dd;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #b8bac2;
-        }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d5d5dd; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b8bac2; }
 
         /* ===== Toast ===== */
         .toast {
@@ -469,18 +208,63 @@
             max-width: 90%;
             text-align: center;
         }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { background: rgba(40,70,40,0.92); }
+        .toast.error { background: rgba(80,40,40,0.92); }
+        .toast.warning { background: rgba(80,70,40,0.92); }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 1100px) {
+            .sidebar { width: 48px; }
+            .sidebar-footer { display: none; }
+            .sidebar-nav { padding: 0 4px; }
+            .sidebar-nav .nav-item { font-size: 0; padding: 0 8px; justify-content: center; }
+            .sidebar-nav .nav-item .label { display: none; }
+            .sidebar-nav .nav-item[data-tab="home"]::after { content: "首"; font-size: 16px; font-weight: 600; }
+            .sidebar-nav .nav-item[data-tab="apps"]::after { content: "应"; font-size: 16px; font-weight: 600; }
+            .sidebar-nav .nav-item[data-tab="sources"]::after { content: "源"; font-size: 16px; font-weight: 600; }
+            .sidebar-nav .nav-item[data-tab="settings"]::after { content: "设"; font-size: 16px; font-weight: 600; }
+            .main-content { padding: 0 12px; }
         }
-        .toast.success {
-            background: rgba(40,70,40,0.92);
+
+        @media (max-width: 768px) {
+            .header-left .hamburger { display: block; }
+            .header-right { font-size: 8px; gap: 4px; }
+            .header-right .sep { display: none; }
+            .sidebar {
+                position: fixed; top: 0; left: 0;
+                height: 100vh; width: 100px;
+                transform: translateX(-100%);
+                box-shadow: 2px 0 16px rgba(0,0,0,0.1);
+                z-index: 200;
+                padding-top: 12px;
+            }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar .sidebar-nav .nav-item { font-size: 14px; justify-content: flex-start; padding: 0 12px; }
+            .sidebar .sidebar-nav .nav-item .label { display: inline; flex: 1; }
+            .sidebar .sidebar-nav .nav-item::after { display: none; }
+            .sidebar .sidebar-footer { display: block; }
+            .sidebar-overlay {
+                display: none;
+                position: fixed; top: 0; left: 0;
+                width: 100%; height: 100%;
+                background: rgba(0,0,0,0.3);
+                z-index: 150;
+            }
+            .sidebar-overlay.active { display: block; }
+            .main-content { padding: 0 8px; }
+            .header { padding: 4px 8px; height: 44px; }
+            .header-left .app-name { font-size: 14px; }
+            .header-left .app-version { font-size: 10px; }
         }
-        .toast.error {
-            background: rgba(80,40,40,0.92);
-        }
-        .toast.warning {
-            background: rgba(80,70,40,0.92);
+
+        @media (max-width: 480px) {
+            .header { height: 40px; padding: 3px 6px; }
+            .header-left .app-name { font-size: 13px; }
+            .header-left .app-version { font-size: 9px; }
+            .header-right { font-size: 7px; }
+            .header-right a { display: none; }
+            .main-content { padding: 0 4px; }
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -492,19 +276,11 @@
             <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()">☰</button>
             <span class="app-name">FN软仓</span>
             <span class="app-version" id="appVersion">2.5.1</span>
-            <span class="update-badge" id="updateBadge" onclick="goUpdate()">有新版本</span>
         </div>
         <div class="header-right">
             <span>飞牛第三方应用市场</span>
             <span class="sep">·</span>
-            <span>开源共建</span>
-            <span class="sep">·</span>
             <span>开发者:晦华先生</span>
-            <span class="sep">·</span>
-            <button class="theme-btn-header" onclick="toggleTheme()">
-                <span class="theme-icon" id="themeIconHeader">🌙</span>
-                <span class="theme-label" id="themeLabelHeader">深色</span>
-            </button>
         </div>
     </header>
 
@@ -513,20 +289,12 @@
     <div class="app-layout">
         <aside class="sidebar" id="sidebar">
             <nav class="sidebar-nav">
-                <button class="nav-item active" data-tab="home" onclick="switchTab('home')">
-                    <span class="label">首&nbsp;&nbsp;&nbsp;页</span>
-                </button>
-                <button class="nav-item" data-tab="apps" onclick="switchTab('apps')">
-                    <span class="label">应&nbsp;&nbsp;&nbsp;用</span>
-                </button>
-                <button class="nav-item" data-tab="sources" onclick="switchTab('sources')">
-                    <span class="label">源管理</span>
-                </button>
-                <button class="nav-item" data-tab="settings" onclick="switchTab('settings')">
-                    <span class="label">设&nbsp;&nbsp;&nbsp;置</span>
-                </button>
+                <button class="nav-item active" data-tab="home" onclick="switchTab('home')"><span class="label">首&nbsp;&nbsp;&nbsp;页</span></button>
+                <button class="nav-item" data-tab="apps" onclick="switchTab('apps')"><span class="label">应&nbsp;&nbsp;&nbsp;用</span></button>
+                <button class="nav-item" data-tab="sources" onclick="switchTab('sources')"><span class="label">源管理</span></button>
+                <button class="nav-item" data-tab="settings" onclick="switchTab('settings')"><span class="label">设&nbsp;&nbsp;&nbsp;置</span></button>
             </nav>
-            <div class="sidebar-footer">FN软仓 v2.5.0 · MIT</div>
+            <div class="sidebar-footer">FN软仓 v2.5.1-MIT</div>
         </aside>
 
         <main class="main-content">
@@ -548,18 +316,14 @@
         }
 
         function closeSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            var overlay = document.getElementById('sidebarOverlay');
-            sidebar.classList.remove('open');
-            overlay.classList.remove('active');
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
         }
 
         // ================================================================
         // 主题切换
         // ================================================================
-        function getTheme() {
-            return localStorage.getItem('fnsoft_theme') || 'light';
-        }
+        function getTheme() { return localStorage.getItem('fnsoft_theme') || 'light'; }
 
         function setTheme(theme) {
             localStorage.setItem('fnsoft_theme', theme);
@@ -574,26 +338,16 @@
             }
         }
 
-        function toggleTheme() {
-            var current = getTheme();
-            setTheme(current === 'dark' ? 'light' : 'dark');
-        }
+        function toggleTheme() { setTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
 
-        function initTheme() {
-            var theme = getTheme();
-            setTheme(theme);
-        }
+        function initTheme() { setTheme(getTheme()); }
 
         // ================================================================
         // 标签页切换
         // ================================================================
         function switchTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(function(el) {
-                el.classList.remove('active');
-            });
-            document.querySelectorAll('.sidebar-nav .nav-item').forEach(function(el) {
-                el.classList.remove('active');
-            });
+            document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(function(el) { el.classList.remove('active'); });
 
             var target = document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1));
             if (target) target.classList.add('active');
@@ -603,39 +357,15 @@
 
             closeSidebar();
 
-            if (tab === 'apps') {
-                if (typeof restoreAppsView === 'function') restoreAppsView();
-                else if (typeof loadApps === 'function') loadApps();
-            }
-            if (tab === 'sources') {
-                if (typeof loadSources === 'function') loadSources();
-            }
-            if (tab === 'home') {
-                if (typeof loadHome === 'function') loadHome();
-            }
-            if (tab === 'settings') {
-                if (typeof loadSettings === 'function') loadSettings();
-            }
-        }
-
-        // ================================================================
-        // Toast
-        // ================================================================
-        function showToast(msg, type) {
-            var toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = 'toast show ' + (type || '');
-            var durations = { success: 2500, error: 4000, warning: 3000, info: 2000 };
-            var duration = durations[type] || 3000;
-            clearTimeout(toast._timer);
-            toast._timer = setTimeout(function() { toast.classList.remove('show'); }, duration);
+            if (tab === 'apps' && typeof restoreAppsView === 'function') restoreAppsView();
+            if (tab === 'sources' && typeof loadSources === 'function') loadSources();
+            if (tab === 'home' && typeof loadHome === 'function') loadHome();
         }
 
         // ================================================================
         // WebSocket
         // ================================================================
         var ws = null;
-        var wsReady = false;
         var reconnectTimer = null;
 
         function connectWS() {
@@ -643,7 +373,7 @@
             try {
                 if (ws && (ws.readyState === WebSocket.CONNECTING || ws.readyState === WebSocket.OPEN)) return;
                 ws = new WebSocket(url);
-                ws.onopen = function() { console.log('WebSocket 已连接'); wsReady = true; };
+                ws.onopen = function() { console.log('WebSocket 已连接'); };
                 ws.onmessage = function(e) {
                     try {
                         var msg = JSON.parse(e.data);
@@ -652,60 +382,16 @@
                 };
                 ws.onclose = function() {
                     console.log('WebSocket 已断开');
-                    wsReady = false;
                     ws = null;
                     if (reconnectTimer) clearTimeout(reconnectTimer);
                     reconnectTimer = setTimeout(connectWS, 3000);
                 };
                 ws.onerror = function() { ws.close(); };
             } catch (e) {
-                wsReady = false;
                 if (reconnectTimer) clearTimeout(reconnectTimer);
                 reconnectTimer = setTimeout(connectWS, 3000);
             }
         }
-
-        // ================================================================
-        // 检查更新
-        // ================================================================
-        async function checkUpdate() {
-            try {
-                var resp = await fetch('/api/check-update');
-                var data = await resp.json();
-                if (data.has_update) {
-                    var badge = document.getElementById('updateBadge');
-                    badge.style.display = 'inline';
-                    badge.title = '发现新版本 ' + data.version;
-                    window._updateUrl = data.download_url;
-                    console.log('发现新版本:', data.version);
-                }
-            } catch (e) { console.log('检查更新失败:', e); }
-        }
-
-        function goUpdate() {
-            if (window._updateUrl) {
-                window.open(window._updateUrl, '_blank');
-                showToast('正在跳转下载页面...', 'info');
-            } else {
-                window.open('https://gitee.com/hhxs2025/fn-appstores/releases', '_blank');
-            }
-        }
-
-        // ================================================================
-        // 页面可见性监听
-        // ================================================================
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden) {
-                var activeTab = document.querySelector('.sidebar-nav .nav-item.active');
-                if (activeTab && activeTab.dataset.tab === 'apps') {
-                    if (typeof restoreAppsView === 'function') restoreAppsView();
-                    else if (typeof loadApps === 'function') loadApps();
-                }
-                if (activeTab && activeTab.dataset.tab === 'home') {
-                    if (typeof loadHome === 'function') loadHome();
-                }
-            }
-        });
 
         // ================================================================
         // 初始化
@@ -713,24 +399,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             initTheme();
             connectWS();
-
-            // 默认激活首页
             switchTab('home');
-
             setTimeout(function() {
                 if (typeof loadHome === 'function') loadHome();
                 if (typeof loadApps === 'function') loadApps();
                 if (typeof loadSources === 'function') loadSources();
-                if (typeof loadSettings === 'function') loadSettings();
             }, 300);
-
-            setTimeout(function() {
-                if (typeof checkUpdate === 'function') {
-                    checkUpdate();
-                    setInterval(checkUpdate, 3600000);
-                }
-            }, 2000);
-
             document.addEventListener('click', function(e) {
                 var sidebar = document.getElementById('sidebar');
                 var ham = document.getElementById('hamburgerBtn');
