@@ -1346,7 +1346,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var versionEl = document.getElementById('settingsVersion');
     if (versionEl) {
         var ver = versionEl.textContent.trim();
-        if (!ver || ver === 'v{{ version }}') versionEl.textContent = 'v2.5.2';
+        if (!ver || ver === 'v{{ version }}') {
+        }
     }
 
     checkAndShowDownloaded();
