@@ -1,221 +1,148 @@
-# FN软仓客户端
-
-[![版本](https://img.shields.io/badge/版本-v2.5.1-blue.svg)](https://gitee.com/hhxs2025/fn-appstores)
-[![飞牛OS](https://img.shields.io/badge/平台-飞牛OS-green.svg)]()
-[![开源协议](https://img.shields.io/badge/开源-MIT-orange.svg)]()
-
----
-
-## 📖 项目简介
-
-FN软仓是飞牛OS上的第三方应用商店客户端，支持**多软件源聚合**。用户可自由添加自托管服务端地址，安装、体验飞牛官方应用中心没有的其他三方应用。
-
-| 链接 | 说明 |
-| :--- | :--- |
-| **客户端项目地址** | [https://gitee.com/hhxs2025/fn-appstores](https://gitee.com/hhxs2025/fn-appstores) |
-| **服务端镜像拉取** | `docker pull ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.5.0` |
-
----
-
-## ✨ 核心功能
-
-| 功能模块 | 说明 |
-| :--- | :--- |
-| **左侧导航布局** | 桌面端侧边栏，移动端折叠为汉堡菜单，支持窄屏图标模式 |
-| **首页看板** | 轮播图（70%）+ 公告记录列表（30%），四列快捷卡片：已安装/可更新/热度榜/新应用 |
-| **公告缓存** | 首页公告数据 5 分钟内存缓存，切换页面秒开，体验更流畅 |
-| **公告记录** | 支持多条公告列表（日期 + 标题），点击弹窗查看详情（支持富文本） |
-| **多源应用聚合** | 从所有启用的源拉取应用列表，自动去重（保留较新版本），卡片显示来源 |
-| **软件源管理** | 添加/删除/启用/禁用软件源，源状态缓存 5 分钟，页面秒开 |
-| **一键安装/更新** | 支持安装向导，WebSocket 实时推送下载进度 |
-| **来源标识** | FN认证标识（`✅FN-`），官方源/认证三方源/自添加源视觉区分 |
-| **应用类型筛选** | 应用列表支持按「全部 / Docker应用 / 原生应用」分类筛选 |
-| **设置中心** | 标签切换：通用（深色模式/导出日志）/ 系统（版本/架构/检查更新）/ 关于（开发者/协议/仓库/群/应用接入/源查询）/ 统计 |
-| **客户端自更新** | 设置页「检查更新」自动检测最新版本，下载 FPK 后引导用户前往应用中心手动安装 |
-| **数据持久化** | `sources.json` 存储于 `TRIM_PKGVAR` 持久化目录，应用更新后用户配置不丢失 |
-| **应用列表自过滤** | FN软仓客户端自身不再显示于应用列表中，避免用户误操作 |
-| **主题切换** | 深色/浅色模式一键切换，偏好保存至浏览器 |
-| **中继环境适配** | API 地址动态适配 `window.location.origin`，无需额外反代 |
-
-> **v2.3.2+ 配合服务端 v2.4.0+ 使用**，支持树状聚合架构，官方源可聚合三方源应用，用户无需自行添加三方源即可发现更多应用。
-
----
-
-## 📖 使用指南
-
-### 首页看板
-
-打开软仓默认进入「首页」，包含：
-
-- **顶部轮播图**：展示平台宣传图（占70%宽度）
-- **公告记录**：显示最近5条公告（标题 + 日期），点击可查看全文（5分钟缓存）
-- **快捷卡片**：已安装/可更新/热度榜/新应用，点击卡片内任意应用可直接查看详情
-
-### 浏览应用
-
-- 点击左侧导航「应用」进入应用列表
-- 使用分类标签（影音/办公/下载/AI/设计/社交/网络/工具/生活/效率/开发/游戏）快速筛选
-- 使用「Docker应用 / 原生应用」筛选器按应用类型过滤
-- 在搜索框输入关键词查找特定应用
-- 应用卡片显示来源标签（官方源/认证三方源/自添加源）和下载量
-
-### 安装应用
-
-1. 点击应用卡片进入详情页
-2. 点击「安装」按钮
-3. 如应用有向导，填写配置项后确认
-4. 等待进度条完成，自动刷新列表
-
-### 更新应用
-
-- 已安装应用有新版本时，卡片显示「更新」按钮
-- 点击「更新」，自动下载新版并安装
-- 首页「可更新」卡片汇总所有可更新应用
-
-### 客户端自身更新
-
-1. 点击左侧导航「设置」→「系统」
-2. 点击「检查更新」按钮
-3. 如有新版本，自动下载 FPK 文件到浏览器下载目录
-4. 下载完成后弹窗提示，前往飞牛应用中心 → 手动安装 → 上传已下载的 FPK 文件
-
-> FN软仓客户端自身不会出现在应用列表中，更新入口统一在「设置 → 系统」中。
-
-### 管理软件源
-
-1. 点击左侧导航「源管理」
-2. 查看所有已配置的源及其状态（在线/离线/已禁用）
-3. 点击「添加源」，填写名称和地址
-4. 点击「测试」验证连通性，确认后添加
-5. 可随时启用/禁用或删除自定义源（官方源不可删除）
-
-### 系统设置
-
-1. 点击左侧导航「设置」
-2. 切换标签页：通用 / 系统 / 关于 / 统计
-   - **通用**：深色模式开关、导出日志
-   - **系统**：客户端版本、系统架构、检查更新
-   - **关于**：开发者、开源协议、源码仓库、交流群、应用接入、官方源查询
-   - **统计**：总应用数、已安装、可更新、已配置源
-
----
-
-## 📜 版本历程
-
-```
-2.1.1 ──► 2.2.0-beta ──► 2.2.0 ──► 2.2.1 ──► 2.2.2 ──► 2.2.3 ──► 2.3.0   
-──► 2.3.1 ──► 2.3.2 ──► 2.3.3 ──► 2.3.4 ──► 2.4.0 ──► 2.4.1 ──► 2.5.0 ──► 2.5.1
-```
-
-| 版本 | 主要更新 |
-| :--- | :--- |
-| **v2.1.1** | 单一官方源，基础安装功能 |
-| **v2.2.0-beta** | 多源管理初版（添加/删除/启用/禁用） |
-| **v2.2.0** | 公告板 + 应用接入链接 |
-| **v2.2.1** | 飞牛官方中继适配（`window.location.origin`） |
-| **v2.2.2** | 源状态缓存 5 分钟 + 多源公告适配 |
-| **v2.2.3** | 精简为单官方源，地址迁移至 `rc.hhxs2026.top:5660` |
-| **v2.3.0** | 应用卡片新增下载统计显示，公告板支持 HTML |
-| **v2.3.1** | 向导环境变量双写，修复应用安装失败问题 |
-| **v2.3.2** | 三方源来源标签保留，应用来源标识优化 |
-| **v2.3.3** | 占位符替换（`${key}`），安装验证强化，向导 UI 优化 |
-| **v2.3.4** | 关于页公告板内容推送升级为整个关于页自定义 |
-| **v2.4.0** | 关于页轮播图 + 自定义间隔 + 树状聚合架构适配 |
-| **v2.4.1** | 轮播图手动切换 + 状态筛选独立行 + 富文本支持 + 公告超链接 |
-| **v2.5.0** | 左侧导航 + 首页重构（轮播+公告记录+四列快捷卡片）+ 设置页 + 默认首页【内部测试版】 |
-| **v2.5.1** | **数据持久化**：`sources.json` 存储于 `TRIM_PKGVAR`，更新后用户配置不丢失<br>**客户端自更新**：设置页「检查更新」自动下载 FPK，引导手动安装，支持重新下载<br>**应用类型筛选**：应用列表新增 Docker / 原生应用分类筛选<br>**自过滤**：FN软仓客户端不再显示于应用列表，避免误操作<br>**首页加载优化**：公告数据 5 分钟缓存，页面切换秒开<br>**前端模板拆分**：代码结构更清晰，后续维护更方便 |
-
----
-
-## ❓ 常见问题
-
-<details>
-<summary><b>打开软仓后一直显示“加载中”？</b></summary>
-
-1. 检查飞牛设备网络是否正常
-2. 尝试点击右上角「刷新」按钮
-3. 检查客户端日志：`/vol*/@appdata/fn-appstores-client/var/app.log`
-</details>
-
-<details>
-<summary><b>应用列表加载慢？</b></summary>
-
-首次加载需从服务端拉取数据，受网络影响。后续访问会使用缓存，速度会明显提升。
-</details>
-
-<details>
-<summary><b>可更新卡片显示“暂无应用”？</b></summary>
-
-1. 确认是否有已安装应用存在新版本
-2. 点击右上角「刷新」按钮强制拉取最新数据
-3. 如确认有可更新应用但仍不显示，请升级至 v2.5.1+
-</details>
-
-<details>
-<summary><b>新应用卡片排序不正确？</b></summary>
-
-1. 确认服务端返回的应用数据包含 `updated_at` 字段
-2. 如所有应用 `updated_at` 相同（如全是当天日期），检查服务端 `app.py` 是否有自动补全逻辑
-3. 建议移除服务端的自动补全，或改为固定日期 `1970-01-01`
-</details>
-
-<details>
-<summary><b>截图不显示？</b></summary>
-
-1. 确认服务端 `previews/{app_id}/` 目录下有截图文件
-2. 文件命名应为 `1.PNG`、`2.PNG`（大小写敏感）
-3. 确认服务端地址可正常访问
-</details>
-
-<details>
-<summary><b>安装失败？</b></summary>
-
-1. 确认飞牛系统有足够的存储空间
-2. 检查服务端 `apps/` 目录下是否存在对应的 `.fpk` 文件
-3. 查看 `app.log` 日志获取详细错误信息
-</details>
-
-<details>
-<summary><b>三方源应用来源标签显示为“FN软仓官方源”？</b></summary>
-
-请升级客户端到 v2.3.2 及以上版本，并确保服务端为 v2.4.0 及以上版本。客户端会正确保留服务端返回的来源信息。
-</details>
-
-<details>
-<summary><b>公告内容不显示或格式错乱？</b></summary>
-
-1. 确认服务端 `notice.json` 使用 `records` 数组格式（v2.5.0+）
-2. 富文本仅支持 `<p>`、`<a>`、`<b>`、`<strong>`、`<h1>`~`<h5>`、`<br>`、`style="font-size/color"`
-3. 使用 `<br>` 标签换行，而非 `\n`
-</details>
-
-<details>
-<summary><b>如何在设置页检查客户端更新？</b></summary>
-
-1. 打开 FN软仓 → 设置 → 系统
-2. 点击「检查更新」按钮
-3. 如有新版本，浏览器自动下载 FPK
-4. 前往飞牛应用中心 → 手动安装 → 上传 FPK
-</details>
-
-<details>
-<summary><b>更新客户端后，之前添加的源还在吗？</b></summary>
-
-v2.5.1+ 已修复此问题。`sources.json` 现存储于 `TRIM_PKGVAR` 持久化目录（`/vol*/@appdata/fn-appstores-client/`），应用更新后用户添加的源不会丢失。
-</details>
-
----
-
-## 👨‍💻 开发者信息
-
-| 项目 | 信息 |
-| :--- | :--- |
-| **作者** | 晦华先生 |
-| **联系方式** | 2303537063@qq.com |
-| **开源地址** | [https://gitee.com/hhxs2025/fn-appstores](https://gitee.com/hhxs2025/fn-appstores) |
-
----
-
-## 🤝 参与共建
-
-欢迎开发者自托管服务端接入 FN软仓生态，或为现有应用提供更新维护。如有疑问请联系作者。
+<h1>FN软仓服务端重大升级--- 自托管搭建指南</h1>
+<blockquote>
+<p>v2.5.1 版本</p>
+</blockquote>
+<h2>一、概述</h2>
+<p>FN软仓服务端是一个基于 Docker 的轻量级应用商店后端服务，提供应用列表 API 和 <code>.fpk</code> 文件下载。开发者可以自托管此服务端，成为 FN软仓客户端的一个"软件源"。</p>
+<p>其他用户通过 FN软仓客户端添加你的服务端地址后，即可浏览和安装你收录的应用，并在首页查看你发布的公告。</p>
+<h3>版本特性概览</h3>
+<table>
+<thead>
+<tr>
+<th align="left">版本</th>
+<th align="left">核心功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><strong>v2.1.0</strong></td>
+<td align="left">基础服务：应用列表 API、FPK 下载、图标/截图服务、健康检查</td>
+</tr>
+<tr>
+<td align="left"><strong>v2.2.0</strong></td>
+<td align="left">新增公告板（<code>notice.json</code>），支持 Markdown 渲染</td>
+</tr>
+<tr>
+<td align="left"><strong>v2.3.0</strong></td>
+<td align="left">新增应用下载统计（SQLite 持久化）、统计接口、强制刷新接口、自动提取 app_id</td>
+</tr>
+<tr>
+<td align="left"><strong>v2.3.1</strong></td>
+<td align="left">新增 <code>BASE_URL</code> 环境变量支持，解决跨设备/中继访问时图标和截图 404 的问题</td>
+</tr>
+<tr>
+<td align="left"><strong>v2.4.0</strong></td>
+<td align="left">新增树状聚合架构，支持 <code>upstream.json</code> 三方源白名单聚合，官方源可作为统一入口分发三方源应用</td>
+</tr>
+<tr>
+<td align="left"><strong>v2.4.1</strong></td>
+<td align="left">移除 <code>request.host</code> 回退；新增双兜底域名；三方源拉取增强（超时延长+重试机制）；BASE_URL未设置时打印醒目警告提示</td>
+</tr>
+<tr>
+<td align="left"><strong>v2.5.0</strong></td>
+<td align="left">新增公告管理后台（<code>/admin</code>）；公告格式升级（轮播图 + 公告记录）；新增最近更新接口（<code>/api/recent</code>）；应用清单新增 <code>updated_at</code> 字段；管理后台密码环境变量；新增三方源管理 Tab（在线增删改 <code>upstream.json</code>）</td>
+</tr>
+<tr>
+<td align="left"><strong>v2.5.1</strong></td>
+<td align="left"><strong>强制下载地址重写 + 302 重定向统计</strong>（解决 Gitee 托管应用无法统计下载量）；管理后台新增「刷新应用缓存」按钮；新增「使用说明」Tab；新增数据查看接口；新增客户端自更新接口；三方源管理 API 完善</td>
+</tr>
+</tbody>
+</table>
+<h2>二、环境要求</h2>
+<ul>
+<li>飞牛 fnOS 系统（或任意支持 Docker 的 Linux 系统）</li>
+<li>Docker 20.10+</li>
+<li>公网 IP 或内网穿透（如需对外提供服务）</li>
+</ul>
+<h2>三、文件说明</h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fn-appstores-server-{version}.tar</code></td>
+<td>Docker 镜像包（或从镜像仓库拉取）</td>
+</tr>
+<tr>
+<td><code>data/</code> 文件夹（需自行准备）</td>
+<td>挂载到容器内的数据目录，存放应用清单、安装包、公告、统计数据等</td>
+</tr>
+<tr>
+<td><code>static/admin.html</code></td>
+<td>管理后台页面文件（v2.5.0 新增，v2.5.1 更新），需放在容器 <code>/app/static/</code> 目录</td>
+</tr>
+</tbody>
+</table>
+<h2>四、快速开始</h2>
+<h3>1. 导入镜像</h3>
+<p><strong>方式一：从镜像仓库拉取（推荐）</strong></p>
+<pre><code class="language-bash">docker pull ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.5.1
+</code></pre>
+<p><strong>方式二：从 tar 文件导入</strong></p>
+<pre><code class="language-bash">docker load -i fn-appstores-server-2.5.1.tar
+</code></pre>
+<h3>2. 准备数据目录</h3>
+<p>创建数据目录：</p>
+<pre><code class="language-bash">mkdir -p /vol1/1000/docker/fn-appstores-server/data/{apps,icons,previews}
+</code></pre>
+<p>将 <code>fn-appstores.json</code> 放入 <code>data/</code> 目录，将 <code>.fpk</code> 安装包放入 <code>data/apps/</code>，图标放入 <code>data/icons/</code>，截图放入 <code>data/previews/{app_id}/</code>。【可加群借助快捷工具处理】</p>
+<h3>3. 启动容器</h3>
+<p><strong>⚠️ v2.5.1 重要提醒</strong>：由于服务端会强制重写所有 <code>download_url</code> 为 <code>{BASE_URL}/apps/{filename}</code>，<strong>自托管源搭建者必须设置 <code>BASE_URL</code> 环境变量</strong>，否则所有下载地址将指向官方兜底域名，导致 404。</p>
+<p><strong>推荐启动命令（设置 BASE_URL 和管理后台密码）：</strong></p>
+<pre><code class="language-bash">docker run -d \
+  --name fn-appstores-server \
+  --restart unless-stopped \
+  -p 5660:5660 \
+  -e TZ=Asia/Shanghai \
+  -e BASE_URL="http://你的公网域名或IP:5660" \
+  -e ADMIN_PASSWORD="你的密码" \
+  -v /vol1/1000/docker/fn-appstores-server/data:/app/data \
+  ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.5.1
+</code></pre>
+<p><strong>参数说明</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-d</code></td>
+<td>后台运行</td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td>容器名称</td>
+</tr>
+<tr>
+<td><code>--restart unless-stopped</code></td>
+<td>自动重启</td>
+</tr>
+<tr>
+<td><code>-p 5660:5660</code></td>
+<td>端口映射（宿主机:容器）</td>
+</tr>
+<tr>
+<td><code>-e TZ=Asia/Shanghai</code></td>
+<td>时区设置</td>
+</tr>
+<tr>
+<td><code>-e BASE_URL="..."</code></td>
+<td><strong>必填</strong>：强制指定资源访问地址（图标/截图/FPK 下载），v2.5.1 尤其重要</td>
+</tr>
+<tr>
+<td><code>-e ADMIN_PASSWORD="..."</code></td>
+<td>管理后台登录密码（v2.5.0 新增，默认 <code>admin123</code>）</td>
+</tr>
+<tr>
+<td><code>-v ...:/app/data</code></td>
+<td>挂载数据目录</td>
+</tr>
+</tbody>
+</table>
