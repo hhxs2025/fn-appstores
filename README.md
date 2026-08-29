@@ -81,7 +81,7 @@
 <p><strong>方式二：从 tar 文件导入</strong></p>
 <pre><code class="language-bash">docker load -i fn-appstores-server-2.5.1.tar
 </code></pre>
-<p><strong>方式三：安装docker版 FN软仓服务端2.5.1.fpk</strong></p>
+<p><strong>方式三：安装docker版 FN软仓服务端2.5.1.fpk</strong>[下载直链](https://gitee.com/hhxs2025/fn-appstores/raw/master/server-data/apps/fn-appstore-srv-2.5.1.fpk)</p>
 <h3>2. 准备数据目录</h3>
 <p>创建数据目录：</p>
 <pre><code class="language-bash">mkdir -p /vol1/1000/docker/fn-appstores-server/data/{apps,icons,previews}
