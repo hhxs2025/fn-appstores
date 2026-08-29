@@ -3,7 +3,7 @@
 <p>v2.5.1 版本</p>
 </blockquote>
 <h2>一、概述</h2>
-<p>FN软仓服务端是一个基于 Docker 的轻量级应用商店后端服务，提供应用列表 API 和 <code>.fpk</code> 文件下载。开发者可以自托管此服务端，成为 FN软仓客户端的一个"软件源"。</p>
+<p>FN软仓服务端是一个基于 Docker 的轻量级应用商店后端服务，提供应用列表 API 和 <code>.fpk</code> 文件下载。开发者可以借助此服务端托管fpk，成为 FN软仓客户端的一个"软件源"。</p>
 <p>其他用户通过 FN软仓客户端添加你的服务端地址后，即可浏览和安装你收录的应用，并在首页查看你发布的公告。</p>
 <h3>版本特性概览</h3>
 <table>
@@ -71,10 +71,6 @@
 <td><code>data/</code> 文件夹（需自行准备）</td>
 <td>挂载到容器内的数据目录，存放应用清单、安装包、公告、统计数据等</td>
 </tr>
-<tr>
-<td><code>static/admin.html</code></td>
-<td>管理后台页面文件（v2.5.0 新增，v2.5.1 更新），需放在容器 <code>/app/static/</code> 目录</td>
-</tr>
 </tbody>
 </table>
 <h2>四、快速开始</h2>
@@ -85,6 +81,7 @@
 <p><strong>方式二：从 tar 文件导入</strong></p>
 <pre><code class="language-bash">docker load -i fn-appstores-server-2.5.1.tar
 </code></pre>
+<p><strong>方式三：安装docker版 FN软仓服务端2.5.1.fpk</strong></p>
 <h3>2. 准备数据目录</h3>
 <p>创建数据目录：</p>
 <pre><code class="language-bash">mkdir -p /vol1/1000/docker/fn-appstores-server/data/{apps,icons,previews}
