@@ -1,7 +1,0 @@
-{
-  "username": "fn-appstores-client",
-  "groupname": "fn-appstores-client",
-  "defaults": {
-    "run-as": "root"
-  }
-}
