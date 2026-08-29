@@ -136,8 +136,8 @@
 <td><strong>必填</strong>：强制指定资源访问地址（图标/截图/FPK 下载），v2.5.1 尤其重要</td>
 </tr>
 <tr>
-<td><code>-e NOTICE_PASSWORD="你的公告管理面板的密码"</code></td>
-<td>管理后台登录密码（v2.5.0 新增，默认 <code>admin123</code>）</td>
+<td><code>-e NOTICE_PASSWORD="....."</code></td>
+<td>你的公告管理面板的密码（v2.5.1 新增）</td>
 </tr>
 <tr>
 <td><code>-v ...:/app/data</code></td>
