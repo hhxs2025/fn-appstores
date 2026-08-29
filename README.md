@@ -98,7 +98,7 @@
   -p 5660:5660 \
   -e TZ=Asia/Shanghai \
   -e BASE_URL="http://你的公网域名或IP:5660" \
-  -e NOTICE_PASSWORD="你的公告管理面板的密码" \
+  -e ADMIN_PASSWORD="你的管理面板的密码" \
   -v /vol1/1000/docker/fn-appstores-server/data:/app/data \
   ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.5.1
 </code></pre>
@@ -136,7 +136,7 @@
 <td><strong>必填</strong>：强制指定资源访问地址（图标/截图/FPK 下载），v2.5.1 尤其重要</td>
 </tr>
 <tr>
-<td><code>-e NOTICE_PASSWORD="....."</code></td>
+<td><code>-e ADMIN__PASSWORD="....."</code></td>
 <td>你的公告管理面板的密码（v2.5.1 新增）</td>
 </tr>
 <tr>
