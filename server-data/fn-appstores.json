@@ -1,0 +1,16 @@
+[
+  {
+    "id": "Navidrome",
+    "name": "Navidrome",
+    "version": "0.62.0",
+    "desc": "<p>🎶Navidrome是一个基于Web的开源音乐收集服务器。它使您可以自由地从任何浏览器或移动设备收听音乐收藏。</p><p>💡使用说明：</p><p>添加外部音乐目录需要设置对应目录的读权限。内置歌词插件已默认开启，可在\"应用文件/Navidrome/plugins\"目录添加更多插件并修改navidrome.toml进行自定义设置。多声道音源可能转码播放失败，可选择MP3转码降级成2声道播放。</p><p>推荐“网关模式”访问，飞牛统一网关可代理鉴权自动认证，如登录异常可清除浏览器或app缓存刷新页面重试。反代使用可选择“端口模式”，并在应用设置添加自定义URL。</p>",
+    "author": "navidrome",
+    "repo": "https://www.navidrome.org/",
+    "type": "原生",
+    "platform": "x86",
+    "updated_at": "2026-09-13",
+    "tags": "影音",
+    "download_url": "https://gitee.com/hhxs2025/fn-appstores/releases/download/20260913/Navidrome-0.62.0.fpk",
+    "icon": "https://gitee.com/hhxs2025/fn-appstores/raw/master/server-data/icons/Navidrome.PNG"
+  }
+]
