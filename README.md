@@ -1,8 +1,11 @@
-![首页](previews/xuanchuantu.png =800x500)
+<img src="previews/xuanchuantu.png" width="800" height="500" alt="首页">
+---
+
+<a href='https://gitee.com/hhxs2025/fn-appstores/stargazers'><img src='https://gitee.com/hhxs2025/fn-appstores/badge/star.svg?theme=dark' alt='star'></img></a>
 # FN软仓服务端搭建指南
 
 > 版本 v2.8.2（Go 版）
-<a href='https://gitee.com/hhxs2025/fn-appstores'><img src='https://gitee.com/hhxs2025/fn-appstores/widgets/widget_2.svg' alt='Fork me on Gitee'></img></a>
+
 
 
 ## 一、项目简介
