@@ -1,4 +1,4 @@
-![首页](previews/xuanchuantu.png)
+![首页](previews/xuanchuantu.png =800x500)
 # FN软仓服务端搭建指南
 
 > 版本 v2.8.2（Go 版）
