@@ -1,6 +1,5 @@
 <img src="previews/xuanchuantu.png" width="800" height="500" alt="首页">
 ---
-
 <a href='https://gitee.com/hhxs2025/fn-appstores/stargazers'><img src='https://gitee.com/hhxs2025/fn-appstores/badge/star.svg?theme=dark' alt='star'></img></a>
 <a href='https://gitee.com/hhxs2025/fn-appstores/members'><img src='https://gitee.com/hhxs2025/fn-appstores/badge/fork.svg?theme=white' alt='fork'></img></a>
 ---
