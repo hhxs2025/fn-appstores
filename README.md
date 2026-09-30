@@ -50,7 +50,7 @@ data/
 ### 步骤一：拉取镜像
 
 ```bash
-docker pull ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.8.3
+docker pull ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.8.4
 ```
 
 ### 步骤二：创建数据目录
@@ -91,7 +91,7 @@ docker run -d \
   -e ADMIN_PASSWORD="你的管理密码" \
   -e NOTICE_PASSWORD="公告员密码" \
   -v /vol1/1000/fn-appstores-server/data:/app/data \
-  ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.8.3
+  ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.8.4
 ```
 
 #### 云服务器（有宝塔 / 1Panel）
@@ -106,7 +106,7 @@ docker run -d \
   -e ADMIN_PASSWORD="你的管理密码" \
   -e NOTICE_PASSWORD="公告员密码" \
   -v /www/fn-appstores-server/data:/app/data \
-  ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.8.3
+  ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.8.4
 ```
 
 #### 云服务器（裸机，无面板）
@@ -121,7 +121,7 @@ docker run -d \
   -e ADMIN_PASSWORD="你的管理密码" \
   -e NOTICE_PASSWORD="公告员密码" \
   -v /www/fn-appstores-server/data:/app/data \
-  ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.8.3
+  ccr.ccs.tencentyun.com/hhxs2025/fn-appstores-server:2.8.4
 ```
 
 #### 参数说明
