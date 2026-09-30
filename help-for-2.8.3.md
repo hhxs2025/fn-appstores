@@ -1,7 +1,7 @@
 # FN软仓服务端 自托管搭建教程
 
 > 适用于三方源搭建者（树状聚合架构下的节点）
-> 对应服务端版本：**v2.8.3**
+> 对应服务端版本：**v2.8.3+**
 
 
 ## 📌 适用人群
@@ -269,8 +269,8 @@ http://你的域名:5660/admin
 
 | 数据 | 位置 |
 |------|------|
-| FPK | Gitee / GitHub / OSS |
-| 图标 | Gitee / GitHub / OSS |
+| FPK | Gitee / GitHub / Gitcode/OSS |
+| 图标 | Gitee / GitHub / Gitcode/OSS |
 | JSON | `data/fn-appstores.json`（`download_url` 和 `icon` 是外链） |
 
 #### 效果
@@ -386,4 +386,4 @@ http://你的域名:5660/admin
 ---
 
 > **文档更新日期**：2026-09-20
-> **对应服务端版本**：v2.8.3
+> **对应服务端版本**：v2.8.3+
