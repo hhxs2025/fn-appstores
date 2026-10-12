@@ -13,14 +13,11 @@
       "icon": "https://www.tingreader.cn/logo.png",
       "type": "docker",
       "platform": "all",
-      "sort_order": 0,
-      "sha256": "f8f6718a64ceefe075a7a74fb7406aeb3236098a33483789e598a0e26c022322",
-      "size": 259000,
-      "release_url": "https://github.com/dqsq2e2/ting-reader/releases/tag/v2.0.5"
+      "sort_order": 0
     }
   ],
   "source_author": "",
-  "source_name": "dqsq2e2的源",
-  "source_url": "https://github.com/dqsq2e2/ting-reader",
+  "source_name": "测试",
+  "source_url": "https://gitee.com/hhxs2025/fn-appstores/json",
   "updated_at": "2026-10-12"
 }
