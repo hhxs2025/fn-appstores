@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="FN软仓是一个飞牛 fnOS 的三方应用商店部署系统：一个能自己部署的服务端，一个装在飞牛里的客户端。">
+<title>FN软仓：不是又一个商店，是开商店的工具</title>
+<style>
+:root{
+  --paper:#fbfaf7; --panel:#ffffff; --ink:#1d1c19; --ink2:#4a473f; --muted:#857f72;
+  --line:#e4e0d6; --line-soft:#efebe2; --accent:#a8452b; --accent-soft:#f5e8e2;
+  --code:#f3efe6; --hero:#1c1b18; --hero-ink:#f6f2e9; --hero-muted:#a8a196;
+  --shadow:0 1px 2px rgba(29,28,25,.05), 0 8px 24px -12px rgba(29,28,25,.12);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#131210; --panel:#191815; --ink:#eae6dc; --ink2:#bcb6a9; --muted:#8d8779;
+    --line:#2c2a24; --line-soft:#232119; --accent:#e07a5c; --accent-soft:#2b1d17;
+    --code:#1e1c18; --hero:#0c0b09; --hero-ink:#f2eee4; --hero-muted:#948d80;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px -16px rgba(0,0,0,.6);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei UI","Microsoft YaHei","Source Han Sans SC","Noto Sans CJK SC",-apple-system,"Segoe UI",sans-serif;
+  font-size:17px;line-height:1.85;-webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--accent);color:#fff}
+
+/* 顶部阅读进度 */
+#bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--accent);z-index:99;transition:width .1s linear}
+
+/* ---------- Hero ---------- */
+.hero{background:var(--hero);color:var(--hero-ink);padding:88px 0 76px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:linear-gradient(180deg,#000,transparent 78%)}
+.hero .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 32px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--hero-muted);margin-bottom:26px}
+.kicker i{display:block;width:26px;height:1px;background:var(--accent);font-style:normal}
+.hero h1{margin:0;font-size:clamp(2rem,4.4vw,3.35rem);line-height:1.2;font-weight:800;letter-spacing:-.015em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.lede{margin:28px 0 0;max-width:660px;font-size:clamp(15px,1.35vw,17.5px);line-height:1.85;color:#cfc8ba}
+.hero .meta{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px 22px;font-size:13px;color:var(--hero-muted);letter-spacing:.03em}
+.hero .meta span{display:inline-flex;align-items:center;gap:7px}
+.hero .meta span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--accent)}
+
+/* ---------- 布局 ---------- */
+.layout{max-width:1180px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:minmax(0,720px) 240px;gap:64px;justify-content:center}
+@media (min-width:1180px){.layout{justify-content:space-between}}
+
+/* ---------- 目录 ---------- */
+aside{position:relative}
+.toc{position:sticky;top:40px;max-height:calc(100vh - 80px);overflow:auto;padding:44px 0 40px;font-size:13px;scrollbar-width:thin}
+.toc-t{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;padding-left:12px}
+.toc a{display:block;color:var(--ink2);text-decoration:none;padding:5px 0 5px 12px;border-left:2px solid var(--line-soft);line-height:1.5;transition:.16s}
+.toc a.lv2{padding-left:26px;color:var(--muted);font-size:12.3px}
+.toc a .n{color:var(--accent);font-weight:700;font-size:11.5px;margin-right:6px;letter-spacing:.02em}
+.toc a:hover{color:var(--accent);border-left-color:var(--accent-soft)}
+.toc a.on{color:var(--accent);border-left-color:var(--accent);font-weight:600}
+details.toc-m{display:none}
+
+/* ---------- 正文 ---------- */
+article{padding:52px 0 96px;min-width:0}
+h2{margin:72px 0 26px;font-size:26px;line-height:1.35;font-weight:800;letter-spacing:-.01em;display:flex;align-items:baseline;gap:14px}
+h2 .num{flex:none;font-size:12px;font-weight:700;letter-spacing:.06em;color:#fff;background:var(--accent);
+  width:24px;height:24px;line-height:24px;text-align:center;border-radius:4px;transform:translateY(-3px)}
+article>section:first-of-type h2{margin-top:8px}
+h3{margin:40px 0 12px;font-size:18.5px;font-weight:700;line-height:1.5;padding-left:14px;position:relative;letter-spacing:-.005em}
+h3::before{content:"";position:absolute;left:0;top:.42em;bottom:.42em;width:3px;border-radius:2px;background:var(--accent-soft)}
+h3 .k{color:var(--accent);margin-right:8px;font-variant-numeric:tabular-nums}
+p{margin:15px 0}
+strong{font-weight:700;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft)}
+a:hover{border-bottom-color:var(--accent)}
+code{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-size:.87em;
+  background:var(--code);padding:.16em .42em;border-radius:4px;word-break:break-word}
+ul,ol{margin:16px 0;padding-left:1.5em}
+li{margin:9px 0}
+li::marker{color:var(--accent)}
+ul li::marker{content:"▪ "}
+hr{border:0;border-top:1px solid var(--line);margin:56px 0 0}
+
+/* 表格 */
+.tbl{overflow-x:auto;margin:28px 0;border:1px solid var(--line);border-radius:10px;background:var(--panel);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.65}
+th,td{padding:14px 18px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line-soft)}
+th{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--line-soft)}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{color:var(--ink);font-weight:600;white-space:nowrap}
+tbody tr:hover{background:var(--accent-soft)}
+
+/* 图片 */
+figure.shot{margin:26px 0;padding:0}
+figure.shot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel);box-shadow:var(--shadow)}
+figure.shot figcaption{margin-top:9px;font-size:12.5px;color:var(--muted);text-align:center;letter-spacing:.02em}
+
+/* 导语条 / 金句 */
+blockquote{margin:26px 0;padding:20px 24px;background:var(--accent-soft);border-radius:10px;
+  font-size:16px;line-height:1.8;color:var(--ink2)}
+blockquote p{margin:0}
+.end{margin-top:44px;padding-top:44px;border-top:1px solid var(--line);text-align:center}
+.end p{margin:0;font-size:clamp(19px,2.2vw,24px);font-weight:800;line-height:1.6;letter-spacing:-.01em}
+.end p strong{color:var(--accent)}
+
+/* 页脚 */
+footer{background:var(--hero);color:var(--hero-muted);padding:34px 32px;font-size:12.5px;letter-spacing:.04em}
+footer .wrap{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+
+@media (max-width:980px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:0;padding:0 22px}
+  aside{display:none}
+  details.toc-m{display:block;margin:26px 0 0;border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:0 16px}
+  details.toc-m summary{cursor:pointer;padding:13px 0;font-size:13.5px;font-weight:600;color:var(--ink2);list-style:none}
+  details.toc-m summary::-webkit-details-marker{display:none}
+  details.toc-m summary::after{content:"＋";float:right;color:var(--accent)}
+  details.toc-m[open] summary::after{content:"－"}
+  details.toc-m .inner{padding:4px 0 14px;border-top:1px solid var(--line-soft)}
+  details.toc-m a{display:block;padding:5px 0;font-size:13.5px;color:var(--ink2);text-decoration:none;border:0}
+  details.toc-m a.lv2{padding-left:16px;font-size:12.8px;color:var(--muted)}
+  details.toc-m a .n{color:var(--accent);font-weight:700;font-size:11.5px;margin-right:6px}
+  .hero{padding:56px 0 48px}
+  .hero .wrap{padding:0 22px}
+  article{padding:34px 0 70px}
+  h2{font-size:22px;margin-top:52px}
+  h3{font-size:17px}
+  body{font-size:16px}
+  th,td{padding:11px 13px}
+  td:first-child{white-space:normal}
+}
+
+/* ===== 表格统一边框与斑马纹 ===== */
+article table{
+  border-collapse:collapse;
+  width:100%;
+  font-size:14.5px;
+  line-height:1.65;
+  background:var(--panel);
+}
+article th,
+article td{
+  padding:14px 18px;
+  text-align:left;
+  vertical-align:top;
+  border:1px solid var(--line);
+}
+article th{
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:600;
+  background:var(--line-soft);
+  white-space:nowrap;
+}
+article tbody tr:nth-child(even){
+  background:var(--line-soft);
+}
+article tbody tr:hover{
+  background:var(--accent-soft);
+}
+
+/* .tbl 外层已有圆角和外框，内部避免双框 */
+.tbl table{
+  border:0;
+}
+.tbl th,
+.tbl td{
+  border:1px solid var(--line-soft);
+}
+.tbl tr:first-child th{
+  border-top:0;
+}
+.tbl tr:last-child td{
+  border-bottom:0;
+}
+.tbl th:first-child,
+.tbl td:first-child{
+  border-left:0;
+}
+.tbl th:last-child,
+.tbl td:last-child{
+  border-right:0;
+}
+
+@media (max-width:980px){
+  article th,
+  article td{
+    padding:10px 12px;
+    font-size:13.5px;
+  }
+}
+
+@media print{
+  #bar,.toc,details.toc-m,footer{display:none}
+  body{background:#fff;color:#000;font-size:11pt}
+  .hero{background:#fff;color:#000;padding:0 0 16pt;border-bottom:1px solid #000}
+  .hero h1{font-size:24pt}.lede{color:#333}.kicker,.hero .meta{color:#666}
+  .layout{display:block;padding:0}
+  h2{page-break-after:avoid}table,.tbl,blockquote,figure.shot{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker"><i></i>飞牛 fnOS · 应用商店部署系统</div>
+    <h1>FN软仓：不是又一个商店，<br>是<em>开商店的工具</em></h1>
+    <p class="lede">一个飞牛 NAS 系统（fnOS）的三方应用商店部署系统。它由两半组成：一个能自己部署的服务端，一个装在飞牛里的客户端。</p>
+    <div class="meta">
+      <span>服务端 + 客户端 双部件</span>
+      <span>两种模式 · 三种玩法</span>
+      <span>约 7 分钟读完</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <article>
+    <details class="toc-m"><summary>目录</summary><div class="inner">
+<a class="lv1" href="#s1"><span class="n">一</span>两个部件，可以只用一半</a>
+<a class="lv2" href="#s2">1 服务端</a>
+<a class="lv2" href="#s3">2 客户端</a>
+<a class="lv2" href="#s4">3 不用记组合</a>
+<a class="lv1" href="#s5"><span class="n">二</span>客户端有两个模式，这个选择决定一切</a>
+<a class="lv2" href="#s6">1 用户模式</a>
+<a class="lv2" href="#s7">2 极客模式</a>
+<a class="lv1" href="#s8"><span class="n">三</span>服务端里有什么</a>
+<a class="lv2" href="#s9">1 后台功能一览</a>
+<a class="lv2" href="#s10">2 上货：三种方式同时开着</a>
+<a class="lv2" href="#s11">3 分发：一次安装要过四道</a>
+<a class="lv2" href="#s12">4 开发者：一套完整的分账台</a>
+<a class="lv1" href="#s13"><span class="n">四</span>三种玩法</a>
+<a class="lv2" href="#s14">玩法一 自建服务端</a>
+<a class="lv2" href="#s15">玩法二 外部 json 型玩法</a>
+<a class="lv2" href="#s16">玩法三 服务端开发者系统子源玩法</a>
+<a class="lv1" href="#s17"><span class="n">五</span>跟友店是什么关系</a>
+<a class="lv1" href="#s18"><span class="n">六</span>从哪开始</a>
+</div></details>
+
+<section>
+<p><strong>服务端跑起来，你就有了一个「源」。</strong></p>
+<p><strong>客户端装进去，你就有了一个「前台」。</strong></p>
+<p>两半可以只用一半——不想折腾的人光装客户端就行，只想做后端的人服务器跑起来就能收工。</p>
+<p>下面按「有哪几个部件、各自能干什么、三种情况怎么用」来讲。</p>
+</section>
+
+<section>
+<h2 id="s1"><span class="num">一</span><span class="txt">两个部件，可以只用一半</span></h2>
+
+<p><strong>服务端是「源」，客户端是「前台」。</strong></p>
+<p>服务端跑起来，你就有了一个可被客户端连接的源；客户端装进去，你就有了逛和装应用的界面。两半可以只用一半：只想装应用，光装客户端；只想做源，服务端跑起来就能收工。</p>
+
+<h3 id="s2"><span class="k">1</span>服务端</h3>
+<p>默认是一个 Docker 镜像，5660 端口，IPv4/IPv6 双栈；也提供 <strong>docker 版 FPK</strong>，可以在飞牛应用中心直接安装，不必手敲 <code>docker run</code>。当前最新版是 <strong>2.12.0</strong>，新增了服务端 Webhook 通知和开发者后台 Webhook 通知。跑起来之后浏览器打开就是完整后台：上货、开发者、统计、加速线路、推送、邮件和 Webhook，全在里面。</p>
+
+<h3 id="s3"><span class="k">2</span>客户端</h3>
+<p>是一个 FPK，装到飞牛应用中心。它自己不带内容，内容全来自它连的「源」。</p>
+
+<h3 id="s4"><span class="k">3</span>不用记组合</h3>
+<p>实际只用记三种姿势：</p>
+<ul>
+<li><strong>只装客户端</strong>：用户模式接官方源，或极客模式接别人的源。</li>
+<li><strong>只跑服务端</strong>：得到一个纯后端源，谁的客户端都能连，开发者也能往上上货。</li>
+<li><strong>两个都上</strong>：自己的源加自己的前台；要对外开放，再把地址发出去。</li>
+</ul>
+<p>记住这三种姿势就够了，不需要把服务端和客户端拆成四种组合来背。</p>
+</section>
+
+<section>
+<h2 id="s5"><span class="num">二</span><span class="txt">客户端有两个模式，这个选择决定一切</span></h2>
+<p>第一次打开会让你选，之后按这个模式走。</p>
+
+<h3 id="s6"><span class="k">1</span>用户模式</h3>
+<p>预置官方源，且官方源是第一默认源、锁死删不掉。界面就是个正常商店：搜、看、装、更新。</p>
+<p>源管理里<strong>也可以自己加源</strong>，但加进来的源不是第一默认源，也<strong>不提供公告和轮播图</strong>——公告和轮播图只由第一默认源（官方源）下发。</p>
+<p>后台每次启动会把官方源地址强制覆盖成默认值，所以旧地址被换掉时你不需要手动改。</p>
+
+<h3 id="s7"><span class="k">2</span>极客模式</h3>
+<p>不预置任何源，启动时还会把残留的官方源槽位清掉，第一次进来是空的，要你自己填源地址。</p>
+<p>极客模式<strong>说白了就是另起炉灶建一个应用商店</strong>：官方源被清掉，你自己填的第一个源就是默认源，公告和轮播图由它下发——通常就是你自建的服务端。你填几个源都行，但<strong>只有第一个源负责公告和轮播图</strong>，跟用户模式里官方源的角色一样。</p>
+<p>所以两种模式的区别是：</p>
+<ul>
+<li><strong>用户模式</strong>是「官方给你一个商店」——官方源是默认主场，别的源能加，但公告和轮播图只认官方源。</li>
+<li><strong>极客模式</strong>是「你自己开一个商店」——官方源清掉，第一个源（一般是自建服务端）接管公告和轮播图，自己运营、自己掌控。</li>
+</ul>
+<p>能接自建的源，也能接友店的源，还能两家一起接。多个源并发拉取，合并时按「应用 ID + 平台」去重，同名同平台只留版本高的那个，所以接三个源不会看到三条重复记录。</p>
+</section>
+
+<section>
+<h2 id="s8"><span class="num">三</span><span class="txt">服务端里有什么</span></h2>
+
+<h3 id="s9"><span class="k">1</span>后台功能一览</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th style="text-align: left;">核心功能项</th>
+<th style="text-align: left;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">公告管理</td>
+<td style="text-align: left;">轮播图管理（支持跳转应用详情、外部链接、应用分类标签页）；公告管理，支持优先级排序</td>
+</tr>
+<tr>
+<td style="text-align: left;">源管理</td>
+<td style="text-align: left;">聚合跑 FN软仓服务端搭建的三方源地址；聚合 fnrc.json 源地址</td>
+</tr>
+<tr>
+<td style="text-align: left;">应用明细</td>
+<td style="text-align: left;">本地源应用的架构、类型、版本及 JSON 预览，应用名和 id 搜索；三方源应用查看及按源筛查；服务端配置文件备份与恢复、孤儿文件清理</td>
+</tr>
+<tr>
+<td style="text-align: left;">应用编辑</td>
+<td style="text-align: left;">应用名称 / 版本 / 作者 / 类型 / 架构 / 描述 / 直链 / 预览图等信息编辑；应用新增、架构批量修改；应用删除、名称和 id 搜索</td>
+</tr>
+<tr>
+<td style="text-align: left;">应用上传</td>
+<td style="text-align: left;">拖入 fpk 自动解析元数据并写入 fn-appstores.json，支持全托管 / 半托管两种模式；应用截图管理（服务端托管或外链）</td>
+</tr>
+<tr>
+<td style="text-align: left;">仪表盘</td>
+<td style="text-align: left;">应用总数、不同架构应用数、源类型 / 数量统计；下载概览、设备统计；近 30 日下载趋势、今日 / 本周 TOP10；下载明细及 CSV 导出</td>
+</tr>
+<tr>
+<td style="text-align: left;">消息推送</td>
+<td style="text-align: left;">邮件通知（QQ / 163 / Gmail / 企业邮箱 / 自建）；2.12.0 新增 Webhook 通知（钉钉 / 企业微信 / 飞书 / 自定义）；定向消息推送（全量 / 按架构 / 按客户端版本 / 按客户端 ID）</td>
+</tr>
+<tr>
+<td style="text-align: left;">安全管理</td>
+<td style="text-align: left;">下载限速与 IP 封禁（仅对全托管分发平台模式下 fpk 下载请求有效）；设备明细与封禁、设备状态查看</td>
+</tr>
+<tr>
+<td style="text-align: left;">外链加速</td>
+<td style="text-align: left;">针对半托管模式下走 GitHub 直链的 fpk 下载进行加速，需自己配置；支持加速站健康检测定时设置和动态测速排序</td>
+</tr>
+<tr>
+<td style="text-align: left;">开发者管理</td>
+<td style="text-align: left;">新增开发者系统子源；开发者后台支持 Webhook 配置（2.12.0 新增），便于开发者及时接收审核结果；fpk 拖入自动解析写入开发者子源；应用更新审核后 manifest 字段对比；未审核超时提醒、审核记录清理</td>
+</tr>
+</tbody>
+</table></div>
+
+<figure class="shot">
+  <img src="https://f.hhxs2026.top:8888/f/imgs/fnrc-server.webp" alt="FN软仓服务端后台" loading="lazy">
+  <figcaption>服务端后台：上货、开发者、统计、加速线路、推送、邮件与 Webhook 都在这里</figcaption>
+</figure>
+
+<h3 id="s10"><span class="k">2</span>上货：三种方式同时开着</h3>
+<p><strong>自己传——服务端全托管模式。</strong> 选一个 FPK，服务端把 manifest 拆开，名字、版本、架构、简介、依赖、标签全读出来；图标从包里抽出来，转成 PNG 并压到 2048 以内；上传完应用就在列表里了，不用再填表。上限单包 512 MB，批量一次 2 GB，截图单独换，单次 64 MB。不想下载再上传，就贴个 URL 让服务端自己去拉。</p>
+<p><strong>挂外链——服务端半托管模式。</strong> 只登记元数据，下载地址填 FPK 直链。客户端点安装，服务端回 302 把请求甩过去，包不经你的机器。你 NAS 上只多一条记录，不多一个字节。<strong>外链建议优先选国内的 Git 类平台，如 GitCode、Gitee 等，也支持 OSS 存储</strong>；如果非要填 GitHub 直链，需要在后台配置加速站。</p>
+<p><strong>招商——开发者系统模式。</strong> 开发者申请入驻，你审批，系统发他一个 Token。之后他自己登后台传包、改简介、提版本，提交的改动进审核队列，你点了通过才生效，通过或驳回都会给他发通知。每个开发者自动汇总成一个独立子源，<strong>他不用建仓库、不用买服务器、也不用知道源文件该长什么样</strong>。</p>
+
+<h3 id="s11"><span class="k">3</span>分发：一次安装要过四道</h3>
+<p>客户端点「安装」之后，服务端要决定这个包从哪儿出去：</p>
+<ol>
+<li>本地有这个 FPK → 直接给文件</li>
+<li>只登记了外链 → 302 跳过去</li>
+<li><strong>半托管 + GitHub 外链才走加速</strong> → 仅当应用走半托管模式、且 FPK 下载地址是 GitHub 直链时，后台配置的加速站才参与：服务端定时探测（默认 10 分钟一轮，单次探测 10 秒、抓 0.5 MB），按实测速度排序，最多 10 条写进下发列表。全托管本地文件、非 GitHub 外链不走这条</li>
+<li>客户端逐条试 → 首包 5 秒没动静就换下一条，整轮 50 秒封顶</li>
+</ol>
+<p>下载地址是每次请求现算的，不是写死在包里。所以你换线路、加镜像、改目录，已经发出去的客户端不用动。</p>
+<p>运营后台还能看到：下载量按应用 / 按天 / 按平台分开记（同设备 60 秒内重复下载只算一次）、设备明细与在线离线、终端评分、定向推送、限速与封禁、<code>data/</code> 整包备份恢复。通知同时走邮件和 Webhook，覆盖开发者申请、待审、源状态变化、上架 / 下架 / 更新、每周周报；同类事件一轮检测合并，不刷屏。</p>
+
+<h3 id="s12"><span class="k">4</span>开发者：一套完整的分账台</h3>
+<p>申请 → 审批 → 发 Token → 自助提交 → 变更审核 → 通知 → 数据看板。</p>
+<p>开发者能看到自己应用的下载量、上架状态、被驳回的原因，也能自己撤回还没审的改动。</p>
+<p>2.12.0 起，开发者后台也可以配置 Webhook，应用上架 / 更新的审核通过或驳回会直接推给开发者，不用反复登后台看结果。</p>
+<p>这套东西的意义是：你想让别人往你的商店上货，不用先教他写 JSON。</p>
+</section>
+
+<section>
+<h2 id="s13"><span class="num">四</span><span class="txt">三种玩法</span></h2>
+
+<h3 id="s14"><span class="k">玩法一</span>自建服务端</h3>
+<p>适合：有一堆自己的包要发、想完全掌控自己的商店。</p>
+<ol>
+<li>安装 FN软仓服务端（docker 版 FPK），搭建自己的应用商店。</li>
+<li>安装时需设置 <strong>服务端外部访问地址</strong>（公网地址可以是穿透或反代的 IP 或域名）和 <strong>服务端后台管理密码</strong>（默认 <code>admin123</code>）。
+  <figure class="shot">
+    <img src="https://f.hhxs2026.top:8888/f/imgs/fnrc-server1.webp" alt="FN软仓服务端安装配置" loading="lazy">
+    <figcaption>安装时设置外部访问地址与后台管理密码</figcaption>
+  </figure>
+</li>
+<li>应用添加：拖入上传应用，根据实际确定是否勾选 <strong>托管 fpk 到服务端</strong> 和 <strong>托管 ICON 到服务端</strong>。若服务器或飞牛上行带宽有压力，建议不要勾选托管 fpk，fpk 改走外部直链。</li>
+<li>若选择 <strong>半托管模式</strong>，上传 fpk 自动写入 json 后，进入 <strong>应用编辑</strong> 检查表单信息，填入「下载地址」（fpk 直链）。<strong>建议优选国内 Git 类平台，如 GitCode 或 Gitee 等，也支持 OSS</strong>；如填 GitHub 直链，需配置加速站。</li>
+<li>轮播图：存到服务端 <code>data/previews/lunbotu/</code> 下，地址填 <code>http://xxx.yyy.com:5660/previews/lunbotu/xxx.webp</code>（推荐 webp 格式）。跳外部链接填 <code>...xxx.webp|url:https:yyy.zzz.com</code>；跳应用详情填 <code>...xxx.webp|app:应用id</code>。尺寸建议 <strong>880×405px</strong>，也可直接填外部图片直链。</li>
+</ol>
+<p><strong>接自己还是申请聚合，二选一：</strong></p>
+<ul>
+<li>要搭建<strong>完全独立的个人应用商店</strong>：服务端准备好后，安装 FN软仓客户端，<strong>首次</strong>进入选 <strong>极客模式</strong>，在 <strong>源管理</strong> 填入 <code>http://xxx.yyy.com:5660</code>，从服务端后台 <strong>刷新应用缓存</strong>，再在客户端「应用」里点 <strong>刷新</strong>。</li>
+<li><strong>不搭建独立商店</strong>：把 <code>http://xxx.yyy.com:5660</code> 发给 FN软仓官方主源管理员，<strong>申请聚合</strong>，用户打开官方客户端即可看到你的应用。</li>
+</ul>
+
+<h3 id="s15"><span class="k">玩法二</span>外部 json 型玩法</h3>
+<p>适合：不想跑服务端，只想把自己的包挂出来。</p>
+<ol>
+<li>从 FN软仓客户端安装 <strong>FN软仓助手 fpk</strong>，或从交流群下载 <strong>FN软仓助手 exe</strong>。</li>
+<li>拖入 fpk 应用，自动读取元数据、写 json，手动填入 fpk 直链、图标直链等，点击「下载」导出 <code>fnrc.json</code>，存放到能生成直链的平台（如 Gitee / OSS 等）或 FNOS 的应用里（如 file-vault、轻量应用存储等）。</li>
+<li>将 <code>fnrc.json</code> 告知 FN软仓服务端管理员，<strong>申请聚合</strong>。</li>
+</ol>
+
+<figure class="shot">
+  <img src="https://f.hhxs2026.top:8888/f/imgs/fnrc-zhushou.webp" alt="FN软仓助手" loading="lazy">
+  <figcaption>FN软仓助手：拖入 fpk 自动读元数据、写 json、导出 fnrc.json</figcaption>
+</figure>
+
+<h3 id="s16"><span class="k">玩法三</span>服务端开发者系统子源玩法</h3>
+<p>适合：开发者只想发自己的包，不想建仓库、不想买服务器。</p>
+<ol>
+<li>从 FN软仓服务端管理员处获取开发者申请地址（<code>http://xxx.yyy.com:5660/dev/apply</code>）。</li>
+<li>填写源名称、作者名、联系方式，提交。</li>
+<li>管理员审核通过后，用管理员给的后台地址进入，上传 fpk 读取并写入应用信息，手动填 fpk 直链，<strong>保存</strong>，提交，等待审核。</li>
+<li>可在后台配置 Webhook（2.12.0 新增），应用上架 / 更新的审核结果会直接推给你，不用反复登后台看。</li>
+</ol>
+
+<figure class="shot">
+  <img src="https://f.hhxs2026.top:8888/f/imgs/fnrc-kfzht.webp" alt="FN软仓开发者后台" loading="lazy">
+  <figcaption>开发者后台：上传 fpk、填写直链、提交审核，并可配置 Webhook 接收审核结果</figcaption>
+</figure>
+</section>
+
+<section>
+<h2 id="s17"><span class="num">五</span><span class="txt">跟友店是什么关系</span></h2>
+<p>不是竞品，是不同层。这话不是客套。</p>
+<p>友店做的是内容运营：把应用聚起来、维护源站、跟着版本更新、扛住流量。这活又累又不讨好，总得有人干。</p>
+<p>FN软仓做的是工具。友店愿意，可以拿它当后端；普通用户装了 FN软仓客户端，在极客模式里把友店的源加进来，照样逛、照样装。</p>
+<p>客户端连图标的地址都做了兼容——友店把加速前缀写死在图片地址里，它也能剥掉重找，图片不会白一片。</p>
+<p>所以你装它，不用卸掉别的。它更像个能同时看几家店的前台。</p>
+</section>
+
+<section>
+<h2 id="s18"><span class="num">六</span><span class="txt">从哪开始</span></h2>
+<p>想清楚你属于哪种人：</p>
+<ul>
+<li>只想装应用 → 装客户端，用户模式</li>
+<li>有自己的包要发 → 玩法一：自建服务端，客户端极客模式接自己，或申请聚合</li>
+<li>不想跑服务端、只想挂包 → 玩法二：FN软仓助手导出 <code>fnrc.json</code></li>
+<li>只想发自己的包 → 玩法三：找源主申请开发者账号</li>
+<li>想运营一个对外商店 → 玩法一 + 配 <code>BASE_URL</code> 和 <code>ADMIN_PASSWORD</code> + 加速线路 + 开放开发者入驻 + 邮件 / Webhook</li>
+</ul>
+<div class="end">
+<p><strong>商店可以有很多个。开商店的工具，之前没有。</strong></p>
+</div>
+</section>
+  </article>
+
+  <aside>
+    <nav class="toc">
+      <p class="toc-t">目录</p>
+      <a class="lv1" href="#s1"><span class="n">一</span>两个部件，可以只用一半</a>
+      <a class="lv2" href="#s2">1 服务端</a>
+      <a class="lv2" href="#s3">2 客户端</a>
+      <a class="lv2" href="#s4">3 不用记组合</a>
+      <a class="lv1" href="#s5"><span class="n">二</span>客户端有两个模式，这个选择决定一切</a>
+      <a class="lv2" href="#s6">1 用户模式</a>
+      <a class="lv2" href="#s7">2 极客模式</a>
+      <a class="lv1" href="#s8"><span class="n">三</span>服务端里有什么</a>
+      <a class="lv2" href="#s9">1 后台功能一览</a>
+      <a class="lv2" href="#s10">2 上货：三种方式同时开着</a>
+      <a class="lv2" href="#s11">3 分发：一次安装要过四道</a>
+      <a class="lv2" href="#s12">4 开发者：一套完整的分账台</a>
+      <a class="lv1" href="#s13"><span class="n">四</span>三种玩法</a>
+      <a class="lv2" href="#s14">玩法一 自建服务端</a>
+      <a class="lv2" href="#s15">玩法二 外部 json 型玩法</a>
+      <a class="lv2" href="#s16">玩法三 服务端开发者系统子源玩法</a>
+      <a class="lv1" href="#s17"><span class="n">五</span>跟友店是什么关系</a>
+      <a class="lv1" href="#s18"><span class="n">六</span>从哪开始</a>
+    </nav>
+  </aside>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>FN软仓 · 可自部署的三方应用商店</span>
+    <span>本文所述行为以 v2.12.0 服务端与客户端实现为准</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var bar=document.getElementById('bar');
+  var links=[].slice.call(document.querySelectorAll('aside .toc a'));
+  var targets=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  function onScroll(){
+    var h=document.documentElement;
+    var p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);
+    bar.style.width=(p*100)+'%';
+    var idx=0;
+    for(var i=0;i<targets.length;i++){
+      if(targets[i]&&targets[i].getBoundingClientRect().top<=120) idx=i;
+    }
+    links.forEach(function(a,i){a.classList.toggle('on',i===idx);});
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
